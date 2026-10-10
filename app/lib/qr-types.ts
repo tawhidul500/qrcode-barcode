@@ -1,0 +1,2 @@
+export const qrTypes=[['Website','Group 36388.svg'],['Wi-Fi','Group 1707495926.svg'],['Text','Group 1707495927.svg'],['Contacts','Group 1707495929.svg'],['SMS','Group 36394.svg'],['Phone','Group 1707495923.svg'],['Location','Group 36395.svg'],['WhatsApp','Group 36400.svg'],['Facebook','Group 36405.svg'],['Instagram','Group 1707496278.svg'],['Email','Group 36431.svg'],['Viber','Group 36430.svg'],['X','Group 1707495767.svg'],['Spotify','Group 36407.svg'],['Product','Group 1707495771.svg'],['Vcard','Group 1707495972.svg']];
+export type QRType = typeof qrTypes[number][0];

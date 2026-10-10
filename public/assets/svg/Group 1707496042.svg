@@ -1,0 +1,27 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="18" cy="18" r="18" fill="url(#paint0_linear_2780_8811)"/>
+<g clip-path="url(#clip0_2780_8811)">
+<g filter="url(#filter0_d_2780_8811)">
+<path d="M18.0047 11.7V18.0001H22.7297M27.4547 18.0001C27.4547 19.241 27.2103 20.4699 26.7354 21.6164C26.2604 22.7629 25.5644 23.8047 24.6868 24.6822C23.8093 25.5597 22.7676 26.2558 21.621 26.7307C20.4745 27.2056 19.2457 27.4501 18.0047 27.4501C16.7637 27.4501 15.5349 27.2056 14.3883 26.7307C13.2418 26.2558 12.2 25.5597 11.3225 24.6822C10.445 23.8047 9.74893 22.7629 9.27403 21.6164C8.79912 20.4699 8.55469 19.241 8.55469 18.0001C8.55469 15.4938 9.55031 13.0901 11.3225 11.3179C13.0947 9.54567 15.4984 8.55005 18.0047 8.55005C20.511 8.55005 22.9146 9.54567 24.6868 11.3179C26.4591 13.0901 27.4547 15.4938 27.4547 18.0001Z" stroke-width="1.6574" stroke-linecap="round" stroke-linejoin="round" stroke="white" shape-rendering="crispEdges"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_2780_8811" x="5.83239" y="5.82727" width="24.3469" height="24.3457" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="0.947085"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2780_8811"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2780_8811" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_2780_8811" x1="13.95" y1="6.75" x2="18" y2="32.85" gradientUnits="userSpaceOnUse">
+<stop stop-color="#26CA52"/>
+<stop offset="1" stop-color="#06874D"/>
+</linearGradient>
+<clipPath id="clip0_2780_8811">
+<rect width="25.2" height="25.2" fill="white" transform="translate(5.40234 5.39966)"/>
+</clipPath>
+</defs>
+</svg>

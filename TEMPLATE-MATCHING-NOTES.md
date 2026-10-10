@@ -1,0 +1,1 @@
+Template rendering now uses the original SVG artwork, finder paths, module silhouettes, colors, captions and built-in logos. The data pattern changes with encoded content. Custom artwork may require testing on the intended scanner, especially bright or inverted finder colors.

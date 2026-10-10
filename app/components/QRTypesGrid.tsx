@@ -1,0 +1,11 @@
+"use client";
+import {qrTypes} from "../lib/qr-types";
+const descriptions:Record<string,string>={Website:"Link directly to a website or landing page.",'Wi-Fi':"Share your network without typing the password.",Text:"Share a message that opens when scanned.",Contacts:"Share contact details as a digital contact card.",SMS:"Open a text message to your phone number.",Phone:"Make it easy to call your phone number.",Location:"Help people find a place on the map.",WhatsApp:"Start a WhatsApp conversation with a scan.",Facebook:"Connect people to your Facebook page.",Instagram:"Share your Instagram profile.",Email:"Open an email addressed to you.",Viber:"Start a conversation through Viber.",X:"Link to your X profile or a post.",Spotify:"Share a track, playlist, or artist link.",Product:"Connect customers to your product page.",Vcard:"Create a scannable digital business card."};
+export default function QRTypesGrid({onChoose}:{onChoose:(type:string)=>void}){
+ const viewAll=()=>{document.getElementById('generator')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});document.querySelector<HTMLButtonElement>('.all-types')?.click();document.querySelector<HTMLButtonElement>('.qr-type')?.focus({preventScroll:true});};
+ return <section className="qr-types-section" id="qr-code-types" aria-labelledby="qr-types-heading"><div className="qr-types-inner">
+ <div className="qr-types-heading"><h2 id="qr-types-heading">Create e QR Code For <span>All Types</span></h2><p>You can redirect your clients to some instruction page for your business when they scan the QR<br/>Code.You can redirect your clients to some instruction page for your business when they scan the<br/>QR Code.</p></div>
+ <div className="qr-types-grid">{qrTypes.map(([label,icon])=><article className="qr-type-card" key={label}><img src={'/assets/svg/'+icon} alt=""/><h3>{label==='Vcard'?'V card':label==='X'?'x':label}</h3><p>{descriptions[label]}</p><button type="button" aria-label={'Choose '+label+' QR code'} onClick={()=>onChoose(label)}>Choose</button></article>)}</div>
+ <button className="qr-types-view-all" type="button" onClick={viewAll}>View All QR Code</button>
+ </div></section>;
+}

@@ -1,0 +1,15 @@
+"use client";
+import {useState} from 'react';
+const posts=[
+ {image:'scan',title:'How to Scan a QR Code Online',description:"Once you find a QR code — whether on a product, a poster, a payment gateway, or for tourist information — you can use your device’s camera to instantly scan it. Simply point your camera at the QR code to be scanned, and you’re done.",barcode:false},
+ {image:'matter',title:'Why QR Codes Matter',description:'Don’t let your codes fail! Master the art of contrast, quiet zones, and sizing to ensure your QR codes and barcodes scan perfectly every single time.',barcode:false},
+ {image:'industries',title:'QR Codes Across Industries',description:'Which one is right for your project? We compare speed, capacity, and use cases.',barcode:false},
+ {image:'custom',title:'Top_QR-Code-Generatoren Mit Custom',description:'A complete breakdown of 1D and 2D data formats. Learn which technology offers the best speed, security, and data capacity for your specific business needs.',barcode:true},
+ {image:'barcodes',title:'Mastering Barcodes',description:'A deep dive into how 1D barcodes work and why they remain the standard for retail. A deep dive into how 1D barcodes work and why they remain the standard for retail.',barcode:true},
+ {image:'engagement',title:'Transforming Customer Engagement',description:'Discover how modern brands use customized QR codes to bridge the gap between physical products and digital experiences through interactive marketing.',barcode:true}
+];
+export default function Blog({fullList=false}:{fullList?:boolean}){
+ const [tab,setTab]=useState('QR Code');
+ const visible=posts.filter(post=>post.barcode===(tab==='Barcode'));
+ return <section className="home-blog" id="blog" aria-labelledby="blog-heading"><header className="blog-heading"><h2 id="blog-heading">Our Blog</h2><p>Latest Articles, Guides, And Insights About QR Codes</p><div className="blog-tabs" role="tablist" aria-label="Blog categories">{['QR Code','Barcode'].map(label=><button type="button" key={label} role="tab" id={'blog-tab-'+label.replace(' ','-')} aria-selected={tab===label} aria-controls="blog-cards" tabIndex={tab===label?0:-1} onClick={()=>setTab(label)} onKeyDown={e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const next=label==='QR Code'?'Barcode':'QR Code';setTab(next);document.getElementById('blog-tab-'+next.replace(' ','-'))?.focus();}}}><img src={label==='QR Code'?'/assets/blog/qr-tab.svg':'/assets/blog/barcode-tab.svg'} alt=""/>{label}</button>)}</div></header><div className="blog-grid" id="blog-cards" role="tabpanel" aria-labelledby={'blog-tab-'+tab.replace(' ','-')}>{visible.map(post=><article className="blog-card" key={post.image}><div className="blog-photo"><img src={'/assets/blog/'+post.image+'.png'} alt={post.title} loading="lazy"/></div><h3>{post.title}</h3><p>{post.description}</p></article>)}</div>{!fullList&&<a className="blog-see-more" href="/blog">See More</a>}</section>;
+}
