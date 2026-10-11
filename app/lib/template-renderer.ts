@@ -4,10 +4,11 @@ import {renderLogo} from './logo-renderer';
 import {backgroundImages} from './background-images';
 import QRCode from 'qrcode';
 import {templatePresets} from './template-presets';
+import {categoryTemplatePresets} from './category-template-presets';
 import type {QRDesign} from './qr-design';
 // The surrounding art, captions, gradients, finder paths and center logos come from the supplied SVG.
 export function renderTemplateQR(payload:string,design:QRDesign,width:number):string {
- const preset=templatePresets[design.templateIndex||0];
+ const preset=categoryTemplatePresets[design.templateIndex||0]||templatePresets[design.templateIndex||0];
  if(!preset)throw new Error('Unknown template');
  const matrix=QRCode.create(payload,{errorCorrectionLevel:'H'}),n=matrix.modules.size;
  const [left,top,side]=preset.bounds,unit=side/n;

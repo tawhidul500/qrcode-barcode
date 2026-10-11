@@ -1,24 +1,50 @@
-# QR & Barcode sign-in page
+# QR & Barcode Generator — Updated Homepage
 
-Requires Node.js 22 or newer.
+## Run locally
 
-Run `npm install`, then `npm run dev`. Open http://localhost:3000.
+```sh
+npm ci
+npm run dev
+```
 
-Production: `npm run build`, then `npm start`.
+For a production static export:
 
-Original supplied assets are included. Desktop layout targets the 1448×728 reference. Mobile layout stacks the branding and form. Email validation and password visibility work. Authentication providers, registration, reset, and legal documents require integration; buttons display a preview notice. No passwords are transmitted or saved.
+```sh
+npm run build
+```
 
-Hosted preview uses the Sites Next.js-compatible Vinext runtime. This archive uses standard Next.js on Node.js. Hosted production build passed; this standalone Next.js build has not been run. Browser pixel comparison has not been performed.
+Serve the generated `out` directory with any static web server.
 
-Updated: social button shadows and aligned labels; a six-second floating animation with reduced-motion support on the illustration.
+## Homepage update
 
-Added a glowing scan beam moving up and down over the QR card, synchronized with the floating illustration.
+- Updated hero, generator layouts, navigation, app banner, FAQ, blog and footer from the supplied 1440 × 6144 SVG export.
+- Added a working barcode generator with 15 sidebar entries, including PDF417 and Data Matrix.
+- Kept the three-step guide, both information cards, and every existing content section. They remain separate components for moving to another page later.
+- Homepage image sources use SVG. Photographs and exported bitmap artwork remain embedded raster images within SVG containers; they are not falsely traced vector images. Original vector icons, store badges, barcode thumbnails and phone mockups are extracted from the supplied design.
+- Responsive layouts cover desktop, tablet and narrow phones.
 
-Removed the baked-in red scan stripe using an edited transparent asset. Animated laser has feathered ends, diffuse glow, and soft reversals.
+## Validation
 
-Scanner updated to blue with a thicker core and wide, gradually fading halo.
+- Production build and TypeScript checks passed.
+- Browser checks at 1440, 1024, 768, 390 and 320 pixels.
+- QR and barcode PNG/SVG export, barcode formats, type dialog and FAQ tabs checked.
 
-Extended scan travel through the bottom of the front code and increased the blue halo.
+## Existing limitations
 
+- Sign-in, account management, scan analytics, newsletter and store links still require services or destination URLs.
+- Tutorial playback uses the existing example clip; set real tutorial URLs in `app/lib/tutorial-video.ts` before launch.
+- All 28 barcode templates retain their original SVG artwork and embed the live barcode; preview and PNG/SVG exports use the same renderer.
+- Several advanced QR categories accept a link; they do not create hosted landing pages or upload documents.
 
-Part 5 update: added the 16-type QR catalogue. Choose buttons select the matching generator type, expand content, scroll to the generator and focus its input. Four columns on desktop and two on mobile. Next.js production build and TypeScript checks passed. All 16 cards appear in prerendered output and all referenced icons exist. Browser interaction and Figma pixel matching remain unverified. No deployment was made from this workspace.
+## Main edited files
+
+- `app/page.tsx`: navigation and section composition.
+- `app/home-updated.css`: sizing, spacing and responsive overrides.
+- `app/components/BarcodeGenerator.tsx`: barcode generation and export.
+- `public/assets/updated/`: assets from the supplied homepage design.
+
+- Barcode Text controls: separate Details and Heading tabs, independent font sizes/colors, visibility switches, SVG icons, and live preview/export.
+
+## Complete category update
+
+New, Social, WiFi, Event and Love each have 20 uploaded SVG templates plus No template. All use the Hot live renderer and PNG/SVG export flow. Hot is unchanged. Run npm run test:templates: 100 templates passed renderer checks. Full production build and scanner checks remain unverified.

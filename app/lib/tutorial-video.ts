@@ -2,7 +2,7 @@
 export const tutorialVideo = {
  youtubeUrl: "",
  title: "How to create your QR code",
- poster: "/assets/blog/scan.png",
+ poster: "/assets/updated/scan.svg",
  placeholderSrc: "/assets/tutorial/example.mp4",
 };
 export function youtubeEmbedUrl(url:string){
