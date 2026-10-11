@@ -13,18 +13,18 @@ const groups = [
   ['How Do I Manage QR Codes With A QR Code Generator?', 'Save your downloaded codes and a record of their content. To change information stored in a static code, generate and download a replacement. Account-based code management is not available in this version.']
  ]},
  {label:'Barcode Basics', questions:[
-  ['What Is A Barcode?', 'A barcode represents information in a pattern that a scanner can read. Traditional one-dimensional barcodes use bars and spaces to encode identifiers such as product or inventory numbers.'],
-  ['What Is The Difference Between A Barcode And A QR Code?', 'Traditional barcodes store information along one dimension. QR codes store information across a two-dimensional grid and can hold content such as links, text, and contact details.'],
-  ['What Information Can Be Stored In A Barcode?', 'The supported information depends on the barcode format. Some formats accept numbers only; others can include letters and symbols. The encoded value is often an identifier used to look up a record.'],
-  ['Can I Use Barcodes For Commercial Purposes?', 'Barcodes are commonly used for inventory and product identification. Retail product identifiers may need to meet your retailer’s requirements and be assigned through the relevant issuing organization. Generating an image alone does not assign a retail identifier.'],
-  ['How Do I Scan A Barcode?', 'Use a compatible barcode scanner or a camera app that supports the format. Keep the whole code visible, in focus, and well lit.'],
-  ['Do Barcodes Expire?', 'The printed pattern has no built-in expiration date. Whether its value remains useful depends on the records and systems that use it.'],
-  ['Can I Generate A Barcode On This Website?', 'Barcode generation is planned for a later update. The current generator creates QR codes.']
+  ['Which Format Should I Use?', 'Choose EAN or UPC for retail product numbers, Code39 or Code128 for inventory, ITF-14 for shipping cartons, and PDF417 or Data Matrix when a compatible system needs a two-dimensional format.'],
+  ['Do I Need To Register My Barcode With GS1 For Commercial Use?', 'A generated barcode image does not register or assign a retail product identifier. Check the requirements of your retailer and identifier issuer before using it commercially.'],
+  ['What Is The Difference Between UPC, EAN, And Code128?', 'UPC and EAN encode standardized numeric product identifiers. Code128 can encode letters, numbers and other characters for general identification and inventory.'],
+  ['Can I Generate Barcodes For Free Or Do I Need To Buy Them?', 'You can create and download barcode images here for free. Obtaining an assigned retail product identifier is a separate process.'],
+  ['Which Barcode Type Should I Use For Retail Products?', 'Use the format required by your retailer, commonly EAN-13 or UPC-A, with a valid assigned product number.'],
+  ['Will These Barcodes Scan Properly?', 'Test your exported barcode with the intended scanner before printing. Keep adequate contrast, a clear margin around the code and sufficient print size. Decorative templates and colors can affect readability.'],
+  ['Can I Use Barcode Generators For Inventory Management?', 'Yes. Generate labels for identifiers used by your inventory system. This page creates images; it does not store or track your inventory.']
  ]}
 ] as const;
 
-export default function FAQ(){
- const [tab,setTab]=useState(0), [open,setOpen]=useState<number|null>(0);
+export default function FAQ({barcodeDefault=false}:{barcodeDefault?:boolean}){
+ const [tab,setTab]=useState(barcodeDefault?1:0), [open,setOpen]=useState<number|null>(0);
  const tabs=useRef<Array<HTMLButtonElement|null>>([]);
  function select(index:number){setTab(index);setOpen(0);}
  return <section className="home-faq" id="faq" aria-labelledby="faq-heading">

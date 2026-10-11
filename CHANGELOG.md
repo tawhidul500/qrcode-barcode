@@ -18,3 +18,9 @@ Validation completed: production build and TypeScript passed; six regression tes
 - Applies to all sidebar types, templates, live previews, and PNG/SVG exports through the shared generator.
 - Verified 135 type/font/height combinations by raster pixel separation, TypeScript, and production build. PDF417/Data Matrix do not emit native human-readable details.
 - Run `npm run test:barcode-spacing` after `npm ci`. Physical scanner tests were not performed.
+
+## Barcode Generator standalone page
+- Added /barcode-generator and active navigation.
+- Implemented reference section sequence with SVG artwork and icons.
+- Type cards update the generator and focus its input.
+- Added responsive page styles and barcode defaults for FAQ/blog.

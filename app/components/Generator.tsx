@@ -9,6 +9,7 @@ import {qrTypes} from "../lib/qr-types";
 const defaults:Record<string,string>={Website:'https://example.com',Text:'Hello!',Facebook:'https://facebook.com',Instagram:'https://instagram.com',X:'https://x.com',Spotify:'https://open.spotify.com',Product:'https://example.com/product',Location:'https://maps.google.com/?q=Dhaka',Phone:'+8801700000000',WhatsApp:'8801700000000',Viber:'+8801700000000',Email:'hello@example.com',SMS:'+8801700000000',Contacts:'BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nEND:VCARD',Vcard:'BEGIN:VCARD\nVERSION:3.0\nFN:Your Name\nEND:VCARD'};
 export default function Generator({selectedType,onTypeChange,standalone=false}:{selectedType:string;onTypeChange:(type:string)=>void;standalone?:boolean}){
  const type=selectedType;
+ useEffect(()=>{const requested=new URLSearchParams(window.location.search).get('type');if(requested&&qrTypes.some(([name])=>name===requested))onTypeChange(requested);},[onTypeChange]);
  const [typesOpen,setTypesOpen]=useState(false);
  const [value,setValue]=useState(''),[ssid,setSsid]=useState(''),[password,setPassword]=useState(''),[security,setSecurity]=useState('WPA'),[preview,setPreview]=useState(''),[format,setFormat]=useState('PNG'),[size,setSize]=useState('1000'),[message,setMessage]=useState(''),[contentOpen,setContentOpen]=useState(true),[designOpen,setDesignOpen]=useState(true);
  const [design,setDesign]=useState({...defaultDesign});

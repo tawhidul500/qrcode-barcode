@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="7261" viewBox="0 0 1440 7261" fill="none"><rect width="1440" height="7261" fill="#F2F2F2" />
+<g filter="url(#filter0_f_2876_279638)">
+<path d="M0 2119V578L627 1290.06L0 2119Z" fill="#2076FD" fill-opacity="0.15" />
+</g>
+<path d="M1444 5409V3995L817 4648.37L1444 5409Z" fill="#2076FD" fill-opacity="0.22" />
+<rect data-figma-bg-blur-radius="261" y="429" width="1444" height="8112" fill="white" fill-opacity="0.53" />
+<defs><filter id="filter0_f_2876_279638" x="-119" y="459" width="865" height="1779" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix" />
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+<feGaussianBlur stdDeviation="59.5" result="effect1_foregroundBlur_2876_279638" />
+</filter>
+</defs></svg>
