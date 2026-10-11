@@ -180,3 +180,25 @@
 
 /* Generator layout and video preview from the updated reference. */
 .generator-hero{background:#fcfcfc}.qr-tutorial{aspect-ratio:1;width:100%;padding:12px;margin-bottom:22px;background:white;border-radius:4px;box-shadow:0 2px 12px #00000014;overflow:hidden}.qr-tutorial-poster{width:100%;height:100%;padding:0;border:0;background:#eef5ff;position:relative;display:block;overflow:hidden}.qr-tutorial-poster>img{width:100%;height:100%;object-fit:cover}.qr-tutorial-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:white;color:#151515;box-shadow:0 2px 10px #0003}.qr-tutorial-play svg{margin-left:3px}.qr-tutorial video,.qr-tutorial iframe{width:100%;height:100%;border:0;display:block;object-fit:contain;background:#111}.qr-preview{padding:12px;background:white;box-shadow:0 2px 12px #00000010;border-radius:4px}.qr-preview img{min-width:0}.qr-save-hint{font-weight:400}
+
+/* Fifteen full QR types remain visible; the rest stay within this scroll panel. */
+@media(min-width:651px){.qr-type-list{height:850px;overscroll-behavior-y:contain}.qr-type{height:52px;min-height:52px}}
+@media(min-width:1600px){.qr-type-list{height:925px}.qr-type{height:57px;min-height:57px}}
+
+/* Cards retain the reference proportions at every viewport height. */
+.qr-picker{width:min(1166px,94vw);max-width:94vw;max-height:92dvh;padding:0;margin:auto;border:0;border-radius:24px;background:#fff;color:#111;box-shadow:0 24px 90px #0005;overflow:hidden}
+.qr-picker::backdrop{background:rgba(10,20,38,.48)}
+.qr-picker-header{height:88px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 48px 0 64px;border-bottom:1px solid #bbb}
+.qr-picker-header h2{margin:0;font-size:clamp(22px,2.5vw,30px);line-height:1.2;font-weight:700}
+.qr-picker-close{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border:0;border-radius:50%;background:#f3f4f6;color:#333;cursor:pointer}
+.qr-picker-scroll{height:min(1268px,calc(92dvh - 88px));overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;scrollbar-color:#b8b8b8 #f6f6f6;scrollbar-width:auto}
+.qr-picker-initial{padding:32px 48px 32px 64px;display:flex;flex-direction:column;gap:36px}
+.qr-picker-group h3{font-size:28px;line-height:34px;margin:0 0 20px;font-weight:650}
+.qr-picker-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:34px}
+.qr-picker-card{aspect-ratio:173 / 154;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:14px 8px;border:1px solid #eee;border-radius:10px;background:white;box-shadow:0 3px 18px #0003;cursor:pointer;color:#111;font:inherit;font-size:clamp(15px,1.8vw,22px);line-height:1.15;text-align:center}
+.qr-picker-card img{width:46%;height:auto;aspect-ratio:1;object-fit:contain;flex-shrink:0}
+.qr-picker-card span{max-width:100%;overflow-wrap:anywhere}
+.qr-picker-card:hover{background:#f5f8ff;border-color:#8aafff}.qr-picker-card:focus-visible,.qr-picker-close:focus-visible{outline:3px solid #2276ff;outline-offset:2px}
+.qr-picker-more{padding:0 48px 32px 64px;display:flex;flex-direction:column;gap:36px}
+@media(max-width:800px){.qr-picker-header{height:72px;padding:0 24px}.qr-picker-scroll{height:calc(92dvh - 72px)}.qr-picker-initial{padding:24px;gap:28px}.qr-picker-more{padding:0 24px 24px;gap:28px}.qr-picker-grid{gap:18px;grid-template-columns:repeat(4,minmax(0,1fr))}.qr-picker-card{gap:10px;font-size:16px}.qr-picker-group h3{font-size:24px;line-height:29px;margin-bottom:16px}}
+@media(max-width:600px){.qr-picker-header{padding:0 16px}.qr-picker-header h2{font-size:19px}.qr-picker-initial{padding:20px 16px}.qr-picker-more{padding:0 16px 24px}.qr-picker-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.qr-picker-card{font-size:13px;padding:12px 6px;gap:8px}.qr-picker-group h3{font-size:21px}}

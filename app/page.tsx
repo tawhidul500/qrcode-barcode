@@ -5,7 +5,6 @@ import Blog from "./components/Blog";
 import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import AppBanner from "./components/AppBanner";
-import QRTypesGrid from "./components/QRTypesGrid";
 import Generator from "./components/Generator";
 import ThreeSteps from "./components/ThreeSteps";
 import IntroductionCards from "./components/IntroductionCards";
@@ -14,7 +13,6 @@ import {ChevronDown, Globe, Menu, X} from "lucide-react";
 const menus=[{label:"Scanner",items:["QR Code Scanner","Barcode Scanner"]},{label:"QR Code All Types",items:["Website","Wi-Fi","Text","Contacts","Email","WhatsApp"]},{label:"Resources",items:["Blog","FAQ","Help Center"]}];
 export default function Home(){
  const [selectedType,setSelectedType]=useState('Website');
- const chooseType=(type:string)=>{setSelectedType(type);requestAnimationFrame(()=>requestAnimationFrame(()=>{document.getElementById('generator')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});(document.getElementById(type==='Wi-Fi'?'wifi-name':'qr-content') as HTMLInputElement|null)?.focus({preventScroll:true});}));};
  const [mobile,setMobile]=useState(false),[notice,setNotice]=useState("");
  return <div className="homepage"><header className="home-header"><div className="home-header-inner">
  <a href="/" className="home-brand" aria-label="QR and barcode home"><img src="/assets/svg/Group 42404.svg" alt=""/><span>QR &amp; barcode</span></a>
@@ -26,6 +24,6 @@ export default function Home(){
  <button className="home-nav-link" onClick={()=>setNotice("Pricing will be added later.")}>Pricing</button>
  <div className="home-account"><a className="home-sign-in" href="/login">Sign In</a><a className="home-sign-up" href="/signup">Sign Up</a></div>
  <details className="home-dropdown home-language"><summary><Globe size={19}/>EN<ChevronDown size={12}/></summary><div className="home-dropdown-panel"><button onClick={e=>e.currentTarget.closest("details")?.removeAttribute("open")}>English</button><button onClick={e=>{e.currentTarget.closest("details")?.removeAttribute("open");setNotice("Bangla translation will be added later.");}}>বাংলা</button></div></details>
- </nav></div></header><main className="home-stage"><HomeHero/><Generator selectedType={selectedType} onTypeChange={setSelectedType}/><ThreeSteps/><IntroductionCards/><QRTypesGrid onChoose={chooseType}/><HowItWorks/><AppBanner/><FAQ/><Blog/></main><Footer/>
+ </nav></div></header><main className="home-stage"><HomeHero/><Generator selectedType={selectedType} onTypeChange={setSelectedType}/><ThreeSteps/><IntroductionCards/><HowItWorks/><AppBanner/><FAQ/><Blog/></main><Footer/>
  {notice&&<div className="home-toast" role="status">{notice}<button aria-label="Dismiss notification" onClick={()=>setNotice("")}><X size={18}/></button></div>}</div>;
 }
