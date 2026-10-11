@@ -2,7 +2,7 @@
 import {useState} from 'react';
 import {ArrowUp, ChevronDown} from 'lucide-react';
 const columns=[
- {title:'Product',items:[['QR CODE GENERATOR','#generator'],['Barcode Generator','#barcode-generator'],['QR CODE Scan',''],['Barcode Scan',''],['QR Code all Types','#generator'],['Barcode all Types','']]},
+ {title:'Product',items:[['QR CODE GENERATOR','/qr-code-generator'],['Barcode Generator','/#barcode-generator'],['QR CODE Scan',''],['Barcode Scan',''],['QR Code all Types','/qr-code-generator'],['Barcode all Types','']]},
  {title:'Legal',items:[['Pricing',''],['FAQ','#faq'],['Blog','#blog'],['Contact Us',''],['Mobile App','#mobile-app']]},
  {title:'Company',items:[['Privacy Policy',''],['Terms & Conditions',''],['Help Center','']]}
 ];

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:templates": "node tests/category-templates.test.cjs"
+    "test:templates": "node tests/category-templates.test.cjs",
+    "test:barcode-spacing": "node tests/barcode-spacing.test.cjs"
   },
   "dependencies": {
     "bwip-js": "^4.11.4",
