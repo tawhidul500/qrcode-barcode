@@ -1,0 +1,11 @@
+import {copyFile,mkdir} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {dirname,resolve} from 'node:path';
+const require=createRequire(import.meta.url);
+const wasmPath=require.resolve('zxing-wasm/reader/zxing_reader.wasm');
+const packageRoot=resolve(dirname(wasmPath),'../..');
+const destination=resolve('public/assets/scanner');
+await mkdir(destination,{recursive:true});
+await copyFile(wasmPath,resolve(destination,'zxing_reader.wasm'));
+await copyFile(resolve(packageRoot,'LICENSE'),resolve(destination,'ZXING-WASM-LICENSE.txt'));
+console.log('Scanner decoder assets prepared.');

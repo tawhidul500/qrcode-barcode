@@ -1,0 +1,162 @@
+/* Shared motion: no layout dimensions, generated code images, or data are changed. */
+:root{
+ --motion-fast:160ms;
+ --motion-normal:240ms;
+ --motion-ease:cubic-bezier(.2,.7,.25,1);
+}
+:is(a,button,input,textarea,select,summary):focus-visible{
+ outline:3px solid #1671ef;outline-offset:3px;
+}
+:is(button,a,summary){-webkit-tap-highlight-color:#2276ff26}
+:is(button:disabled,[aria-disabled="true"]){cursor:not-allowed}
+
+/* Color feedback also works with a keyboard and on touch screens. */
+:is(.home-nav-link,.home-dropdown summary,.home-dropdown-panel a,.home-dropdown-panel button,
+ .language-trigger,.language-option,.footer-links a,.footer-links button,.forgot,.legal button,.blog-back){
+ transition:color var(--motion-fast) ease,background-color var(--motion-fast) ease;
+}
+:is(.home-sign-in,.home-sign-up,.steps-cta,.introduction-cta,.qr-download,.all-types,
+ .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
+ .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top,.qr-icon-button,
+ .scanner-result-actions>a,.scanner-result-actions>button,.providers>button,.testimonial-controls button,
+ .app-store-badges button,.footer-badges button,.footer-socials button){
+ transition:translate var(--motion-normal) var(--motion-ease),scale var(--motion-fast) ease,
+ background-color var(--motion-fast) ease,border-color var(--motion-fast) ease,
+ color var(--motion-fast) ease,box-shadow var(--motion-normal) ease;
+}
+:is(.code-type-card,.qr-type-card,.introduction-card,.blog-card,.how-grid>li,
+ .qr-picker-card,.qr-templates button,.barcode-templates button,.qr-dot-grid button,
+ .qr-eye-grid button,.qr-font-options button,.qr-type,.qr-text-colors>button,
+ .qr-palette-row>button,.barcode-text-swatches>button,.faq-item,.qr-testimonial-copy){
+ transition:translate var(--motion-normal) var(--motion-ease),scale var(--motion-normal) var(--motion-ease),
+ box-shadow var(--motion-normal) ease,border-color var(--motion-fast) ease,background-color var(--motion-fast) ease;
+}
+:is(.qr-template-tabs button,.barcode-text-tabs button,.scanner-tabs button,.faq-tabs button,.blog-tabs button){
+ transition:background-color var(--motion-normal) ease,color var(--motion-normal) ease,
+ border-color var(--motion-normal) ease,box-shadow var(--motion-normal) ease;
+}
+:is(.qr-section-title,.qr-subsection-title,.faq-item h3){
+ transition:background-color var(--motion-normal) ease,color var(--motion-normal) ease;
+}
+:is(.qr-section-title svg,.qr-subsection-title svg,.faq-item h3 button svg,
+ .home-dropdown summary>svg:last-child,.language-trigger>svg:last-child){
+ transition:transform var(--motion-normal) var(--motion-ease);
+}
+.language-trigger[aria-expanded="true"]>svg:last-child{transform:rotate(180deg)}
+:is(.qr-content input,.qr-content textarea,.qr-content select,.qr-control-input,
+ .qr-export-options select,.footer-subscribe,.field){
+ transition:border-color var(--motion-fast) ease,box-shadow var(--motion-fast) ease;
+}
+:is(.qr-content input,.qr-content textarea,.qr-content select,.qr-control-input,.qr-export-options select):focus-visible,
+.field:focus-within,.footer-subscribe:focus-within{
+ border-color:#2276ff;box-shadow:0 0 0 3px #2276ff1f;
+}
+:is(.code-type-card,.qr-type-card,.introduction-card,.blog-card):focus-within{
+ box-shadow:0 8px 24px #2276ff24;
+}
+.scanner-dropzone{transition:background-color var(--motion-normal) ease,border-color var(--motion-normal) ease,box-shadow var(--motion-normal) ease}
+.scanner-dropzone.is-dragging{box-shadow:0 0 0 5px #2276ff1f}
+:is(.code-type-icon img,.qr-type-card>img,.qr-picker-card img,.blog-photo img,
+ .qr-tutorial-poster>img,.qr-tutorial-play,.footer-back-top svg){
+ transition:scale 320ms var(--motion-ease),translate var(--motion-normal) var(--motion-ease),box-shadow var(--motion-normal) ease;
+}
+
+/* Hover effects are restricted to devices with a real hover-capable pointer. */
+@media(hover:hover) and (pointer:fine){
+ :is(.home-nav-link,.home-dropdown summary,.language-trigger,.forgot,.legal button,.blog-back):hover{color:#1671ef}
+ .home-nav-link:not(.is-active)::after{
+  content:"";position:absolute;inset-inline:0;bottom:0;height:2px;width:auto;
+  background:#2276ff;transform:scaleX(0);transform-origin:left;
+  transition:transform var(--motion-normal) var(--motion-ease);
+ }
+ html[dir="rtl"] .home-nav-link:not(.is-active)::after{transform-origin:right}
+ .home-nav-link:not(.is-active):hover::after,.home-nav-link:not(.is-active):focus-visible::after{transform:scaleX(1)}
+ :is(.home-dropdown-panel a,.home-dropdown-panel button):hover{background:#edf5ff;color:#1671ef}
+
+ :is(.home-sign-in,.home-sign-up,.steps-cta,.introduction-cta,.qr-download,.all-types,
+  .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
+  .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top):not(:disabled):hover{
+  translate:0 -2px;box-shadow:0 6px 16px #2276ff33;
+ }
+ :is(.home-sign-up,.steps-cta,.introduction-cta,.qr-download,.all-types,
+  .qr-types-view-all,.code-type-choose,.qr-type-card button,.submit,.footer-back-top):not(:disabled):hover{background-color:#1267ec}
+ :is(.qr-icon-button,.scanner-result-actions>a,.scanner-result-actions>button,
+  .providers>button,.testimonial-controls button):not(:disabled):hover{
+  translate:0 -2px;background-color:#edf5ff;color:#1465df;box-shadow:0 4px 12px #17364a1a;
+ }
+ :is(.app-store-badges button,.footer-badges button,.footer-socials button):hover{translate:0 -3px}
+ .footer-back-top:hover svg{translate:0 -3px}
+ .footer-links :is(a,button):hover{text-decoration-thickness:1px;text-underline-offset:4px}
+ :is(.code-type-card,.qr-type-card,.introduction-card,.blog-card,.how-grid>li):hover{
+  translate:0 -4px;border-color:#b9d6ff;box-shadow:0 12px 28px #173b7121;
+ }
+ :is(.code-type-card,.qr-type-card,.qr-picker-card):hover :is(.code-type-icon img,img){scale:1.055}
+ .blog-card:hover .blog-photo img{scale:1.035}
+ .qr-tutorial-poster:hover>img{scale:1.035}
+ .qr-tutorial-poster:hover .qr-tutorial-play{scale:1.1;box-shadow:0 4px 18px #2276ff40}
+ :is(.qr-picker-card,.qr-templates button,.barcode-templates button,.qr-dot-grid button,
+  .qr-eye-grid button,.qr-font-options button):hover{
+  translate:0 -2px;border-color:#2276ff;box-shadow:0 4px 12px #2276ff26;
+ }
+ .qr-type:not(.selected):hover{border-color:#a7cbff;background-color:#f1f7ff}
+ :is(.qr-text-colors>button,.qr-palette-row>button,.barcode-text-swatches>button):hover{scale:1.08}
+ :is(.qr-template-tabs button,.barcode-text-tabs button,.scanner-tabs button,.faq-tabs button,.blog-tabs button):not([aria-selected="true"]):not(.active):hover{color:#1465df}
+ .qr-subsection-title:hover{background-color:#e2f0ff}
+ .faq-item:hover{border-color:#b6d5ff;box-shadow:0 4px 14px #2276ff14}
+ .qr-testimonial-copy:hover{box-shadow:0 6px 20px #173b711a}
+ .scanner-dropzone:not(.has-camera):hover{background-color:#f6faff6b;border-color:#1465df}
+}
+:is(.home-sign-in,.home-sign-up,.steps-cta,.introduction-cta,.qr-download,.all-types,
+ .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
+ .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top,.qr-icon-button,
+ .scanner-result-actions>a,.scanner-result-actions>button,.providers>button,.testimonial-controls button,
+ .qr-templates button,.barcode-templates button,.qr-picker-card):not(:disabled):active{
+ translate:0 0;scale:.98;
+}
+
+/* Short, finite entrances; all content is visible if animation APIs are unavailable. */
+@keyframes ui-enter{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+@keyframes ui-menu{from{opacity:0;translate:0 -6px}to{opacity:1;translate:0 0}}
+@keyframes ui-menu-up{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+@keyframes ui-fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:no-preference){
+ html{scroll-behavior:smooth}
+ :is(.home-welcome-copy,.generator-heading,.scanner-heading,.code-types-hero>h1,.scene .intro){
+  animation:ui-enter 560ms var(--motion-ease) backwards;
+ }
+ :is(.home-welcome-art,.code-types-hero>p,.scene .card){
+  animation:ui-enter 620ms var(--motion-ease) 90ms backwards;
+ }
+ :is(.language-menu,.home-dropdown[open] .home-dropdown-panel){
+  animation:ui-menu 190ms var(--motion-ease) backwards;
+ }
+ .language-selector--footer .language-menu{animation-name:ui-menu-up}
+ .qr-picker[open]{animation:ui-enter 230ms var(--motion-ease) backwards}
+ .qr-picker[open]::backdrop{animation:ui-fade 200ms ease backwards}
+ :is(.faq-answer:not([hidden]),.qr-control-body,.qr-content){
+  animation:ui-enter 220ms var(--motion-ease) backwards;
+ }
+ :is(.scanner-result,.scanner-message,.qr-feedback,.home-toast,.notice,.footer-status,.app-banner-notice){
+  animation:ui-enter 250ms var(--motion-ease) backwards;
+ }
+ .home-navigation.is-open{animation:ui-menu 200ms var(--motion-ease) backwards}
+}
+/* This also stops pre-existing decorative loops and instant-scrolls all anchors. */
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{
+  animation:none!important;transition:none!important;scroll-behavior:auto!important;
+ }
+ :is(.home-sign-in,.home-sign-up,.steps-cta,.introduction-cta,.qr-download,.all-types,
+  .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
+  .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top,.qr-icon-button,
+  .scanner-result-actions>a,.scanner-result-actions>button,.providers>button,.testimonial-controls button,
+  .app-store-badges button,.footer-badges button,.footer-socials button,.code-type-card,.qr-type-card,
+  .introduction-card,.blog-card,.how-grid>li,.qr-picker-card,.qr-templates button,.barcode-templates button,
+  .qr-dot-grid button,.qr-eye-grid button,.qr-font-options button,.qr-text-colors>button,
+  .qr-palette-row>button,.barcode-text-swatches>button,.code-type-icon img,.qr-type-card>img,
+  .qr-picker-card img,.blog-photo img,.qr-tutorial-poster>img,.qr-tutorial-play,.footer-back-top svg){
+  translate:none!important;scale:none!important;
+ }
+}
+

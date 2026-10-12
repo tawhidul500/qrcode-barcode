@@ -1,0 +1,76 @@
+/* Fade only the decorative backdrop. The generator stays fully opaque and
+   the fade follows its actual height when panels expand or the viewport changes. */
+.qr-generator-page .generator-hero,
+.barcode-generator-page .generator-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+/* The same canvas and hero artwork on both generator pages keeps their colors
+   identical and lets the hero fade blend into the following sections. */
+.qr-generator-page,
+.barcode-generator-page {
+  background: linear-gradient(90deg, #f6faff, #fcfcfc);
+}
+.qr-generator-page .generator-hero,
+.barcode-generator-page .generator-hero,
+.qr-generator-page .three-steps,
+.qr-generator-page .introduction-cards,
+.qr-generator-page .qr-types-section {
+  background: transparent;
+}
+
+.qr-generator-page .generator-hero::before,
+.barcode-generator-page .generator-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/assets/qr-page/hero-background.svg') center top / 100% 100% no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgb(0 0 0 / 75%) 55%, rgb(0 0 0 / 25%) 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgb(0 0 0 / 75%) 55%, rgb(0 0 0 / 25%) 78%, transparent 100%);
+}
+
+/* Decorative glows live outside the cropped SVG artwork. This preserves the
+   supplied foreground art without exposing rectangular blur boundaries. */
+.barcode-step-art {
+  isolation: isolate;
+}
+.barcode-step-art > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.barcode-step-art--choose::before,
+.barcode-step-art--download::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -22%;
+  pointer-events: none;
+}
+.barcode-step-art--choose::before {
+  background: radial-gradient(ellipse closest-side at 55% 50%, rgb(32 118 253 / 28%) 0%, rgb(32 118 253 / 14%) 40%, transparent 100%);
+}
+.barcode-step-art--download::before {
+  background: radial-gradient(ellipse closest-side at 45% 50%, rgb(104 222 234 / 26%) 0%, rgb(32 118 253 / 13%) 40%, transparent 100%);
+}
+.three-steps .choose-glow {
+  background: radial-gradient(ellipse closest-side, rgb(32 118 253 / 32%) 0%, rgb(32 118 253 / 15%) 42%, transparent 100%);
+  pointer-events: none;
+}
+.three-steps .download-glow {
+  background: radial-gradient(ellipse closest-side, rgb(104 222 234 / 26%) 0%, rgb(32 118 253 / 12%) 40%, transparent 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 650px) {
+  .three-steps .download-glow {
+    width: 320px;
+    height: 300px;
+    left: -25px;
+    top: -45px;
+  }
+}

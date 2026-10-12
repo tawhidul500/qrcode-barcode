@@ -3,5 +3,18 @@ import "./globals.css";
 import "./home-updated.css";
 import "./qr-generator-page.css";
 import "./barcode-generator-page.css";
+import "./site-background.css";
+import "./scanner-page.css";
+import "./code-types-page.css";
+import "./language.css";
+import "./motion.css";
+import "./resources-menu.css";
+import "./blog-page.css";
+import "./contact-page.css";
+import "./faq-page.css";
+import "./pricing-page.css";
+import "./auth-functional.css";
+import MotionEnhancements from "./components/MotionEnhancements";
+import {LanguageProvider} from "./components/i18n/LanguageProvider";
 export const metadata: Metadata = {title: "QR & Barcode — Generator", description: "Create, Scan, And Manage QR Codes And Barcodes — All In One Place", icons: {icon: "/assets/svg/Group 42404.svg"}};
-export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {return <html lang="en"><body>{children}</body></html>;}
+export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {return <html lang="en"><body><LanguageProvider>{children}<MotionEnhancements/></LanguageProvider></body></html>;}

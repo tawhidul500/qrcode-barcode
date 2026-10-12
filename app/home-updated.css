@@ -2,7 +2,8 @@
 .homepage{--page-width:1324px;--blue:#2076fd;--section-gap:64px;background:#fcfcfc}
 .homepage :is(a,button,input,select,textarea):focus-visible{outline:3px solid #145fcf;outline-offset:3px}
 .homepage section[id]{scroll-margin-top:24px}
-.home-header{height:80px}.home-header-inner{width:calc(100% - 96px);max-width:1344px;gap:32px}.home-navigation{gap:20px}.home-nav-link,.home-dropdown summary{font-size:13px}.home-account{gap:10px;margin-left:0}.home-sign-in,.home-sign-up{height:38px;min-width:94px}
+/* Keep shared navigation independent of each page's body font. */
+.home-header{height:80px;font-family:Arial,Helvetica,sans-serif}.home-header-inner{width:calc(100% - 96px);max-width:1344px;gap:32px}.home-navigation{gap:20px}.home-nav-link,.home-dropdown summary{font-size:13px}.home-account{gap:10px;margin-left:0}.home-sign-in,.home-sign-up{height:38px;min-width:94px}
 .home-welcome{background:#dff3ff url('/assets/updated/hero-background.svg') center/cover no-repeat}.home-welcome-inner{max-width:1440px;min-height:486px;padding:44px 56px;gap:0}.home-welcome h1{font-size:56px;line-height:1.12;letter-spacing:-1.4px;margin-bottom:24px}.home-welcome-copy p{font-size:21px}.home-welcome-art{width:47%;max-width:640px}
 .generator-hero{padding:56px 0 0;background:#fcfcfc}.generator-heading{margin:0 auto 38px;padding:0 24px;text-align:center}.generator-heading h2{font-size:48px;line-height:1.2;letter-spacing:-1.2px;margin:0 0 12px}.generator-heading p{font-size:18px;line-height:1.5;margin:0}
 .generator-panel{width:calc(100% - 112px);max-width:var(--page-width);grid-template-columns:244px minmax(0,1fr) 308px;gap:24px;padding:32px 38px 54px 20px;border-radius:19px;min-height:1003px}

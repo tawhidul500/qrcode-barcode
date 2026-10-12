@@ -5,23 +5,36 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/serve-static.mjs",
     "test:templates": "node tests/category-templates.test.cjs",
-    "test:barcode-spacing": "node tests/barcode-spacing.test.cjs"
+    "test:barcode-spacing": "node tests/barcode-spacing.test.cjs",
+    "test:scanner": "node tests/scanner.test.cjs",
+    "prebuild": "node scripts/prepare-scanner.mjs",
+    "predev": "node scripts/prepare-scanner.mjs",
+    "test:i18n": "node tests/i18n.test.cjs",
+    "test:blog": "node tests/blog.test.cjs",
+    "test:contact": "node tests/contact.test.cjs",
+    "test:faq": "node tests/faq.test.cjs",
+    "test:pricing": "node tests/pricing.test.cjs",
+    "test:auth": "node tests/auth.test.cjs",
+    "test:auth-browser": "node tests/auth-browser.test.cjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
     "bwip-js": "^4.11.4",
     "lucide-react": "1.31.0",
     "next": "16.3.4",
     "qrcode": "1.5.4",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "zxing-wasm": "3.1.4"
   },
   "devDependencies": {
     "@types/node": "22.19.19",
     "@types/qrcode": "1.5.5",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "playwright": "1.64.0",
     "typescript": "5.9.3"
   }
 }

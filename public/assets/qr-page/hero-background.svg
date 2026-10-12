@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 75 1440 1730" fill="none">
+<svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 75 1440 1730" fill="none">
 <defs><linearGradient id="color" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#2076FD"/><stop offset=".5" stop-color="#E9F6FF"/><stop offset="1" stop-color="#82FBFF"/></linearGradient><filter id="blur" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="132"/></filter></defs>
 <rect x="-400" y="-400" width="2240" height="2600" fill="#fcfcfc"/>
 <g filter="url(#blur)"><rect x="-400" y="-400" width="2240" height="738" fill="#f2f2f2"/><rect y="182" width="1440" height="970.335" fill="url(#color)"/>

@@ -11,7 +11,7 @@
 <path d="M1102.8 1837.6C1106.32 1837.6 1109.76 1838.65 1112.68 1840.6C1115.61 1842.56 1117.89 1845.34 1119.23 1848.59C1120.58 1851.84 1120.93 1855.41 1120.25 1858.86C1119.56 1862.31 1117.86 1865.48 1115.38 1867.97C1112.89 1870.46 1109.72 1872.15 1106.27 1872.84C1102.82 1873.53 1099.24 1873.17 1095.99 1871.83C1092.74 1870.48 1089.96 1868.2 1088.01 1865.28C1086.05 1862.35 1085.01 1858.91 1085.01 1855.39C1085.01 1850.67 1086.88 1846.15 1090.22 1842.81C1093.56 1839.48 1098.08 1837.6 1102.8 1837.6Z" stroke="#2076FD" stroke-width="1.20945" shape-rendering="crispEdges" />
 </g>
 <g filter="url(#filter29_d_2876_279638)">
-<g filter="url(#filter30_d_2876_279638)">
+<g>
 <rect x="765.539" y="1752" width="201.792" height="167" rx="10.96" fill="white" />
 <g filter="url(#filter31_d_2876_279638)">
 <rect x="782.238" y="1765.92" width="167" height="139.167" rx="5.77861" fill="url(#paint14_linear_2876_279638)" />
@@ -586,7 +586,7 @@
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2876_279638" />
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2876_279638" result="shape" />
 </filter>
-<filter id="filter29_d_2876_279638" x="754.539" y="1742" width="223.793" height="189" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter29_d_2876_279638" x="744" y="1730" width="245" height="212" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix" />
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
 <feOffset dy="1" />

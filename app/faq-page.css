@@ -1,0 +1,52 @@
+/* Qr code_ FAQ_page.svg and Barcode_FAQ_page.svg share one stable tab layout. */
+.faq-page{background:#fcfcfc}
+.faq-page-main{padding:80px 0;font-family:ScannerRoboto,Arial,Helvetica,sans-serif}
+:is(.faq-page,.pricing-page) .home-faq{margin:0;padding:12px 24px 38px;background:#f7fbff}
+:is(.faq-page,.pricing-page) .faq-inner{max-width:1107px}
+:is(.faq-page,.pricing-page) #faq-heading{margin:0 0 30px;text-align:center;font-size:40px;line-height:52px;font-weight:600;letter-spacing:-.5px;color:#050505;overflow-wrap:anywhere}
+:is(.faq-page,.pricing-page) #faq-heading span{color:#2276ff}
+:is(.faq-page,.pricing-page) .faq-tabs{gap:28px;margin:0 0 27px;align-items:stretch}
+:is(.faq-page,.pricing-page) .faq-tabs button{position:relative;min-width:0;max-width:calc(50% - 14px);border:0;padding:6px 0 4px;font-size:20px;line-height:24px;font-weight:500;color:#080808;overflow-wrap:anywhere}
+:is(.faq-page,.pricing-page) .faq-tabs button::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:82px;max-width:100%;height:2px;background:transparent;transition:background-color 180ms ease}
+:is(.faq-page,.pricing-page) .faq-tabs button[aria-selected="true"]{color:#2276ff}
+:is(.faq-page,.pricing-page) .faq-tabs button[aria-selected="true"]::after{background:#2276ff}
+:is(.faq-page,.pricing-page) .faq-list{gap:18px}
+:is(.faq-page,.pricing-page) .faq-item{border:0;border-radius:8px;box-shadow:0 1px 13px #13243512}
+:is(.faq-page,.pricing-page) .faq-item.is-open{min-height:198px;box-shadow:0 -3px 14px #00000024,0 2px 8px #1324350c}
+:is(.faq-page,.pricing-page) .faq-item h3{font-size:22px;line-height:28px;font-weight:500}
+:is(.faq-page,.pricing-page) .faq-item h3 button{min-height:80px;padding:20px 28px;gap:20px;text-align:start;font-size:inherit;line-height:inherit;overflow-wrap:anywhere}
+:is(.faq-page,.pricing-page) .faq-item h3 button:focus-visible{outline:3px solid #2076fd;outline-offset:-4px;border-radius:8px}
+:is(.faq-page,.pricing-page) .faq-item.is-open h3{background:#eef5ff;color:#2276ff}
+:is(.faq-page,.pricing-page) .faq-item.is-open h3 button{min-height:74px;padding-block:19px}
+:is(.faq-page,.pricing-page) .faq-answer{position:relative;padding:20px 28px 28px;color:#5e5656;font-size:16px;line-height:25px}
+:is(.faq-page,.pricing-page) .faq-answer::before{content:"";position:absolute;top:0;inset-inline:28px;height:1.5px;background:#2276ff}
+:is(.faq-page,.pricing-page) .faq-answer p{padding:0;margin:0;border:0;overflow-wrap:anywhere}
+:is(.faq-page,.pricing-page) .home-footer{margin-top:0}
+@media(hover:hover) and (pointer:fine){
+ :is(.faq-page,.pricing-page) .faq-item:hover{box-shadow:0 4px 16px #2276ff21}
+ :is(.faq-page,.pricing-page) .faq-item:not(.is-open) h3 button:hover{background:#f5f9ff;color:#1765d9}
+ :is(.faq-page,.pricing-page) .faq-tabs button:not([aria-selected="true"]):hover{color:#1765d9}
+}
+@media(max-width:1000px){
+ .faq-page-main{padding:56px 0}
+ :is(.faq-page,.pricing-page) .home-faq{padding:24px 24px 36px}
+ :is(.faq-page,.pricing-page) #faq-heading{font-size:36px;line-height:46px;margin-bottom:24px}
+ :is(.faq-page,.pricing-page) .faq-item h3{font-size:20px;line-height:28px}
+ :is(.faq-page,.pricing-page) .faq-item h3 button{padding-inline:24px}
+ :is(.faq-page,.pricing-page) .faq-answer{padding-inline:24px}
+ :is(.faq-page,.pricing-page) .faq-answer::before{inset-inline:24px}
+}
+@media(max-width:650px){
+ .faq-page-main{padding:36px 0 40px}
+ :is(.faq-page,.pricing-page) .home-faq{padding:24px 20px 28px}
+ :is(.faq-page,.pricing-page) #faq-heading{font-size:30px;line-height:39px;margin-bottom:22px;letter-spacing:-.4px}
+ :is(.faq-page,.pricing-page) .faq-tabs{gap:16px;margin-bottom:24px}
+ :is(.faq-page,.pricing-page) .faq-tabs button{max-width:calc(50% - 8px);min-height:44px;padding:8px 4px 10px;font-size:16px;line-height:24px}
+ :is(.faq-page,.pricing-page) .faq-list{gap:16px}
+ :is(.faq-page,.pricing-page) .faq-item.is-open{min-height:0}
+ :is(.faq-page,.pricing-page) .faq-item h3{font-size:17px;line-height:25px}
+ :is(.faq-page,.pricing-page) .faq-item h3 button,:is(.faq-page,.pricing-page) .faq-item.is-open h3 button{min-height:72px;padding:18px;gap:12px}
+ :is(.faq-page,.pricing-page) .faq-item h3 button svg{width:28px;height:28px}
+ :is(.faq-page,.pricing-page) .faq-answer{padding:18px;font-size:15px;line-height:24px}
+ :is(.faq-page,.pricing-page) .faq-answer::before{inset-inline:18px}
+}
