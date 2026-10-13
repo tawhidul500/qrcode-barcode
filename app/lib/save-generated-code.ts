@@ -1,8 +1,6 @@
-import {getAuthClient} from './auth/client';
-import {addCode,type SavedCode} from './saved-codes';
+import {createCloudCode} from './cloud-codes';
+import type {SavedCode} from './saved-codes';
 export async function saveGeneratedCode(code:Omit<SavedCode,'id'|'createdAt'|'archived'>){
- const {data,error}=await getAuthClient().auth.getUser();
- if(error||!data.user)throw new Error('Please sign in to save your code.');
- addCode(window.localStorage,data.user.id,code);
- return 'Code saved. Open My Account to manage your codes.';
+ await createCloudCode(code);
+ return 'Code saved to your account. It is available on your other devices.';
 }

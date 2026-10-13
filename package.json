@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node scripts/serve-static.mjs",
+    "start": "next start",
     "test:templates": "node tests/category-templates.test.cjs",
     "test:barcode-spacing": "node tests/barcode-spacing.test.cjs",
     "test:scanner": "node tests/scanner.test.cjs",
@@ -25,9 +25,11 @@
     "test:barcode-contrast": "node --test tests/barcode-contrast.test.cjs",
     "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs",
     "test:local-experience": "node --test tests/language-suggestion.test.cjs tests/local-experience.test.cjs",
-    "test:dashboard": "node --test tests/dashboard.test.cjs"
+    "test:dashboard": "node --test tests/dashboard.test.cjs",
+    "test:cloud": "node --test tests/cloud-codes.test.cjs tests/dashboard.test.cjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@supabase/supabase-js": "2.117.3",
     "bwip-js": "^4.11.4",
     "lucide-react": "1.31.0",

@@ -1,3 +1,11 @@
+# Neon cloud storage update
+
+- Added authenticated server API for saving, listing, renaming, archiving, restoring and deleting account codes.
+- Added Neon schema, duplicate protection, concurrent quota enforcement and deployment guide.
+- Added explicit legacy browser import and dashboard refresh on focus/interval.
+- Switched from static export to Next.js server hosting.
+- Updated privacy wording and blocked low-contrast generator saves.
+
 ## Post-login dashboard — October 13, 2026
 
 - Replace the basic account screen with a responsive blue-and-white dashboard inspired by the supplied reference.
