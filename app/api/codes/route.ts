@@ -1,14 +1,24 @@
-import {authenticate,database,validateCode,imageHash,serialize,jsonBody,codeId,CodeError,responseError} from '../../lib/server/codes';
+import {authenticate,database,validateCode,imageHash,transportCode,jsonBody,codeId,CodeError,responseError} from '../../lib/server/codes';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const headers={'Cache-Control':'private, no-store'};
 export async function GET(request:Request){
- try{const userId=await authenticate(request),sql=database();const rows=await sql`SELECT * FROM saved_codes WHERE user_id=${userId} ORDER BY created_at DESC`;return Response.json({codes:rows.map(serialize)},{headers});}catch(e){return responseError(e);}
+ try{
+  const userId=await authenticate(request),sql=database(),requestedId=new URL(request.url).searchParams.get('id');
+  if(requestedId){
+   const id=codeId(requestedId),rows=await sql`SELECT * FROM saved_codes WHERE user_id=${userId} AND id=${id}`;
+   if(!rows.length)throw new CodeError(404,'Code no longer exists. Refresh your dashboard.');
+   return Response.json({code:transportCode(rows[0])},{headers});
+  }
+  // Metadata only: large images are fetched individually to stay within host response limits.
+  const rows=await sql`SELECT id,name,kind,type,created_at,archived FROM saved_codes WHERE user_id=${userId} ORDER BY created_at DESC`;
+  return Response.json({codes:rows.map(row=>({...row,createdAt:new Date(String(row.created_at)).toISOString()}))},{headers});
+ }catch(e){return responseError(e);}
 }
 export async function POST(request:Request){
  try{const userId=await authenticate(request),value=validateCode(await jsonBody(request)),sql=database();
  const rows=await sql`SELECT * FROM save_account_code(${userId}::uuid,${value.id}::uuid,${value.name},${value.kind},${value.type},${value.image},${imageHash(value.image)},${value.createdAt}::timestamptz,${value.archived})`;
- return Response.json({code:serialize(rows[0])},{headers});}catch(e){return responseError(e);}
+ return Response.json({code:transportCode(rows[0])},{headers});}catch(e){return responseError(e);}
 }
 export async function PATCH(request:Request){
  try{const userId=await authenticate(request),body=await jsonBody(request);

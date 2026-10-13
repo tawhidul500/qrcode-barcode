@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS saved_codes (
  name text NOT NULL CHECK (length(name) BETWEEN 1 AND 80),
  kind text NOT NULL CHECK (kind IN ('qr','barcode')),
  type text NOT NULL CHECK (length(type) BETWEEN 1 AND 80),
- image text NOT NULL CHECK (octet_length(image) <= 250000),
+ image text NOT NULL CHECK (octet_length(image) <= 32000000),
  image_hash text NOT NULL,
  created_at timestamptz NOT NULL DEFAULT now(),
  archived boolean NOT NULL DEFAULT false,
@@ -22,7 +22,7 @@ BEGIN
  SELECT * INTO existing FROM saved_codes WHERE user_id=p_user AND (id=p_id OR image_hash=p_hash) LIMIT 1;
  IF FOUND THEN RETURN NEXT existing; RETURN; END IF;
  IF (SELECT count(*) FROM saved_codes WHERE user_id=p_user)>=50 OR
-    (SELECT coalesce(sum(octet_length(image)),0) FROM saved_codes WHERE user_id=p_user)+octet_length(p_image)>4000000 THEN
+    (SELECT coalesce(sum(octet_length(image)),0) FROM saved_codes WHERE user_id=p_user)+octet_length(p_image)>256000000 THEN
   RAISE EXCEPTION 'code_capacity';
  END IF;
  RETURN QUERY INSERT INTO saved_codes(user_id,id,name,kind,type,image,image_hash,created_at,archived)

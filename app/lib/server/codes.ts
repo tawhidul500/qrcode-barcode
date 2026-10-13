@@ -1,5 +1,6 @@
 import {neon} from '@neondatabase/serverless';
 import {createClient} from '@supabase/supabase-js';
+import {gunzipSync,gzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import type {SavedCode} from '../saved-codes';
 
@@ -24,9 +25,13 @@ export function codeId(value:unknown):string{
 }
 export function validateCode(value:unknown):Omit<SavedCode,'createdAt'> & {createdAt:string}{
  if(!value||typeof value!=='object')throw new CodeError(400,'Invalid saved code.');
- const v=value as Record<string,unknown>;
+ const v={...value} as Record<string,unknown>;
+ if(v.imageGzip!==undefined){
+  if(v.image!==undefined||typeof v.imageGzip!=='string'||v.imageGzip.length>3700000||! /^[A-Za-z0-9+/]+={0,2}$/.test(v.imageGzip))throw new CodeError(400,'Invalid compressed image.');
+  try{v.image=gunzipSync(Buffer.from(v.imageGzip,'base64'),{maxOutputLength:32000000}).toString('utf8');}catch{throw new CodeError(413,'Invalid or oversized compressed image.');}
+ }
  if(typeof v.name!=='string'||!v.name.trim()||v.name.length>80||typeof v.type!=='string'||!v.type.trim()||v.type.length>80||!['qr','barcode'].includes(String(v.kind)))throw new CodeError(400,'Invalid code name or type.');
- if(typeof v.image!=='string'||!/^data:image\/(?:svg\+xml;charset=utf-8,|png;base64,)/.test(v.image)||Buffer.byteLength(v.image)>250000)throw new CodeError(413,'Use a valid code image smaller than 250 KB.');
+ if(typeof v.image!=='string'||!/^data:image\/(?:svg\+xml;charset=utf-8,|png;base64,)/.test(v.image)||Buffer.byteLength(v.image)>32000000)throw new CodeError(413,'Use a valid code image smaller than 32 MB.');
  let createdAt=new Date().toISOString();
  if(v.createdAt!==undefined){if(typeof v.createdAt!=='string'||!Number.isFinite(Date.parse(v.createdAt)))throw new CodeError(400,'Invalid creation date.');createdAt=new Date(v.createdAt).toISOString();}
  if(v.archived!==undefined&&typeof v.archived!=='boolean')throw new CodeError(400,'Invalid archive status.');
@@ -40,12 +45,19 @@ export async function jsonBody(request:Request){
  if(!request.headers.get('content-type')?.startsWith('application/json'))throw new CodeError(415,'Expected JSON.');
  const reader=request.body?.getReader();if(!reader)throw new CodeError(400,'Missing request body.');
  const chunks:Uint8Array[]=[];let size=0;
- while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>300000){await reader.cancel();throw new CodeError(413,'Request is too large.');}chunks.push(value);}
+ while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>4000000){await reader.cancel();throw new CodeError(413,'Request is too large.');}chunks.push(value);}
  try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new CodeError(400,'Invalid JSON.');}
 }
 export function responseError(error:unknown){
  if(error instanceof CodeError)return Response.json({error:error.message},{status:error.status,headers:{'Cache-Control':'no-store'}});
  const message=error instanceof Error?error.message:'';
- if(message.includes('code_capacity'))return Response.json({error:'Cloud storage is full (50 codes or 4 MB). Delete some archived codes.'},{status:409});
+ if(message.includes('code_capacity'))return Response.json({error:'Cloud storage is full (50 codes or 256 MB). Delete some archived codes.'},{status:409});
  return Response.json({error:'Cloud storage is unavailable. Please try again later.'},{status:503});
+}
+
+export function transportCode(row:Record<string,unknown>){
+ const code=serialize(row);
+ if(Buffer.byteLength(code.image)<=250000)return code;
+ const {image,...metadata}=code;
+ return {...metadata,imageGzip:gzipSync(Buffer.from(image)).toString('base64')};
 }

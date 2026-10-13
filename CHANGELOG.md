@@ -1,3 +1,10 @@
+# Large template saving update
+
+- Lossless gzip transfer for large code images, including dashboard responses.
+- QR saves preserve the chosen export width and original SVG artwork.
+- Updated database limits and added upgrade-large-templates.sql for existing deployments.
+- Save accepts low-contrast designs; test scans before sharing.
+
 # Neon cloud storage update
 
 - Added authenticated server API for saving, listing, renaming, archiving, restoring and deleting account codes.
