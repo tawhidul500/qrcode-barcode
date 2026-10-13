@@ -1,3 +1,11 @@
+# Profile settings update
+
+- Added responsive profile tabs using the existing blue account theme.
+- Added Neon profile storage and real storage meter.
+- Added password/email updates, authenticator setup and MFA enforcement for account APIs.
+- Added notification preferences and contact actions for storage/deletion requests.
+- Added upgrade-profile.sql and PROFILE_SETUP.md.
+
 # Large template saving update
 
 - Lossless gzip transfer for large code images, including dashboard responses.

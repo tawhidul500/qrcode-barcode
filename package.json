@@ -26,7 +26,8 @@
     "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs",
     "test:local-experience": "node --test tests/language-suggestion.test.cjs tests/local-experience.test.cjs",
     "test:dashboard": "node --test tests/dashboard.test.cjs",
-    "test:cloud": "node --test tests/cloud-codes.test.cjs tests/dashboard.test.cjs"
+    "test:cloud": "node --test tests/cloud-codes.test.cjs tests/dashboard.test.cjs",
+    "test:profile": "node --test tests/profile.test.cjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

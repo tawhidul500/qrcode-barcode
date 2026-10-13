@@ -13,6 +13,10 @@ export async function authenticate(request:Request):Promise<string>{
  const client=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
  const {data,error}=await client.auth.getUser(token);
  if(error||!data.user)throw new CodeError(401,'Your session has expired. Please sign in again.');
+ if(data.user.factors?.some(f=>f.status==='verified')){
+  const claims=await client.auth.getClaims(token);
+  if(claims.error||claims.data?.claims.aal!=='aal2')throw new CodeError(403,'Complete two-step verification to access your account.');
+ }
  return data.user.id;
 }
 export function database(){

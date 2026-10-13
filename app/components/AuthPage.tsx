@@ -2,7 +2,7 @@
 import {Localized} from './i18n/LanguageProvider';
 import {useRef,useState,type FormEvent} from "react";
 import {authConfigured,getAuthClient} from "../lib/auth/client";
-import {authError,passwordError,submitCredentials,startSocial,type SocialProvider} from "../lib/auth/flows";
+import {needsMfa,authError,passwordError,submitCredentials,startSocial,type SocialProvider} from "../lib/auth/flows";
 import LanguageSelector from "./i18n/LanguageSelector";
 import {Mail, LockKeyhole, Eye, EyeOff, UserRound, ArrowLeft} from "lucide-react";
 export default function AuthPage({signup=false}:{signup?:boolean}){
@@ -19,7 +19,7 @@ async function submit(event:FormEvent<HTMLFormElement>){
   const {data,error}=await submitCredentials(getAuthClient(),{email,password,name,signup},window.location.origin);
   if(error)throw error;
   setPassword('');setConfirmation('');
-  if(data.session)window.location.assign('/account');
+  if(data.session)window.location.assign(await needsMfa(getAuthClient())?'/verify':'/account');
   else setNotice('Check your inbox to confirm your email address. Open the confirmation link in this browser. If you already have an account, sign in or reset your password.');
  }catch(error){setError(authError(error));}finally{running.current=false;setBusy(false);}
 }
