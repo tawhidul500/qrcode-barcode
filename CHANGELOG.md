@@ -1,3 +1,10 @@
+# Statistics update
+
+- Added account Statistics view with real visit data, date/code/country/device filters and CSV export in the original blue theme.
+- Added tracked URL QR generation, destination redirects, bot/prefetch exclusion and estimated unique-browser counts.
+- Added daily/country/device summaries and tracking pause/resume.
+- Added upgrade-statistics.sql and STATISTICS_SETUP.md. Existing static codes remain static.
+
 # Profile settings update
 
 - Added responsive profile tabs using the existing blue account theme.
