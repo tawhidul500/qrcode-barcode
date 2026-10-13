@@ -24,3 +24,50 @@ Validation completed: production build and TypeScript passed; six regression tes
 - Implemented reference section sequence with SVG artwork and icons.
 - Type cards update the generator and focus its input.
 - Added responsive page styles and barcode defaults for FAQ/blog.
+
+## Barcode input validation — 2026-10-13
+
+- Removed the example-data fallback. Empty and whitespace-only content now leaves the barcode preview empty; example values appear only in input placeholders.
+- Download, copy, and share require a successfully rendered barcode. Their handlers also reject blank or invalid input.
+- Derive the preview from current input and settings, so clearing or changing content cannot leave a previous barcode available for export.
+- Added component interaction checks for all 15 formats, whitespace, clearing, invalid EAN input, explicit copy/share content, SVG downloads, and switching barcode type.
+- Preserves the earlier on-demand QR template loading update.
+
+## Barcode contrast protection — 2026-10-13
+
+- Added a 3:1 minimum contrast safeguard for barcode image exports, matching the existing QR export threshold.
+- Check active foreground/background paints, including full gradient luminance ranges and minima between gradient stops. Identical, overlapping, or insufficiently separated colors block downloads.
+- Disable both PNG and SVG downloads, guard the download handler, and show an accessible warning connected to the button. Preview remains available for editing; copy/share still operate on valid text content.
+- Downloads become available immediately when the colors are corrected. A passing contrast check is not a substitute for testing the code with its intended scanner and print setup.
+- Five contrast/input regression tests passed, including all 15 barcode formats. TypeScript and static production build passed with the existing environment-only memory reporting workaround.
+- Preserves the earlier on-demand QR template loading and blank-input fixes.
+
+## Privacy title and contact email — 2026-10-13
+
+- Added the privacy route to the language provider's title map, using the existing translated Privacy Policy label.
+- Changed the privacy contact default, all three page mail links, setup documentation, and example environment configuration to gcappexplore1@gmail.com.
+- Verified the client title effect in all 10 locales, the existing language suite, TypeScript, and static production export (using the environment-only memory reporting workaround).
+- Includes all previous template loading, barcode input, and contrast fixes.
+
+## Full privacy policy localization — 2026-10-13
+
+- Connected all policy content to the existing language selector with a scoped client component.
+- Added complete Arabic, Spanish, Mexican Spanish, French, Indonesian, Brazilian Portuguese, Turkish, Bengali, and Russian translations; preserved the English policy.
+- Preserved server metadata, the configured contact email, policy date, and all link destinations.
+- Isolated email and domain text left-to-right for Arabic display.
+- Translation coverage and source integration checks are documented in tests/privacy-i18n.test.cjs.
+- Validation: three privacy localization regression checks passed. Full production build and browser visual checks were not run because application dependencies were unavailable.
+
+## Official mobile app download links — 2026-10-13
+
+- Connected Google Play and App Store badges in the shared app banner and footer to the owner's official listing URLs.
+- Covers the homepage, QR generator, barcode generator, scanner, and all pages with the shared footer.
+- Replaced unavailable-download notices with direct links opening in a new tab; retained badge sizing, hover styles and accessible names, and added keyboard focus outlines.
+- Centralized listing URLs in app/lib/mobile-app-links.ts.
+- Verified exact URL wiring and removal of download placeholder handlers. Production build and browser testing remain unverified because dependencies are unavailable in this environment.
+
+## Footer year cleanup — 2026-10-13
+
+- Updated the footer copyright to 2026 in English and every supported translation, including Bengali numerals.
+- Checked the pricing source: the supplied design and pricing regression checks both specify Advanced at $15.40 and Professional at $9.04 per month, billed annually. A replacement Professional price requires the owner's intended amount.
+- Language and pricing regression checks passed. Includes the latest app links, privacy translations, and previous fixes.

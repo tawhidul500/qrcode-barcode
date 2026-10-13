@@ -1,0 +1,1 @@
+Extract this ZIP into your existing qr-barcode-generator project folder (the folder containing package.json). Replace the matching files. This update is intended for the latest project supplied in this conversation. Then run npm run test:qr and rebuild/redeploy your site. This is an update package, not the full website.

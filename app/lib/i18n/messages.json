@@ -99,7 +99,7 @@
     "Copy QR content": "نسخ محتوى QR",
     "Copy barcode content": "نسخ محتوى الرمز الشريطي",
     "Copy result": "نسخ النتيجة",
-    "Copyright © 2025 All Rights Reserved": "حقوق النشر © 2025 جميع الحقوق محفوظة",
+    "Copyright © 2026 All Rights Reserved": "حقوق النشر © 2026 جميع الحقوق محفوظة",
     "Coupon": "قسيمة",
     "Create & Customize": "إنشاء وتخصيص",
     "Create & Customize Your Barcode": "أنشئ وخصص رمزك الشريطي",
@@ -615,7 +615,12 @@
     "Get Started": "ابدأ الآن",
     "Get started with {value}": "ابدأ مع خطة {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "الأسعار بالدولار الأمريكي. ستتوفر الخطط المدفوعة والميزات المميزة قريبًا. يفتح زر «ابدأ الآن» استفسارًا عن الخطة.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "أنا مهتم بخطة {value}. يرجى إرسال تفاصيل التوفر والاشتراك."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "أنا مهتم بخطة {value}. يرجى إرسال تفاصيل التوفر والاشتراك.",
+    "Eye color": "لون عيون رمز QR",
+    "Change the color of all three corner eyes.": "غيّر لون العيون الثلاث في الزوايا.",
+    "Reset eye color": "إعادة تعيين لون العيون",
+    "Custom eye color": "لون مخصص للعيون",
+    "eye color {value}": "لون العيون {value}"
   },
   "es": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "Un QR es un código bidimensional que guarda enlaces, texto, contactos, datos Wi-Fi y más. Se escanea con la cámara del móvil para acceder al instante.",
@@ -717,7 +722,7 @@
     "Copy QR content": "Copiar contenido QR",
     "Copy barcode content": "Copiar contenido del código de barras",
     "Copy result": "Copiar resultado",
-    "Copyright © 2025 All Rights Reserved": "Copyright © 2025 Todos los derechos reservados",
+    "Copyright © 2026 All Rights Reserved": "Copyright © 2026 Todos los derechos reservados",
     "Coupon": "Cupón",
     "Create & Customize": "Crea y personaliza",
     "Create & Customize Your Barcode": "Crea y personaliza tu código de barras",
@@ -1233,7 +1238,12 @@
     "Get Started": "Comenzar",
     "Get started with {value}": "Comenzar con el plan {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Precios en USD. Los planes de pago y las funciones prémium estarán disponibles próximamente. «Comenzar» abre una consulta sobre el plan.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Me interesa el plan {value}. Envíenme información sobre su disponibilidad y suscripción."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Me interesa el plan {value}. Envíenme información sobre su disponibilidad y suscripción.",
+    "Eye color": "Color de las esquinas",
+    "Change the color of all three corner eyes.": "Cambia el color de los tres patrones de esquina.",
+    "Reset eye color": "Restablecer color de las esquinas",
+    "Custom eye color": "Color personalizado de las esquinas",
+    "eye color {value}": "color de las esquinas {value}"
   },
   "fr": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "Un QR est un code à deux dimensions contenant liens, texte, contacts, Wi-Fi et autres données. La caméra d’un smartphone permet d’y accéder instantanément.",
@@ -1335,7 +1345,7 @@
     "Copy QR content": "Copier le contenu QR",
     "Copy barcode content": "Copier le contenu du code-barres",
     "Copy result": "Copier le résultat",
-    "Copyright © 2025 All Rights Reserved": "Copyright © 2025 Tous droits réservés",
+    "Copyright © 2026 All Rights Reserved": "Copyright © 2026 Tous droits réservés",
     "Coupon": "Coupon",
     "Create & Customize": "Créez et personnalisez",
     "Create & Customize Your Barcode": "Créez et personnalisez votre code-barres",
@@ -1851,7 +1861,12 @@
     "Get Started": "Commencer",
     "Get started with {value}": "Commencer avec le forfait {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Prix en USD. Les forfaits payants et les fonctionnalités premium arrivent bientôt. « Commencer » ouvre une demande de renseignements sur le forfait.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Le forfait {value} m’intéresse. Merci de m’envoyer les informations sur sa disponibilité et les modalités d’abonnement."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Le forfait {value} m’intéresse. Merci de m’envoyer les informations sur sa disponibilité et les modalités d’abonnement.",
+    "Eye color": "Couleur des yeux",
+    "Change the color of all three corner eyes.": "Modifiez la couleur des trois repères dans les coins.",
+    "Reset eye color": "Réinitialiser la couleur des yeux",
+    "Custom eye color": "Couleur personnalisée des yeux",
+    "eye color {value}": "couleur des yeux {value}"
   },
   "id": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "QR adalah kode dua dimensi yang menyimpan tautan, teks, kontak, Wi-Fi, dan lainnya. Pindai dengan kamera ponsel untuk langsung mengakses informasinya.",
@@ -1953,7 +1968,7 @@
     "Copy QR content": "Salin Isi QR",
     "Copy barcode content": "Salin Isi Kode Batang",
     "Copy result": "Salin Hasil",
-    "Copyright © 2025 All Rights Reserved": "Hak Cipta © 2025 Semua Hak Dilindungi",
+    "Copyright © 2026 All Rights Reserved": "Hak Cipta © 2026 Semua Hak Dilindungi",
     "Coupon": "Kupon",
     "Create & Customize": "Buat & Sesuaikan",
     "Create & Customize Your Barcode": "Buat & Sesuaikan Kode Batang Anda",
@@ -2469,7 +2484,12 @@
     "Get Started": "Mulai Sekarang",
     "Get started with {value}": "Mulai dengan paket {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Harga dalam USD. Paket berbayar dan fitur premium akan segera tersedia. Mulai Sekarang membuka pertanyaan tentang paket.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Saya tertarik dengan paket {value}. Mohon kirimkan informasi ketersediaan dan detail langganannya."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Saya tertarik dengan paket {value}. Mohon kirimkan informasi ketersediaan dan detail langganannya.",
+    "Eye color": "Warna mata QR",
+    "Change the color of all three corner eyes.": "Ubah warna ketiga penanda sudut.",
+    "Reset eye color": "Atur ulang warna mata QR",
+    "Custom eye color": "Warna mata QR khusus",
+    "eye color {value}": "warna mata QR {value}"
   },
   "pt-BR": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "Um QR é um código bidimensional que armazena links, texto, contatos, Wi-Fi e outros dados. A câmera do celular permite acesso imediato.",
@@ -2571,7 +2591,7 @@
     "Copy QR content": "Copiar conteúdo QR",
     "Copy barcode content": "Copiar conteúdo do código de barras",
     "Copy result": "Copiar resultado",
-    "Copyright © 2025 All Rights Reserved": "Copyright © 2025 Todos os direitos reservados",
+    "Copyright © 2026 All Rights Reserved": "Copyright © 2026 Todos os direitos reservados",
     "Coupon": "Cupom",
     "Create & Customize": "Crie e personalize",
     "Create & Customize Your Barcode": "Crie e personalize seu código de barras",
@@ -3087,7 +3107,12 @@
     "Get Started": "Começar",
     "Get started with {value}": "Começar com o plano {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Preços em USD. Os planos pagos e os recursos premium estarão disponíveis em breve. Começar abre uma consulta sobre o plano.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Tenho interesse no plano {value}. Enviem informações sobre a disponibilidade e a assinatura."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Tenho interesse no plano {value}. Enviem informações sobre a disponibilidade e a assinatura.",
+    "Eye color": "Cor dos olhos",
+    "Change the color of all three corner eyes.": "Altere a cor dos três marcadores dos cantos.",
+    "Reset eye color": "Redefinir cor dos olhos",
+    "Custom eye color": "Cor personalizada dos olhos",
+    "eye color {value}": "cor dos olhos {value}"
   },
   "tr": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "QR kod; bağlantı, metin, kişi ve Wi-Fi bilgileri saklayan iki boyutlu barkoddur. Telefon kamerasıyla taranarak bilgilere anında ulaşılır.",
@@ -3189,7 +3214,7 @@
     "Copy QR content": "QR İçeriğini Kopyala",
     "Copy barcode content": "Barkod İçeriğini Kopyala",
     "Copy result": "Sonucu Kopyala",
-    "Copyright © 2025 All Rights Reserved": "Telif Hakkı © 2025 Tüm Hakları Saklıdır",
+    "Copyright © 2026 All Rights Reserved": "Telif Hakkı © 2026 Tüm Hakları Saklıdır",
     "Coupon": "Kupon",
     "Create & Customize": "Oluşturun ve Özelleştirin",
     "Create & Customize Your Barcode": "Barkodunuzu Oluşturun ve Özelleştirin",
@@ -3705,7 +3730,12 @@
     "Get Started": "Başlayın",
     "Get started with {value}": "{value} planıyla başlayın",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Fiyatlar USD cinsindendir. Ücretli planlar ve premium özellikler yakında sunulacak. Başlayın düğmesi plan bilgi talebini açar.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "{value} planıyla ilgileniyorum. Lütfen kullanılabilirlik ve abonelik ayrıntılarını gönderin."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "{value} planıyla ilgileniyorum. Lütfen kullanılabilirlik ve abonelik ayrıntılarını gönderin.",
+    "Eye color": "Göz rengi",
+    "Change the color of all three corner eyes.": "Üç köşe işaretinin rengini değiştirin.",
+    "Reset eye color": "Göz rengini sıfırla",
+    "Custom eye color": "Özel göz rengi",
+    "eye color {value}": "göz rengi {value}"
   },
   "bn": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "QR কোড হলো দ্বিমাত্রিক বারকোড, যাতে লিংক, লেখা, যোগাযোগের তথ্য, Wi-Fi তথ্যসহ আরও অনেক কিছু রাখা যায়। ফোনের ক্যামেরায় স্ক্যান করে তাৎক্ষণিক তথ্য পাওয়া যায়।",
@@ -3807,7 +3837,7 @@
     "Copy QR content": "QR-এর বিষয়বস্তু কপি করুন",
     "Copy barcode content": "বারকোডের বিষয়বস্তু কপি করুন",
     "Copy result": "ফলাফল কপি করুন",
-    "Copyright © 2025 All Rights Reserved": "কপিরাইট © ২০২৫ সর্বস্বত্ব সংরক্ষিত",
+    "Copyright © 2026 All Rights Reserved": "কপিরাইট © ২০২৬ সর্বস্বত্ব সংরক্ষিত",
     "Coupon": "কুপন",
     "Create & Customize": "তৈরি ও কাস্টমাইজ করুন",
     "Create & Customize Your Barcode": "আপনার বারকোড তৈরি ও কাস্টমাইজ করুন",
@@ -4323,7 +4353,12 @@
     "Get Started": "শুরু করুন",
     "Get started with {value}": "{value} প্ল্যান দিয়ে শুরু করুন",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "মূল্য মার্কিন ডলারে। পেইড প্ল্যান ও প্রিমিয়াম সুবিধা শীঘ্রই আসছে। শুরু করুন বাটনে ক্লিক করলে প্ল্যান সম্পর্কে তথ্য চাওয়ার ফর্ম খুলবে।",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "আমি {value} প্ল্যানে আগ্রহী। প্ল্যানের প্রাপ্যতা ও সাবস্ক্রিপশনের বিস্তারিত জানাবেন।"
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "আমি {value} প্ল্যানে আগ্রহী। প্ল্যানের প্রাপ্যতা ও সাবস্ক্রিপশনের বিস্তারিত জানাবেন।",
+    "Eye color": "কিউআর চোখের রং",
+    "Change the color of all three corner eyes.": "তিন কোণার চোখের রং পরিবর্তন করুন।",
+    "Reset eye color": "চোখের রং রিসেট করুন",
+    "Custom eye color": "চোখের কাস্টম রং",
+    "eye color {value}": "চোখের রং {value}"
   },
   "ru": {
     "A QR Code is a type of two-dimensional barcode that can store URLs, text, contact details, Wi-Fi credentials, and more. It can be scanned using a smartphone camera, providing instant access to information.": "QR-код — двумерный код для ссылок, текста, контактов, Wi-Fi и других данных. Камера смартфона считывает его и сразу открывает информацию.",
@@ -4425,7 +4460,7 @@
     "Copy QR content": "Копировать содержимое QR",
     "Copy barcode content": "Копировать содержимое штрихкода",
     "Copy result": "Копировать результат",
-    "Copyright © 2025 All Rights Reserved": "© 2025 Все права защищены",
+    "Copyright © 2026 All Rights Reserved": "© 2026 Все права защищены",
     "Coupon": "Купон",
     "Create & Customize": "Создайте и настройте",
     "Create & Customize Your Barcode": "Создайте и настройте свой штрихкод",
@@ -4941,6 +4976,11 @@
     "Get Started": "Начать",
     "Get started with {value}": "Начать с тарифа {value}",
     "Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.": "Цены указаны в USD. Платные тарифы и премиум-функции скоро появятся. Кнопка «Начать» открывает запрос информации о тарифе.",
-    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Меня интересует тариф {value}. Пришлите информацию о доступности и условиях подписки."
+    "I'm interested in the {value} plan. Please send me availability and subscription details.": "Меня интересует тариф {value}. Пришлите информацию о доступности и условиях подписки.",
+    "Eye color": "Цвет глазков",
+    "Change the color of all three corner eyes.": "Измените цвет трёх угловых маркеров.",
+    "Reset eye color": "Сбросить цвет глазков",
+    "Custom eye color": "Свой цвет глазков",
+    "eye color {value}": "цвет глазков {value}"
   }
 }

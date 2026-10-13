@@ -17,7 +17,13 @@
     "test:faq": "node tests/faq.test.cjs",
     "test:pricing": "node tests/pricing.test.cjs",
     "test:auth": "node tests/auth.test.cjs",
-    "test:auth-browser": "node tests/auth-browser.test.cjs"
+    "test:auth-browser": "node tests/auth-browser.test.cjs",
+    "test:qr": "node --test tests/qr.test.cjs",
+    "test:seo": "node --test tests/seo.test.cjs",
+    "test:template-loading": "node --test tests/template-loading.test.cjs",
+    "test:barcode-input": "node --test tests/barcode-input.test.cjs",
+    "test:barcode-contrast": "node --test tests/barcode-contrast.test.cjs",
+    "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.117.3",
@@ -35,6 +41,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "playwright": "1.64.0",
+    "react-test-renderer": "^19.2.6",
     "typescript": "5.9.3"
   }
 }

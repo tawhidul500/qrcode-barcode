@@ -48,3 +48,15 @@ html[dir="rtl"] .language-menu{left:0;right:auto}
 }
 @media(max-width:1000px){.home-menu-toggle{margin-inline-start:auto}.home-header-inner>.language-selector{margin-inline-start:0}.language-trigger{font-size:14px;padding:10px 0}}
 @media(max-width:650px){.language-menu{width:296px;max-width:calc(100vw - 40px)}.language-option{font-size:16px}.auth-language{top:12px;inset-inline-end:20px}html:not([data-language="en"])[data-language] .code-type-card h3{font-size:14px}html:not([data-language="en"])[data-language] .scene .intro h1{font-size:32px}}
+
+/* First-visit language choice; native modal provides focus containment. */
+.language-welcome{box-sizing:border-box;width:min(460px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;border:0;border-radius:18px;padding:36px 28px 26px;background:#fff;color:#182033;box-shadow:0 24px 80px #10254840;font-family:Arial,Helvetica,sans-serif}
+.language-welcome::backdrop{background:#10254880}
+.language-welcome-close{position:absolute;inset:10px 10px auto auto;width:36px;height:36px;border:0;border-radius:50%;background:#eef4ff;color:#34415c;font-size:26px;cursor:pointer}
+.language-welcome h2{font-size:26px;line-height:1.25;margin:10px 0 14px}
+.language-welcome p{font-size:15px;line-height:1.6;margin:0 0 22px}
+.language-welcome-actions{display:flex;flex-direction:column;gap:12px}
+.language-welcome-actions button{min-height:48px;padding:12px 16px;border:1px solid #2076fd;border-radius:9px;background:#2076fd;color:#fff;font-size:16px;cursor:pointer}
+.language-welcome-actions button+button{background:#fff;color:#185bd1}
+.language-welcome button:focus-visible{outline:3px solid #073e9e;outline-offset:3px}
+.language-welcome .language-welcome-hint{font-size:12px;color:#617087;margin:18px 0 0}

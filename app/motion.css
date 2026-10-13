@@ -19,7 +19,7 @@
  .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
  .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top,.qr-icon-button,
  .scanner-result-actions>a,.scanner-result-actions>button,.providers>button,.testimonial-controls button,
- .app-store-badges button,.footer-badges button,.footer-socials button){
+ .app-store-badges a,.footer-badges a,.footer-socials button){
  transition:translate var(--motion-normal) var(--motion-ease),scale var(--motion-fast) ease,
  background-color var(--motion-fast) ease,border-color var(--motion-fast) ease,
  color var(--motion-fast) ease,box-shadow var(--motion-normal) ease;
@@ -84,7 +84,7 @@
   .providers>button,.testimonial-controls button):not(:disabled):hover{
   translate:0 -2px;background-color:#edf5ff;color:#1465df;box-shadow:0 4px 12px #17364a1a;
  }
- :is(.app-store-badges button,.footer-badges button,.footer-socials button):hover{translate:0 -3px}
+ :is(.app-store-badges a,.footer-badges a,.footer-socials button):hover{translate:0 -3px}
  .footer-back-top:hover svg{translate:0 -3px}
  .footer-links :is(a,button):hover{text-decoration-thickness:1px;text-underline-offset:4px}
  :is(.code-type-card,.qr-type-card,.introduction-card,.blog-card,.how-grid>li):hover{
@@ -151,7 +151,7 @@
   .qr-types-view-all,.code-type-choose,.qr-type-card button,.scanner-upload-button,.scanner-camera-button,
   .scanner-learn-more,.submit,.blog-see-more,.footer-subscribe button,.footer-back-top,.qr-icon-button,
   .scanner-result-actions>a,.scanner-result-actions>button,.providers>button,.testimonial-controls button,
-  .app-store-badges button,.footer-badges button,.footer-socials button,.code-type-card,.qr-type-card,
+  .app-store-badges a,.footer-badges a,.footer-socials button,.code-type-card,.qr-type-card,
   .introduction-card,.blog-card,.how-grid>li,.qr-picker-card,.qr-templates button,.barcode-templates button,
   .qr-dot-grid button,.qr-eye-grid button,.qr-font-options button,.qr-text-colors>button,
   .qr-palette-row>button,.barcode-text-swatches>button,.code-type-icon img,.qr-type-card>img,

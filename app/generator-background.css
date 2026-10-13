@@ -1,0 +1,35 @@
+/* Fade only the decorative backdrop. The generator stays fully opaque and
+   the fade follows its actual height when panels expand or the viewport changes. */
+.qr-generator-page .generator-hero,
+.barcode-generator-page .generator-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.qr-generator-page .generator-hero,
+.qr-generator-page .three-steps {
+  background: linear-gradient(90deg, #f6faff, #fcfcfc);
+}
+
+.barcode-generator-page .generator-hero {
+  background: transparent;
+}
+
+.qr-generator-page .generator-hero::before,
+.barcode-generator-page .generator-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgb(0 0 0 / 75%) 55%, rgb(0 0 0 / 25%) 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgb(0 0 0 / 75%) 55%, rgb(0 0 0 / 25%) 78%, transparent 100%);
+}
+
+.qr-generator-page .generator-hero::before {
+  background: url('/assets/qr-page/hero-background.svg') center top / 100% 100% no-repeat;
+}
+
+.barcode-generator-page .generator-hero::before {
+  background: linear-gradient(90deg, #2076fd, #e9f6ff 50%, #82fbff);
+}

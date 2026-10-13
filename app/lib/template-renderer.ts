@@ -14,6 +14,8 @@ export function renderTemplateQR(payload:string,design:QRDesign,width:number):st
  const [left,top,side]=preset.bounds,unit=side/n;
  const fg=design.foregroundGradient?'url(#custom-fg)':design.foreground;
  const fill=design.foregroundEdited?fg:preset.fill;
+ const eyeColor=/^#[\da-f]{6}$/i.test(design.eyeColor)?design.eyeColor:'#000000';
+ const eyePaint=design.eyeColorEdited?eyeColor:design.foregroundEdited?fg:design.eyeColor;
  const glyph=design.foregroundEdited?preset.glyph.replace(/fill="[^"]*"/g,`fill="${fg}"`):preset.glyph;
  const pieces:string[]=[];
  const finder=(r:number,c:number)=>(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);
@@ -27,12 +29,12 @@ export function renderTemplateQR(payload:string,design:QRDesign,width:number):st
  }
  for(const [index,[r,c]] of [[0,0],[0,n-7],[n-7,0]].entries()) {
   const x=left+c*unit,y=top+r*unit,eyeSide=7*unit;
-  if(design.eyesEdited){pieces.push(renderEye(design.eyes,x,y,unit,design.foregroundEdited?fg:design.eyeColor,design.backgroundGradient?'url(#custom-bg)':design.background));continue;}
-  const eye=design.foregroundEdited?preset.eyes[index]?.replace(/fill="(?!none|white|#fff)[^"]*"/g,`fill="${fg}"`):preset.eyes[index];
+  if(design.eyesEdited){pieces.push(renderEye(design.eyes,x,y,unit,eyePaint,design.backgroundGradient?'url(#custom-bg)':design.background));continue;}
+  const eye=design.eyeColorEdited?preset.eyes[index]?.replace(/\b(fill|stroke)="(?!none"|transparent")[^"]*"/g,`$1="${eyeColor}"`):design.foregroundEdited?preset.eyes[index]?.replace(/fill="(?!none|white|#fff)[^"]*"/g,`fill="${fg}"`):preset.eyes[index];
   if(eye)pieces.push(eye.replace('<svg ',`<svg x="${x}" y="${y}" width="${eyeSide}" height="${eyeSide}" `));
   else {
    // Templates whose original eyes consist of individual square modules use the same 7:5:3 geometry.
-   for(let er=0;er<7;er++)for(let ec=0;ec<7;ec++)if(er===0||er===6||ec===0||ec===6||(er>=2&&er<=4&&ec>=2&&ec<=4))pieces.push(`<rect x="${x+ec*unit}" y="${y+er*unit}" width="${unit}" height="${unit}" fill="${fill}"/>`);
+   for(let er=0;er<7;er++)for(let ec=0;ec<7;ec++)if(er===0||er===6||ec===0||ec===6||(er>=2&&er<=4&&ec>=2&&ec<=4))pieces.push(`<rect x="${x+ec*unit}" y="${y+er*unit}" width="${unit}" height="${unit}" fill="${design.eyeColorEdited?eyeColor:fill}"/>`);
   }
  }
  if(design.backgroundEdited||design.backgroundImage){const bg=design.backgroundGradient?'url(#custom-bg)':design.background;pieces.unshift(`<rect x="${left-unit}" y="${top-unit}" width="${side+unit*2}" height="${side+unit*2}" fill="${bg}"/>`);if(design.backgroundImage)pieces.splice(1,0,`<image href="${backgroundImages[design.backgroundImage]||''}" x="${left}" y="${top}" width="${side}" height="${side}" opacity="0.12"/>`);}

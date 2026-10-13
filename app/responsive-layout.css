@@ -1,0 +1,335 @@
+/* One fluid gutter for all public-page sections. Backgrounds stay full width;
+   content uses 12px on phones and at most 28px on wide displays. */
+:root {
+  --site-gutter: clamp(12px, 2vw, 28px);
+  --site-section-space: clamp(28px, 3.5vw, 48px);
+  --site-heading-gap: clamp(24px, 2.5vw, 36px);
+  --site-content-width: calc(100% - 2 * var(--site-gutter));
+}
+
+/* These containers sit directly inside full-width section backgrounds. */
+.homepage :is(
+  .home-header-inner,
+  .home-welcome-inner,
+  .generator-panel,
+  .app-banner-inner,
+  .footer-main,
+  .footer-bottom-inner
+) {
+  width: var(--site-content-width);
+  max-width: none;
+  margin-inline: auto;
+}
+.homepage .home-welcome-inner {
+  padding-inline: 0;
+}
+
+/* Other sections own their gutter; their inner containers must not add a
+   second inset or retain a narrower artboard-specific maximum width. */
+.homepage :is(
+  .generator-heading,
+  .three-steps,
+  .introduction-cards,
+  .how-it-works,
+  .qr-types-section,
+  .qr-testimonials,
+  .home-faq,
+  .home-blog
+),
+.blog-page .home-blog {
+  padding-inline: var(--site-gutter);
+}
+.homepage .qr-types-section {
+  width: 100%;
+  max-width: none;
+}
+.homepage :is(
+  .steps-timeline,
+  .introduction-grid,
+  .how-grid,
+  .qr-types-inner,
+  .testimonial-carousel,
+  .faq-inner,
+  .blog-grid
+),
+.blog-page .blog-grid {
+  width: 100%;
+  max-width: none;
+  margin-inline: auto;
+}
+.homepage .qr-types-inner {
+  padding-inline: 0;
+}
+.homepage .testimonial-viewport {
+  padding-inline: 0;
+}
+.blog-page .blog-back {
+  margin-inline: var(--site-gutter);
+}
+
+/* Stretch layout columns, not the artwork or paragraph line lengths. */
+.homepage .generator-panel > * {
+  min-width: 0;
+}
+.homepage .qr-preview-column {
+  margin-left: 0;
+}
+.homepage .home-welcome h1 {
+  white-space: normal;
+}
+.homepage .step-copy p {
+  max-width: 60ch;
+}
+.homepage .steps-row.reverse .step-copy p {
+  margin-inline-start: auto;
+}
+.homepage .faq-answer p {
+  max-width: 85ch;
+}
+.homepage .footer-main {
+  gap: clamp(20px, 2vw, 32px);
+}
+.homepage .footer-main > * {
+  min-width: 0;
+}
+.homepage .footer-newsletter {
+  max-width: none;
+}
+.homepage .footer-back-top {
+  right: 0;
+}
+.homepage .blog-photo,
+.blog-page .blog-photo {
+  height: auto;
+  aspect-ratio: 354 / 232;
+}
+
+@media (min-width: 1251px) {
+  .homepage .generator-panel {
+    grid-template-columns: clamp(210px, 16vw, 250px) minmax(0, 1fr) clamp(300px, 23vw, 360px);
+    gap: clamp(20px, 1.5vw, 28px);
+  }
+  .homepage .qr-preview-column {
+    width: 100%;
+    max-width: none;
+  }
+  .homepage .footer-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.1fr);
+  }
+}
+
+@media (min-width: 651px) {
+  .homepage .steps-art {
+    justify-self: center;
+  }
+}
+
+/* Switch navigation before its links become wider than the shared container. */
+@media (max-width: 1439px) {
+  .homepage .home-header {
+    height: 68px;
+  }
+  .homepage .home-menu-toggle {
+    display: flex;
+  }
+  .homepage .home-navigation {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    padding: 20px var(--site-gutter);
+    background: white;
+    box-shadow: 0 15px 20px #17364a12;
+    align-items: stretch;
+    gap: 10px;
+    flex-direction: column;
+  }
+  .homepage .home-navigation.is-open {
+    display: flex;
+  }
+  .homepage :is(.home-nav-link, .home-dropdown summary) {
+    font-size: 14px;
+    text-align: left;
+    padding: 10px 0;
+  }
+  .homepage .home-nav-link.is-active::after {
+    left: 0;
+    transform: none;
+  }
+  .homepage .home-dropdown-panel {
+    position: static;
+    margin: 4px 0 8px;
+    box-shadow: none;
+  }
+  .homepage .home-account {
+    gap: 12px;
+    margin: 8px 0;
+  }
+  .homepage :is(.home-sign-in, .home-sign-up) {
+    height: 42px;
+    min-width: 100px;
+    font-size: 14px;
+  }
+  .homepage .home-stage {
+    min-height: calc(100svh - 68px);
+  }
+}
+
+/* Account forms keep their readable form width while using the same mobile
+   edge spacing as the rest of the site. */
+@media (max-width: 760px) {
+  .scene {
+    padding-inline: var(--site-gutter);
+  }
+}
+
+
+/* Compact section rhythm inspired by the supplied ME-QR reference. Content
+   determines section height; old SVG artboard heights must not reserve space. */
+.homepage :is(.three-steps, .introduction-cards, .how-it-works,
+  .qr-types-section, .qr-testimonials, .home-faq, .home-blog),
+.blog-page .home-blog {
+  min-height: 0;
+  margin-block: 0;
+  padding-block: var(--site-section-space);
+}
+.homepage :is(.three-steps h2, .how-it-works header, .qr-types-heading,
+  .qr-testimonials > header, .blog-heading),
+.blog-page .blog-heading {
+  margin-bottom: var(--site-heading-gap);
+}
+.homepage .home-faq h2 {
+  margin-bottom: 20px;
+}
+.homepage .faq-tabs {
+  margin-bottom: 24px;
+}
+.homepage .faq-list {
+  gap: 12px;
+}
+.homepage .faq-item.is-open {
+  min-height: 0;
+}
+.homepage :is(.steps-cta, .qr-types-view-all, .blog-see-more) {
+  margin-top: 24px;
+}
+.homepage :is(.introduction-grid, .qr-types-grid, .blog-grid),
+.blog-page .blog-grid {
+  gap: clamp(16px, 1.5vw, 24px);
+}
+.homepage .generator-hero {
+  padding-top: 28px;
+  padding-bottom: 0;
+}
+.homepage .generator-heading {
+  height: auto;
+  min-height: 0;
+  padding-block: 0;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.homepage .generator-panel {
+  min-height: 0;
+  padding: clamp(16px, 1.5vw, 24px);
+}
+.homepage .qr-tutorial {
+  aspect-ratio: 16 / 10;
+}
+.homepage .introduction-card {
+  height: auto;
+  min-height: 360px;
+  padding-block: 32px;
+}
+.homepage .introduction-copy {
+  height: auto;
+}
+.homepage .introduction-cta {
+  margin-top: 0;
+}
+.homepage .blog-card {
+  min-height: 0;
+}
+.homepage .home-footer {
+  min-height: 0;
+}
+.homepage .footer-main {
+  min-height: 0;
+  padding-top: 32px;
+  padding-bottom: 64px;
+}
+
+@media (min-width: 651px) {
+  .homepage .qr-type-list {
+    height: clamp(420px, 64vh, 680px);
+  }
+  .homepage :is(.qr-templates, .barcode-templates) {
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 10px;
+  }
+  .homepage .barcode-step-art,
+  .homepage .steps-row:last-child .barcode-step-art {
+    height: 250px;
+    margin-top: 0;
+  }
+  .homepage .barcode-steps .steps-row,
+  .homepage .barcode-steps .steps-row:last-child {
+    min-height: 270px;
+  }
+}
+
+@media (max-width: 650px) {
+  .homepage .introduction-card {
+    min-height: 0;
+    padding: 24px 20px;
+  }
+  .homepage .footer-main {
+    padding-bottom: 80px;
+  }
+  .homepage .steps-row,
+  .homepage .steps-row.reverse {
+    padding-bottom: 20px;
+  }
+}
+
+
+/* Keep the complete artwork inside the more compact information cards. */
+.homepage .introduction-copy h2 {
+  width: auto;
+  max-width: 100%;
+  white-space: normal;
+}
+@media (min-width: 651px) {
+  .homepage .introduction-illustration {
+    top: 24px;
+    right: 16px;
+    width: auto;
+    max-width: 40%;
+    height: calc(100% - 48px);
+    object-fit: contain;
+  }
+}
+@media (max-width: 650px) {
+  .homepage .introduction-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .homepage .introduction-copy {
+    width: 100%;
+    max-width: none;
+  }
+  .homepage .introduction-illustration {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    align-self: flex-end;
+    width: auto;
+    max-width: 100%;
+    height: 180px;
+    margin: 16px 0 0;
+  }
+  .homepage .qr-phone {
+    height: 200px;
+  }
+}

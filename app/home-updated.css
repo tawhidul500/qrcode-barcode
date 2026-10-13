@@ -30,3 +30,7 @@
 .barcode-text-tabs{margin-bottom:16px}
 .barcode-color-controls .barcode-text-tabs{margin-bottom:20px}.barcode-color-controls .barcode-text-swatches{margin-bottom:18px}.barcode-gradient-custom{display:flex;gap:20px;padding:8px 0 14px}.barcode-gradient-custom label{display:flex;align-items:center;gap:10px;font-size:12px}.barcode-gradient-custom input{width:38px;height:30px;border:0;padding:0;background:none}.barcode-height-control{display:flex;align-items:center;gap:20px;padding:15px 0 20px;font-size:14px}.barcode-height-control .barcode-text-range{margin:0;flex:1;min-width:0}.barcode-height-control output{min-width:25px;text-align:right}.barcode-generator .qr-subsection-title.expanded{outline:1px solid #2475ff;outline-offset:-1px}
 .barcode-types-modal .qr-picker-scroll{height:auto;max-height:calc(92dvh - 88px)}.barcode-types-modal .qr-picker-initial{padding-bottom:64px}.barcode-types-modal .qr-picker-card[aria-pressed=true]{border-color:#2475ff;box-shadow:0 3px 18px #0003,0 0 0 1px #2475ff}@media(max-width:800px){.barcode-types-modal .qr-picker-scroll{max-height:calc(92dvh - 72px)}.barcode-types-modal .qr-picker-initial{padding-bottom:28px}}
+
+/* Leave room for the persistent navbar when following section links. */
+html{scroll-padding-top:96px}
+@media(max-width:1000px){html{scroll-padding-top:84px}}
