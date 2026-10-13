@@ -1,3 +1,18 @@
+## Local language and pricing reliability fix — October 13, 2026
+
+- Use two bounded country lookups with browser timezone and regional locale fallback.
+- Share detection between pricing and the language prompt.
+- Prompt once again for legacy saved English defaults; preserve newly confirmed choices.
+- Closing, Escape, or clicking outside the prompt chooses English.
+- Render converted local prices independently of live exchange-rate availability.
+- Use validated cached rates or bundled ExchangeRate-API rates dated October 12, 2026; show the date when fallback rates are over 24 hours old.
+- Refresh expired rates through independent providers, with a five-second timeout.
+- Support blocked browser storage without losing the popup or prices.
+- Complete pricing translations for all supported languages.
+- Add regression coverage for blocked APIs, timezone fallback, preference migration, storage denial, country override and independent rate refresh.
+
+Rebuild and redeploy with `npm ci` and `npm run build`. Static files are generated in `out/`. This fix preserves the existing design.
+
 # Review fixes
 
 1. Kept template selection when modifying colors, captions, logos, dots and eyes.
