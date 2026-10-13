@@ -5,3 +5,5 @@
 .account-rename{border:0;color:#172944}.account-rename::backdrop{background:#152d5166}.account-delete{border:0;background:transparent;color:#a32626;padding:8px;font-size:12px}
 
 .account-sidebar-bottom .language-menu{top:auto;bottom:calc(100% + 10px);inset-inline-start:0;inset-inline-end:auto}html[dir="rtl"] .account-sidebar nav .is-active{box-shadow:inset -3px 0 #2476ff}html[dir="rtl"] .account-topbar>a svg{transform:rotate(180deg)}
+
+.account-loading-bar{height:40px;border-radius:7px;background:#eaf3ff;margin:18px 0;width:85%}.account-loading-heading{height:36px;width:220px;max-width:70%;background:#eaf3ff;border-radius:8px;margin:22px 0}.account-loading-panel{height:300px;background:#f4f8ff;border:1px solid #e1ebf8;border-radius:12px}.account-loading-status{font-size:13px;color:#7b8aa0;margin:26px 0 0}

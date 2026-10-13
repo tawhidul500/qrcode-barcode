@@ -33,15 +33,23 @@ test('statistics UI applies filters and exports real data',async()=>{
 });
 test('generator creates a tracked payload while keeping the selected design and export size',async()=>{
  const React=require('react'),{create,act}=require('react-test-renderer');global.IS_REACT_ACT_ENVIRONMENT=true;
- const auth=require('../app/lib/auth/client.ts'),client=require('../app/lib/statistics-client.ts'),saving=require('../app/lib/save-generated-code.ts');const oldConfigured=auth.authConfigured,oldCreate=client.createTracking,oldSave=saving.saveGeneratedCode;
- let destination='',saved=null;const trackedURL='https://app.test/r/11111111-1111-4111-8111-111111111111';
- auth.authConfigured=()=>true;client.createTracking=async(title,target)=>{destination=target;return {id:'id',title,target,url:trackedURL,active:true};};saving.saveGeneratedCode=async code=>{saved=code;return 'Saved';};global.window={location:{search:''}};global.document={addEventListener(){},removeEventListener(){}};
+ const auth=require('../app/lib/auth/client.ts'),client=require('../app/lib/statistics-client.ts'),saving=require('../app/lib/save-generated-code.ts');const oldConfigured=auth.authConfigured,oldClient=auth.getAuthClient,exporter=require('../app/lib/export-code.ts'),oldExport=exporter.downloadCode,oldCreate=client.createTracking,oldSave=saving.saveGeneratedCode,oldChange=client.changeTrackedLink;
+ let destination='',saved=null,changed=null;const trackedURL='https://app.test/r/11111111-1111-4111-8111-111111111111';
+ auth.authConfigured=()=>true;auth.getAuthClient=()=>({auth:{getSession:async()=>({data:{session:{access_token:'token'}}})}});exporter.downloadCode=async()=>{};client.changeTrackedLink=async(id,change)=>{changed={id,...change};};client.createTracking=async(title,target)=>{destination=target;return {id:'id',title,target,url:trackedURL,active:true};};saving.saveGeneratedCode=async code=>{saved=code;return 'Saved';};global.window={location:{search:''}};global.document={addEventListener(){},removeEventListener(){}};
  const {renderQR,defaultDesign}=require('../app/lib/qr-design.ts');let renderer;
  try{
   await act(async()=>{renderer=create(React.createElement(require('../app/components/Generator.tsx').default,{selectedType:'Website',onTypeChange(){}}));});
   await act(async()=>renderer.root.findByProps({id:'qr-content'}).props.onChange({target:{value:'https://example.com'}}));
-  const enable=renderer.root.findAllByType('button').find(b=>b.children.includes('Enable visit tracking'));assert(enable);await act(async()=>enable.props.onClick());assert.equal(destination,'https://example.com/');
+  const enable=renderer.root.findAllByType('button').find(b=>b.children.includes('Dynamic QR'));assert(enable);await act(async()=>enable.props.onClick());assert.equal(destination,'https://example.com/');
   const preview=renderer.root.findByProps({alt:'Generated Website QR code'});assert.equal(preview.props.src,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(renderQR(trackedURL,defaultDesign,360)));
-  const save=renderer.root.findAllByType('button').find(b=>b.children.includes('Save to My Codes'));await act(async()=>save.props.onClick());assert.equal(saved.image,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(renderQR(trackedURL,defaultDesign,1000)));
- }finally{if(renderer)await act(async()=>renderer.unmount());auth.authConfigured=oldConfigured;client.createTracking=oldCreate;saving.saveGeneratedCode=oldSave;}
+  const save=renderer.root.findAllByType('button').find(b=>b.children.includes('Download QR Code'));await act(async()=>save.props.onClick());assert.equal(saved.image,'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(renderQR(trackedURL,defaultDesign,1000)));
+  await act(async()=>renderer.root.findByProps({id:'qr-content'}).props.onChange({target:{value:'https://example.org/new'}}));
+  assert.equal(renderer.root.findByProps({alt:'Generated Website QR code'}).props.src,preview.props.src);
+  assert.equal(renderer.root.findAllByType('button').find(b=>b.children.includes('Download QR Code')).props.disabled,true);
+  const update=renderer.root.findAllByType('button').find(b=>b.children.includes('Update destination'));await act(async()=>update.props.onClick());assert.deepEqual(changed,{id:'id',target:'https://example.org/new'});
+  assert.equal(renderer.root.findAllByType('button').find(b=>b.children.includes('Download QR Code')).props.disabled,false);
+  auth.getAuthClient=()=>({auth:{getSession:async()=>({data:{session:null}})}});saved=null;await act(async()=>renderer.root.findAllByType('button').find(b=>b.children.includes('Download QR Code')).props.onClick());assert.equal(saved,null);
+  auth.getAuthClient=()=>({auth:{getSession:async()=>({data:{session:{access_token:'token'}}})}});saving.saveGeneratedCode=async()=>{throw new Error('Storage full');};await act(async()=>renderer.root.findAllByType('button').find(b=>b.children.includes('Download QR Code')).props.onClick());assert(JSON.stringify(renderer.toJSON()).includes('Downloaded, but automatic save failed: Storage full'));
+  assert(!renderer.root.findAllByType('button').some(b=>b.children.includes('Save to My Codes')));
+ }finally{if(renderer)await act(async()=>renderer.unmount());auth.authConfigured=oldConfigured;auth.getAuthClient=oldClient;exporter.downloadCode=oldExport;client.createTracking=oldCreate;client.changeTrackedLink=oldChange;saving.saveGeneratedCode=oldSave;}
 });

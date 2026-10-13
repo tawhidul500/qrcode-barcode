@@ -1,3 +1,26 @@
+## Faded preview placeholders
+- Show QR and barcode sample previews at 20% opacity while content is empty.
+- Generated codes retain full opacity; placeholder samples cannot be saved or downloaded.
+
+## Automatic save on download and full tutorial video
+- Remove separate save buttons; signed-in QR/barcode downloads automatically save their editable source and artwork.
+- Download remains available to guests. Save errors are shown separately after a successful download.
+- Keep tutorial cards at full height and let tall sticky previews scroll naturally with the page.
+
+## CSV bulk QR import
+- Import From CSV in the account dashboard: sample download, design selection/editor, file validation and row preview.
+- Generate static or dynamic link QR codes with progress, stop and retry support; save directly to cloud account.
+- Limits: 10 MB UTF-8 CSV, 50 rows and existing 50-code account limit.
+
+## Profile navigation and dashboard loading
+- Avatar opens the profile dashboard; the separate arrow opens the account dropdown.
+- Keep dashboard layout while verifying authentication instead of flashing a centered account/sign-in panel.
+
+## Dynamic QR mode
+- Add Static/Dynamic QR mode choices for HTTP(S) destinations.
+- Dynamic codes keep the same redirect QR when the destination changes, with account statistics and management.
+- Require destination changes to be committed before export or save.
+
 ## Sticky generator preview
 - Desktop QR and barcode preview/export columns stick below the header and stop at the generator boundary.
 - Tall preview columns keep all controls reachable through internal scrolling; narrow screens retain normal page scrolling.

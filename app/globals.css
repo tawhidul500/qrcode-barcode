@@ -207,6 +207,10 @@
 
 /* Keep generator previews in view without crossing the generator boundary. */
 @media(min-width:1001px){
- .generator-panel>.qr-preview-column{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 104px);max-height:calc(100dvh - 104px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#bdd7ff transparent;scroll-padding-block:12px;padding-bottom:4px}
+ .generator-panel>.qr-preview-column{position:sticky;top:var(--preview-sticky-top,88px);align-self:start;max-height:none;overflow:visible;padding-bottom:4px}
  .generator-panel>.qr-preview-column:focus-within{scroll-behavior:auto}
 }
+
+.generator-panel>.qr-preview-column>*{flex-shrink:0}.generator-panel>.qr-preview-column>.qr-tutorial{height:auto;min-height:0;aspect-ratio:16/9;flex-shrink:0}.generator-panel .qr-tutorial-poster{height:100%;aspect-ratio:16/9}
+
+.qr-preview img.code-preview-placeholder{opacity:.2;user-select:none}

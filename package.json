@@ -30,7 +30,8 @@
     "test:profile": "node --test tests/profile.test.cjs",
     "test:statistics": "node --test tests/statistics.test.cjs",
     "test:management": "node --test tests/code-management.test.cjs",
-    "test:account-menu": "node --test tests/account-menu.test.cjs"
+    "test:account-menu": "node --test tests/account-menu.test.cjs",
+    "test:csv-import": "node --test tests/csv-import.test.cjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
