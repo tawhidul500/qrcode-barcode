@@ -1,3 +1,19 @@
+## Post-login dashboard — October 13, 2026
+
+- Replace the basic account screen with a responsive blue-and-white dashboard inspired by the supplied reference.
+- Keep verified login and OAuth redirects at `/account`.
+- Add sidebar navigation, real saved-code counts, search/sort, download, rename, archive/restore, profile details, plan links and logout.
+- Add explicit Save to My Codes actions to the QR and barcode generators; saves verify the current account first.
+- Persist up to 50 code images per account in this browser, with duplicate protection, validated records and clear storage errors. No cross-device synchronization or scan analytics are claimed.
+- Start with an honest empty state for accounts without saved codes.
+- Translate the dashboard in all supported languages and update the privacy policy for local storage.
+- Verify authentication, generator regressions, storage isolation and dashboard interactions with automated checks.
+
+## Authentication navigation — October 13, 2026
+
+- Add a visible, keyboard-accessible Back to Home link on both sign-in and sign-up pages.
+- Localize the link in all supported languages and reverse its arrow for RTL layouts.
+
 ## Local language and pricing reliability fix — October 13, 2026
 
 - Use two bounded country lookups with browser timezone and regional locale fallback.
