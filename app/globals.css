@@ -204,3 +204,9 @@
 @media(max-width:600px){.qr-picker-header{padding:0 16px}.qr-picker-header h2{font-size:19px}.qr-picker-initial{padding:20px 16px}.qr-picker-more{padding:0 16px 24px}.qr-picker-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.qr-picker-card{font-size:13px;padding:12px 6px;gap:8px}.qr-picker-group h3{font-size:21px}}
 
 .app-store-badges a:focus-visible,.footer-badges a:focus-visible{outline:3px solid #2876ed;outline-offset:4px;border-radius:6px}
+
+/* Keep generator previews in view without crossing the generator boundary. */
+@media(min-width:1001px){
+ .generator-panel>.qr-preview-column{position:sticky;top:88px;align-self:start;max-height:calc(100vh - 104px);max-height:calc(100dvh - 104px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#bdd7ff transparent;scroll-padding-block:12px;padding-bottom:4px}
+ .generator-panel>.qr-preview-column:focus-within{scroll-behavior:auto}
+}

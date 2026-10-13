@@ -5,6 +5,7 @@ const ts=require('typescript');
 for(const ext of ['.ts','.tsx'])require.extensions[ext]=(module,filename)=>{
  module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{fileName:filename,compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true,resolveJsonModule:true}}).outputText,filename);
 };
+require.extensions['.css']=()=>{};
 const {buildPayload,emptyContact}=require('../app/lib/qr-content.ts');
 const {renderQR,defaultDesign}=require('../app/lib/qr-design.ts');
 const wifi={ssid:'',password:'',security:'WPA'};
@@ -41,6 +42,8 @@ test('generator rejects blank inputs in the rendered UI for every content type',
   assert.match(html,/aria-label="Share QR content" disabled=""/);
   assert.match(html,/aria-label="Copy QR content" disabled=""/);
   assert.ok(!html.includes('alt="Generated '));
+  assert.ok(html.includes('/assets/qr-preview-placeholder.svg'));
+  assert.ok(html.includes('Sample QR code preview'));
   if(['Contacts','Vcard'].includes(type))assert.ok(html.includes('Full name (required)'));
  }
 });

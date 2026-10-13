@@ -1,0 +1,3 @@
+import {authenticate,database,responseError} from '../../lib/server/codes';
+export const runtime='nodejs';export const dynamic='force-dynamic';
+export async function GET(request:Request){try{const user=await authenticate(request),sql=database();const rows=await sql`SELECT count(*) FILTER(WHERE kind='qr' AND NOT archived)::int AS qr,count(*) FILTER(WHERE kind='barcode' AND NOT archived)::int AS barcode FROM saved_codes WHERE user_id=${user}`;return Response.json({qr:Number(rows[0]?.qr||0),barcode:Number(rows[0]?.barcode||0)},{headers:{'Cache-Control':'private, no-store'}});}catch(e){return responseError(e);}}

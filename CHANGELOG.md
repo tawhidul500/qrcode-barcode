@@ -1,3 +1,24 @@
+## Sticky generator preview
+- Desktop QR and barcode preview/export columns stick below the header and stop at the generator boundary.
+- Tall preview columns keep all controls reachable through internal scrolling; narrow screens retain normal page scrolling.
+
+## Export formats and sizes
+- QR and barcode export: PNG, SVG, PDF, EPS, JPG; 200, 500, 1000, 1500, 2000 px.
+- Preserve artwork aspect ratio. PDF/EPS embed lossless raster artwork; SVG remains vector.
+
+## Initial QR preview
+- Display a sample QR code immediately when the content fields are empty.
+- Entered content replaces the sample; saving and downloading still require a valid generated code.
+
+## Avatar and session loading update
+- Header uses profile photo when available, with initials avatar fallback.
+- Hide Sign In/Sign Up until authentication resolves on every page.
+
+# Header profile dropdown
+
+- Added initials, profile settings, QR/barcode counts, statistics and logout beside the language selector using the original blue theme.
+- Added lightweight authenticated count endpoint, keyboard/outside-click handling and direct account-view navigation.
+
 # Code management update
 
 - Added folders, pagination, sorting and bulk copy/move/archive/delete in the original blue theme.

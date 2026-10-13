@@ -24,6 +24,7 @@ export default function AccountPage(){
  const [syncing,setSyncing]=useState(false),[legacy,setLegacy]=useState<SavedCode[]>([]);
  const operation=useRef(false),revision=useRef(0);
  const [status,setStatus]=useState('');
+ useEffect(()=>{const requested=new URLSearchParams(window.location.search).get('view');if(requested&&['qr','barcode','archive','profile','statistics'].includes(requested))setView(requested as View);},[]);
  useEffect(()=>{
   let live=true;
   try{
