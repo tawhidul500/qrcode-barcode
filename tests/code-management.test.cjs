@@ -1,0 +1,45 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const ts=require('typescript');
+for(const ext of ['.ts','.tsx'])require.extensions[ext]=(module,file)=>module._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,file);require.extensions['.css']=()=>{};
+const id='11111111-1111-4111-8111-111111111111',folderId='22222222-2222-4222-8222-222222222222';const image='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg"/>');
+test('management endpoint validates actions and scopes queries to owner',async()=>{
+ const server=require('../app/lib/server/codes.ts'),route=require('../app/api/management/route.ts'),oldAuth=server.authenticate,oldDb=server.database;
+ assert.equal((await route.GET(new Request('https://app.test/api/management'))).status,401);
+ const calls=[];server.authenticate=async()=> 'verified-owner';server.database=()=>async(strings,...values)=>{calls.push({query:strings.join('?'),values});if(strings.join('').includes('SELECT id FROM code_folders'))return [];if(strings.join('').includes('FROM saved_codes WHERE id='))return [{id}];return [];};
+ const request=body=>new Request('https://app.test/api/management',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ try{
+  assert.equal((await route.POST(request({operation:'move',ids:[id],folderId}))).status,403);
+  assert.equal((await route.POST(request({operation:'delete',ids:[id],user_id:'attacker'}))).status,200);
+  assert.equal((await route.POST(request({operation:'delete',ids:["' OR 1=1"]}))).status,400);
+  const transfer=await route.POST(request({operation:'transfer',id,email:'reader@example.com'}));assert.equal(transfer.status,200);const data=await transfer.json();const token=new URL(data.url).searchParams.get('transfer');assert.equal(token.length,64);assert(!calls.some(call=>call.values.includes(token)));for(const call of calls)assert(call.values.includes('verified-owner'));
+ }finally{server.authenticate=oldAuth;server.database=oldDb;}
+});
+test('code editor metadata survives upload and is validated',()=>{
+ const {validateCode,serialize}=require('../app/lib/server/codes.ts');const editor={kind:'qr',type:'Text',value:'Hello',design:{},size:1000};const input=validateCode({id,name:'Text',kind:'qr',type:'Text',image,editor,folderId});assert.deepEqual(input.editor,editor);assert.equal(input.folderId,folderId);
+ assert.throws(()=>validateCode({...input,editor:{kind:'barcode'}}));assert.throws(()=>validateCode({...input,editor:{kind:'qr',value:'x'.repeat(1000001)}}));assert.equal(serialize({id,name:'Text',kind:'qr',type:'Text',image,created_at:'2026-10-13',archived:false,editor,folder_id:folderId}).folderId,folderId);
+});
+test('list supports pagination, folder moves, copies and menu options',async()=>{
+ const React=require('react'),{create,act}=require('react-test-renderer');global.IS_REACT_ACT_ENVIRONMENT=true;global.window={confirm:()=>true};
+ const api=require('../app/lib/management-client.ts'),old=api.managementRequest,calls=[];api.managementRequest=async(method,body)=>{if(body)calls.push(body);return {folders:[{id:folderId,name:'Campaigns'}],details:[]};};
+ const codes=Array.from({length:22},(_,i)=>({id:String(i),name:'Code '+i,kind:'qr',type:'Text',image,createdAt:new Date(2026,9,13,0,0,i).toISOString(),archived:false}));let renderer;
+ const text=node=>typeof node==='string'?node:node?.children?.map(text).join('')||'';
+ async function click(name){const button=renderer.root.findAllByType('button').find(b=>b.children.map(text).join('')===name);assert(button,name);await act(async()=>button.props.onClick());}
+ try{await act(async()=>{renderer=create(React.createElement(require('../app/components/CodeManager.tsx').default,{codes,mode:'qr',locale:'en',onReload:async()=>{},onStatistics(){}}));});assert.equal(renderer.root.findAllByType('article').length,10);
+  await act(async()=>renderer.root.findByProps({'aria-label':'Next page'}).props.onClick());assert.equal(renderer.root.findAllByType('article').length,10);
+  const checkbox=renderer.root.findAllByProps({type:'checkbox'})[0];await act(async()=>checkbox.props.onChange({target:{checked:true}}));await click('Copy');assert.equal(calls.at(-1).ids.length,22);assert.equal(calls.at(-1).operation,'copy');
+  await act(async()=>renderer.root.findAllByProps({type:'checkbox'})[0].props.onChange({target:{checked:true}}));await click('Move');const dialog=renderer.root.findByType('dialog');await act(async()=>dialog.findByType('select').props.onChange({target:{value:folderId}}));await act(async()=>dialog.findByType('form').props.onSubmit({preventDefault(){}}));assert.equal(calls.at(-1).operation,'move');assert.equal(calls.at(-1).folderId,folderId);
+  assert(renderer.root.findAllByType('button').some(b=>b.children.map(text).join('')==='Change Owner'));
+ }finally{if(renderer)await act(async()=>renderer.unmount());api.managementRequest=old;}
+});
+test('QR saved source can be reopened and updated under the same ID',async()=>{
+ const React=require('react'),{create,act}=require('react-test-renderer');global.IS_REACT_ACT_ENVIRONMENT=true;global.window={location:{search:'?edit='+id}};global.document={addEventListener(){},removeEventListener(){}};
+ const cloud=require('../app/lib/cloud-codes.ts'),saving=require('../app/lib/save-generated-code.ts'),auth=require('../app/lib/auth/client.ts');const oldGet=cloud.getCloudCode,oldSave=saving.saveGeneratedCode,oldConfigured=auth.authConfigured;const {defaultDesign}=require('../app/lib/qr-design.ts');let saved;cloud.getCloudCode=async()=>({id,name:'Original',kind:'qr',type:'Website',image,createdAt:'2026-10-13',archived:false,editor:{kind:'qr',type:'Website',value:'https://example.com',design:defaultDesign,size:2000}});saving.saveGeneratedCode=async code=>{saved=code;return 'Updated';};auth.authConfigured=()=>true;let renderer;
+ try{await act(async()=>{renderer=create(React.createElement(require('../app/components/Generator.tsx').default,{selectedType:'Website',onTypeChange(){}}));await new Promise(resolve=>setTimeout(resolve,20));});const input=renderer.root.findByProps({id:'qr-content'});assert.equal(input.props.value,'https://example.com');await act(async()=>input.props.onChange({target:{value:'https://new.example'}}));const button=renderer.root.findAllByType('button').find(b=>b.children.includes('Save to My Codes'));await act(async()=>button.props.onClick());assert.equal(saved.id,id);assert.equal(saved.editor.size,2000);assert.equal(saved.editor.value,'https://new.example');
+ }finally{if(renderer)await act(async()=>renderer.unmount());cloud.getCloudCode=oldGet;saving.saveGeneratedCode=oldSave;auth.authConfigured=oldConfigured;}
+});
+test('barcode source restores its controls and saves edits under the same ID',async()=>{
+ const React=require('react'),{create,act}=require('react-test-renderer');global.IS_REACT_ACT_ENVIRONMENT=true;global.window={location:{search:'?edit='+id}};
+ const cloud=require('../app/lib/cloud-codes.ts'),saving=require('../app/lib/save-generated-code.ts'),auth=require('../app/lib/auth/client.ts');const oldGet=cloud.getCloudCode,oldSave=saving.saveGeneratedCode,oldConfigured=auth.authConfigured;let saved,renderer;
+ cloud.getCloudCode=async()=>({id,name:'EAN code',kind:'barcode',type:'EAN_8',image,createdAt:'2026-10-13',archived:false,editor:{kind:'barcode',type:1,value:'1234567',height:30,template:0,foreground:'#111111',background:'#ffffff',detailsColor:'#111111',headingColor:'#111111',fgGradient:null,bgGradient:null,size:2000}});saving.saveGeneratedCode=async code=>{saved=code;return 'Updated';};auth.authConfigured=()=>true;
+ try{await act(async()=>{renderer=create(React.createElement(require('../app/components/BarcodeGenerator.tsx').default));await new Promise(resolve=>setTimeout(resolve,20));});const input=renderer.root.findByProps({id:'barcode-content'});assert.equal(input.props.value,'1234567');await act(async()=>input.props.onChange({target:{value:'7654321'}}));const button=renderer.root.findAllByType('button').find(b=>b.children.includes('Save to My Codes'));await act(async()=>button.props.onClick());assert.equal(saved.id,id);assert.equal(saved.editor.type,1);assert.equal(saved.editor.value,'7654321');assert.equal(saved.editor.size,2000);
+ }finally{if(renderer)await act(async()=>renderer.unmount());cloud.getCloudCode=oldGet;saving.saveGeneratedCode=oldSave;auth.authConfigured=oldConfigured;}
+});

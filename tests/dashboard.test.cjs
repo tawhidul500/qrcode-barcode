@@ -19,10 +19,11 @@ test('corrupt records, unsafe image URLs, storage denial and capacity are handle
 test('dashboard shows real saved codes; search, archive, restore, profile and logout work',async()=>{
  const React=require('react');const {create,act}=require('react-test-renderer');global.IS_REACT_ACT_ENVIRONMENT=true;
  const auth=require('../app/lib/auth/client.ts');const original=auth.getAuthClient;const local=storage();const user={id:'alice',email:'alice@example.com',created_at:'2026-10-01T00:00:00Z',user_metadata:{full_name:'Alice'}};
- addCode(local,user.id,{name:'My website',kind:'qr',type:'Website',image});let redirected='';global.window={localStorage:local,location:{replace:value=>{redirected=value;}},confirm:()=>true,addEventListener(){},removeEventListener(){}};global.document={visibilityState:'visible',addEventListener(){},removeEventListener(){}};let signedOut=false;
+ addCode(local,user.id,{name:'My website',kind:'qr',type:'Website',image});let redirected='';global.window={localStorage:local,location:{search:'',replace:value=>{redirected=value;}},confirm:()=>true,addEventListener(){},removeEventListener(){}};global.document={visibilityState:'visible',addEventListener(){},removeEventListener(){}};let signedOut=false;
  auth.getAuthClient=()=>({auth:{mfa:{listFactors:async()=>({data:{totp:[]},error:null})},getUser:async()=>({data:{user},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>{signedOut=true;return {error:null};}}});
  const cloud=require('../app/lib/cloud-codes.ts');const originals={...cloud};let remote=readCodes(local,user.id);cloud.listCloudCodes=async()=>remote;cloud.updateCloudCodes=async(ids,change)=>{remote=remote.map(code=>ids.includes(code.id)?{...code,...change}:code);};cloud.deleteCloudCode=async(id)=>{remote=remote.filter(c=>c.id!==id);};
  const profiles=require('../app/lib/profile-client.ts');const originalProfile=profiles.profileRequest;profiles.profileRequest=async()=>({profile:null,storage:{bytes:0,count:1,maxBytes:256000000,maxCount:50}});
+ const management=require('../app/lib/management-client.ts');const oldManagement=management.managementRequest;management.managementRequest=async()=>({folders:[],details:[]});
  const Page=require('../app/components/AccountPage.tsx').default;let renderer;const content=node=>!node?'':typeof node==='string'?node:Array.isArray(node)?node.map(content).join(''):content(node.children);
  const click=async label=>{const button=renderer.root.findAllByType('button').find(node=>content(node.toJSON?node.toJSON():{children:node.children.map(child=>typeof child==='string'?child:'')}).trim()===label);assert(button,'Missing '+label);await act(async()=>button.props.onClick());};
  try{
@@ -30,5 +31,5 @@ test('dashboard shows real saved codes; search, archive, restore, profile and lo
   const search=renderer.root.findByProps({'aria-label':'Search your codes'});await act(async()=>search.props.onChange({target:{value:'missing'}}));assert(content(renderer.toJSON()).includes('No matching codes'));await act(async()=>search.props.onChange({target:{value:''}}));
   await click('Archive');assert(remote[0].archived);await click('Archived Codes');assert(content(renderer.toJSON()).includes('My website'));await click('Restore');assert(!remote[0].archived);
   await click('My Profile');assert(content(renderer.toJSON()).includes('alice@example.com'));await click('Sign out');assert(signedOut);assert.equal(redirected,'/login');
- }finally{if(renderer)await act(async()=>renderer.unmount());auth.getAuthClient=original;Object.assign(cloud,originals);profiles.profileRequest=originalProfile;}
+ }finally{if(renderer)await act(async()=>renderer.unmount());auth.getAuthClient=original;Object.assign(cloud,originals);profiles.profileRequest=originalProfile;management.managementRequest=oldManagement;}
 });

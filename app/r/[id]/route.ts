@@ -2,7 +2,7 @@ import {createHmac,randomUUID} from 'node:crypto';import {database,codeId} from 
 export const runtime='nodejs';export const dynamic='force-dynamic';
 async function redirect(request:Request,params:Promise<{id:string}>,record:boolean){
  const headers=new Headers({'Cache-Control':'private, no-store','X-Robots-Tag':'noindex, nofollow','Referrer-Policy':'no-referrer'});
- try{const id=codeId((await params).id),sql=database();const rows=await sql`SELECT target,active FROM tracked_codes WHERE id=${id}`;if(!rows.length)return new Response('This QR link is unavailable.',{status:404,headers});const target=trackingTarget(rows[0].target);headers.set('Location',target);
+ try{const key=(await params).id;if(!/^(?:[0-9a-f-]{36}|[a-z][a-z0-9-]{2,63})$/.test(key))return new Response('This QR link is unavailable.',{status:404,headers});const sql=database();const rows=await sql`SELECT id,target,active FROM tracked_codes WHERE id::text=${key} OR slug=${key}`;if(!rows.length)return new Response('This QR link is unavailable.',{status:404,headers});const id=String(rows[0].id),target=trackingTarget(rows[0].target);headers.set('Location',target);
  const agent=request.headers.get('user-agent')||'';
  if(record&&rows[0].active&&!isAutomatedVisit(agent,request.headers)){
   const existing=request.headers.get('cookie')?.match(/(?:^|;\s*)qrb_visit=([a-f0-9-]{36})(?:;|$)/i)?.[1];const visitor=existing||randomUUID();

@@ -11,13 +11,13 @@ export async function GET(request:Request){
    return Response.json({code:transportCode(rows[0])},{headers});
   }
   // Metadata only: large images are fetched individually to stay within host response limits.
-  const rows=await sql`SELECT id,name,kind,type,created_at,archived FROM saved_codes WHERE user_id=${userId} ORDER BY created_at DESC`;
+  const rows=await sql`SELECT id,name,kind,type,created_at,archived,folder_id AS "folderId",tracking_id AS "trackingId" FROM saved_codes WHERE user_id=${userId} ORDER BY created_at DESC`;
   return Response.json({codes:rows.map(row=>({...row,createdAt:new Date(String(row.created_at)).toISOString()}))},{headers});
  }catch(e){return responseError(e);}
 }
 export async function POST(request:Request){
  try{const userId=await authenticate(request),value=validateCode(await jsonBody(request)),sql=database();
- const rows=await sql`SELECT * FROM save_account_code(${userId}::uuid,${value.id}::uuid,${value.name},${value.kind},${value.type},${value.image},${imageHash(value.image)},${value.createdAt}::timestamptz,${value.archived})`;
+ const rows=await sql`SELECT * FROM save_managed_code(${userId}::uuid,${value.id}::uuid,${value.name},${value.kind},${value.type},${value.image},${imageHash(value.image)},${value.createdAt}::timestamptz,${value.archived},${value.editor?JSON.stringify(value.editor):null}::jsonb,${value.trackingId||null}::uuid,${value.folderId||null}::uuid,false)`;
  return Response.json({code:transportCode(rows[0])},{headers});}catch(e){return responseError(e);}
 }
 export async function PATCH(request:Request){

@@ -19,6 +19,8 @@ export async function listCloudCodes():Promise<SavedCode[]>{
  }}
  await Promise.all(Array.from({length:Math.min(4,records.length)},worker));return result;
 }
-export async function createCloudCode(code:Omit<SavedCode,'id'|'createdAt'|'archived'>|SavedCode):Promise<SavedCode>{return decodeCodeDownload((await request('POST',await encodeCodeUpload(code))).code);}
+export async function createCloudCode(code:(Omit<SavedCode,'id'|'createdAt'|'archived'> & {id?:string})|SavedCode):Promise<SavedCode>{return decodeCodeDownload((await request('POST',await encodeCodeUpload(code))).code);}
 export async function updateCloudCodes(ids:string[],change:{name:string}|{archived:boolean}){await request('PATCH',{ids,...change});}
 export async function deleteCloudCode(id:string){await request('DELETE',{id});}
+
+export async function getCloudCode(id:string):Promise<SavedCode>{return decodeCodeDownload((await request('GET',undefined,'?id='+encodeURIComponent(id))).code);}

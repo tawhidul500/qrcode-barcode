@@ -1,3 +1,10 @@
+# Code management update
+
+- Added folders, pagination, sorting and bulk copy/move/archive/delete in the original blue theme.
+- Added per-code Options, settings, type details, source-based QR/barcode editing, tracked visit counts and custom URL aliases.
+- Added verified-email ownership invitations, explicit acceptance/revocation and transactional transfer of tracking history.
+- Added editor metadata persistence, in-place saved-code updates and upgrade-code-management.sql.
+
 # Statistics update
 
 - Added account Statistics view with real visit data, date/code/country/device filters and CSV export in the original blue theme.

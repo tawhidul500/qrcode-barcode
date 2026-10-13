@@ -3,3 +3,5 @@ async function request(path:string,method='GET',body?:unknown){const {data,error
 export async function loadStatistics(filter:StatisticsFilter):Promise<Statistics>{return request('/api/statistics?'+new URLSearchParams(filter));}
 export async function createTracking(title:string,target:string):Promise<TrackedCode>{return (await request('/api/tracking','POST',{title,target})).code;}
 export async function setTracking(id:string,active:boolean){await request('/api/tracking','PATCH',{id,active});}
+
+export async function changeTrackedLink(id:string,change:{target:string}|{slug:string}){await request('/api/tracking','PATCH',{id,...change});}

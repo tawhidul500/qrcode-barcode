@@ -4,7 +4,7 @@ export type StatisticGroup={label:string;visits:number;uniqueDevices:number};
 export type Statistics={total:number;uniqueDevices:number;daily:StatisticGroup[];countries:StatisticGroup[];devices:StatisticGroup[];codes:TrackedCode[];filter:StatisticsFilter};
 export function trackingTarget(value:unknown){
  if(typeof value!=='string'||value.length>2048)throw new Error('Use a destination URL of up to 2048 characters.');
- try{const url=new URL(value);if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error();if(/^\/r\/[0-9a-f-]+$/i.test(url.pathname))throw Error();return url.href;}catch{throw new Error('Enter an HTTP(S) destination link, not another tracking link.');}
+ try{const url=new URL(value);if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw Error();if(/^\/r\/[a-z0-9-]+$/i.test(url.pathname))throw Error();return url.href;}catch{throw new Error('Enter an HTTP(S) destination link, not another tracking link.');}
 }
 export function defaultStatisticsFilter():StatisticsFilter{const today=new Date();return {code:'',from:new Date(today.getTime()-6*86400000).toISOString().slice(0,10),to:today.toISOString().slice(0,10),country:'',device:''};}
 export function parseStatisticsFilter(params:URLSearchParams):StatisticsFilter{

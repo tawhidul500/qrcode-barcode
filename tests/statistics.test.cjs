@@ -17,7 +17,7 @@ test('statistics and tracking APIs isolate owners and use bound filter values',a
 });
 test('public tracked URL records only ordinary GET visits, redirects on write failure, and never stores raw IP',async()=>{
  const server=require('../app/lib/server/codes.ts'),route=require('../app/r/[id]/route.ts'),oldDb=server.database;const oldSecret=process.env.ANALYTICS_HASH_SECRET;process.env.ANALYTICS_HASH_SECRET='test-only-secret';const id='11111111-1111-4111-8111-111111111111',calls=[];let fail=false;
- server.database=()=>async(strings,...values)=>{calls.push({query:strings.join('?'),values});if(strings.join('').includes('record_code_visit')){if(fail)throw Error('write unavailable');return [];}return [{target:'https://example.com/',active:true}];};
+ server.database=()=>async(strings,...values)=>{calls.push({query:strings.join('?'),values});if(strings.join('').includes('record_code_visit')){if(fail)throw Error('write unavailable');return [];}return [{id,target:'https://example.com/',active:true}];};
  const params={params:Promise.resolve({id})};
  try{
   const result=await route.GET(new Request('https://app.test/r/'+id,{headers:{'user-agent':'iPhone Mobile','x-forwarded-for':'10.0.0.1'}}),params);assert.equal(result.status,302);assert.equal(result.headers.get('Location'),'https://example.com/');assert(result.headers.get('set-cookie').includes('HttpOnly'));assert.equal(calls[1].values[3],'Mobile');assert.equal(calls[1].values[1].length,64);assert(!calls[1].values.includes('10.0.0.1'));
