@@ -1,0 +1,20 @@
+import {createClient} from '@supabase/supabase-js';
+import {createHmac,randomBytes,scryptSync,timingSafeEqual} from 'node:crypto';
+import {database,codeId} from './codes';
+import type {ContentFields} from '../qr-type-details';
+export type ContentPage={id:string;user_id:string;type:string;data:ContentFields;password_hash:string|null;active:boolean;visits:number};
+export async function getContentPage(id:string){codeId(id);const sql=database();const rows=await sql`SELECT * FROM qr_content_pages WHERE id=${id}::uuid`;return rows[0] as ContentPage|undefined;}
+export function pageExpired(page:ContentPage){return Boolean(page.data.expires&&Date.now()>Date.parse(page.data.expires+'T23:59:59Z'));}
+export function hashPagePassword(password:string){const salt=randomBytes(16).toString('hex');return salt+':'+scryptSync(password,salt,32).toString('hex');}
+export function verifyPagePassword(password:string,hash:string){try{const [salt,digest]=hash.split(':');const actual=scryptSync(password,salt,32),expected=Buffer.from(digest,'hex');return actual.length===expected.length&&timingSafeEqual(actual,expected);}catch{return false;}}
+const secret=()=>process.env.CONTENT_COOKIE_SECRET||process.env.DATABASE_URL||'';
+const sign=(page:ContentPage,stamp:string)=>createHmac('sha256',secret()).update(page.id+':'+page.password_hash+':'+stamp).digest('hex');
+export const pageCookieName=(id:string)=>'qr_page_'+id;
+export function pageToken(page:ContentPage){const stamp=String(Date.now());return stamp+'.'+sign(page,stamp);}
+export function canViewContent(page:ContentPage,token?:string){if(!page.password_hash)return true;const [stamp,digest]=(token||'').split('.');if(!/^\d+$/.test(stamp)||Date.now()-Number(stamp)>3600000||Number(stamp)>Date.now()+1000)return false;const expected=Buffer.from(sign(page,stamp)),actual=Buffer.from(digest||'');return expected.length===actual.length&&timingSafeEqual(expected,actual);}
+export async function signedContentFile(page:ContentPage,inline=false){const key=process.env.SUPABASE_SERVICE_ROLE_KEY;if(!key||!process.env.NEXT_PUBLIC_SUPABASE_URL)throw new Error('File delivery is not configured. Add the server-only Supabase service role key.');if(!page.data.filePath?.startsWith(page.user_id+'/'))throw new Error('Invalid file path.');const client=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL,key,{auth:{persistSession:false,autoRefreshToken:false}});const {data,error}=await client.storage.from('qr-content').createSignedUrl(page.data.filePath,inline?3600:60,inline?undefined:{download:page.data.fileName});if(error||!data?.signedUrl)throw new Error('File unavailable.');return data.signedUrl;}
+export async function pagePasswordRate(page:ContentPage,ip:string){const sql=database(),period=Math.floor(Date.now()/3600000),hash=createHmac('sha256',secret()).update(ip||'unknown').digest('hex');const rows=await sql`INSERT INTO qr_content_access_attempts(page_id,visitor_hash,period) VALUES(${page.id}::uuid,${hash},${period}) ON CONFLICT(page_id,visitor_hash,period) DO UPDATE SET attempts=qr_content_access_attempts.attempts+1 RETURNING attempts`;await sql`DELETE FROM qr_content_access_attempts WHERE period<${period-24}`;return Number(rows[0].attempts)<=20;}
+
+export async function contentVisit(page:ContentPage){const sql=database();const rows=await sql`UPDATE qr_content_pages SET visits=visits+1 WHERE id=${page.id}::uuid AND active=true RETURNING visits`;return Number(rows[0]?.visits||page.visits||0);}
+
+export async function removeContentFile(page:ContentPage){if(!page.data.filePath)return;const path=page.data.filePath;if(!path.startsWith(page.user_id+'/'))throw new Error('File cleanup unavailable.');const sql=database();const shared=await sql`SELECT id FROM qr_content_pages WHERE user_id=${page.user_id}::uuid AND data->>'filePath'=${path} LIMIT 1`;if(shared.length)return;const key=process.env.SUPABASE_SERVICE_ROLE_KEY;if(!key)throw new Error('File cleanup is not configured.');const client=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,key,{auth:{persistSession:false,autoRefreshToken:false}});const {error}=await client.storage.from('qr-content').remove([path]);if(error)throw error;}

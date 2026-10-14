@@ -31,7 +31,9 @@
     "test:statistics": "node --test tests/statistics.test.cjs",
     "test:management": "node --test tests/code-management.test.cjs",
     "test:account-menu": "node --test tests/account-menu.test.cjs",
-    "test:csv-import": "node --test tests/csv-import.test.cjs"
+    "test:csv-import": "node --test tests/csv-import.test.cjs",
+    "test:template-scan": "node tests/template-scan-regression.cjs",
+    "test:advanced-qr": "node --test tests/advanced-qr-types.test.cjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",

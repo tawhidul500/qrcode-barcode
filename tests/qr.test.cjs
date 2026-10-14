@@ -21,7 +21,7 @@ test('phone and Wi-Fi payloads use normalized and escaped values',()=>{
 });
 test('structured vCards escape content and validate optional fields',()=>{
  const card=buildPayload('Contacts','',wifi,{...emptyContact,name:'Alice; Smith',phone:'+8801700000000'});
- assert.ok(card.includes('FN:Alice\\; Smith\r\nTEL:+8801700000000'));
+ assert.ok(card.includes('FN:Alice\\; Smith'));assert.ok(card.includes('N:Alice\\; Smith;;;;'));assert.ok(card.includes('TEL:+8801700000000')); 
  assert.throws(()=>buildPayload('Vcard','',wifi,{...emptyContact,name:'Alice',email:'bad'}));
 });
 test('captions escape SVG markup and custom logos remain in templates',async()=>{
@@ -103,7 +103,7 @@ test('independent eye color preserves shapes, foreground gradients and template 
   const design=templateDesign(Number(index));
   const before=renderQR('Eye color test',design),after=renderQR('Eye color test',{...design,eyeColor:color,eyeColorEdited:true});
   assert.equal(stripPaint(after),stripPaint(before),'Template '+index+' geometry changed');
-  const expected=[0,1,2].reduce((count,i)=>count+(preset.eyes[i]?(preset.eyes[i].match(/\b(?:fill|stroke)="(?!none"|transparent")[^"]*"/g)||[]).length:33),0);
+  const expected=6;
   assert.equal((after.match(/(?:fill|stroke)="#123abc"/g)||[]).length,expected,'Template '+index+' recolored outside its eyes or missed an eye');
  }
 });

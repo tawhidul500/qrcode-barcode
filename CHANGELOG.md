@@ -1,3 +1,13 @@
+## Rich text input toolbar
+- Text QR input gains paragraph/headings, font/size/color/highlight, bold/italic/underline/strike, links, lists and undo/redo.
+- Store sanitized formatting for reopening saved codes; QR payload remains plain text.
+- Show a 1,000-byte text QR limit and preserve the original blue theme.
+
+## QR eyes and template boundary fixes
+- Regenerate aligned finder patterns with protected separators instead of reusing cropped sample SVG eyes.
+- Keep data above artwork clipping, add a four-module quiet zone and correct low-contrast template defaults.
+- Keep linear barcodes fitted to their slots, matrix-code proportions intact, and all code layers above artwork clipping.
+
 ## Faded preview placeholders
 - Show QR and barcode sample previews at 20% opacity while content is empty.
 - Generated codes retain full opacity; placeholder samples cannot be saved or downloaded.
@@ -183,3 +193,11 @@ Validation completed: production build and TypeScript passed; six regression tes
 - Updated the footer copyright to 2026 in English and every supported translation, including Bengali numerals.
 - Checked the pricing source: the supplied design and pricing regression checks both specify Advanced at $15.40 and Professional at $9.04 per month, billed annually. A replacement Professional price requires the owner's intended amount.
 - Language and pricing regression checks passed. Includes the latest app links, privacy translations, and previous fixes.
+
+## All QR types and hosted content — 2026-10-13
+
+- Expanded to 78 selectable types with structured native email/message/contact/calendar/location/campaign/payment/product inputs and service-specific link fields.
+- Added private uploads, formatted text and action landing pages, menu/invoice/business/coupon/link pages, smart device/country/time/language/weighted/count routing.
+- Added owner-scoped publishing, passwords, expiry, content management, isolated storage policies and transfer guards while preserving the original blue theme.
+- Download still automatically saves signed-in QR codes; pending hosted changes must be published first.
+- Includes Neon and Supabase migrations, environment examples, catalogue audit and Bangla deployment guide.

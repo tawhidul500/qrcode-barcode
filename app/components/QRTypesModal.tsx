@@ -4,15 +4,15 @@ import {useEffect,useRef} from 'react';
 import {X} from 'lucide-react';
 import {qrTypes} from '../lib/qr-types';
 const groups:[string,string[]][]=[
- ['Popular',['Website','Wi-Fi','Text','Contacts','SMS','Phone','Location','WhatsApp','Facebook','Instagram','Email','Viber','X','Spotify','Product','Vcard','PDF']],
- ['Landing Page',['Link List','Mini Website','Coupon','Smart App','Event','Playlist','Business Page','Menu','Feedback']],
- ['Social Media',['Facebook','Instagram','Telegram','Viber','X','TikTok','LinkedIn','Snapchat','YouTube','Reddit','Discord','Pinterest']],
- ['Document',['Any File','Office 365','PCR/Certificate','Word/DOCX','Google Docs','Google Sheets']],
+ ['Popular',['Website','Wi-Fi','Text','Contacts','SMS','Phone','Location','WhatsApp','Facebook','Instagram','Email','Viber','X','Spotify','Product','Vcard','PDF','Booking','Calendar']],
+ ['Landing Page',['Link List','Mini Website','Coupon','Smart App','Event','Playlist','Business Page','Menu','Feedback','All-in-one Payment']],
+ ['Social Media',['Facebook','Instagram','Telegram','Viber','X','TikTok','LinkedIn','Snapchat','YouTube','Reddit','Discord','Pinterest','SoundCloud','WeChat','KakaoTalk','LINE','Social Media']],
+ ['Document',['Any File','Office 365','PCR/Certificate','Word/DOCX','Google Docs','Google Sheets','PPTX','Excel','PDF']],
  ['Contact',['Contacts','SMS','Phone','Location']],
- ['Media',['Video','MP3 / Audio','Image','PNG']],
- ['Payments',['PayPal','Crypto Payment','Payment link','Stripe']],
- ['Smart Tools',['GA/UTM Link','Geo Targeting','Time Targeting','Traffic Split']],
- ['Business',['Review','Attendance','Vcard','Invoice']],
+ ['Media',['Video','MP3 / Audio','Image','PNG','Logo','Shaped']],
+ ['Payments',['PayPal','Crypto Payment','Payment link','Stripe','Venmo','UPI','Revolut']],
+ ['Smart Tools',['GA/UTM Link','Geo Targeting','Time Targeting','Traffic Split','Custom URL']],
+ ['Business',['Review','Attendance','Vcard','Invoice','Forms','Etsy','Amazon']],
  ['Apps',['App store','Google Play','Galaxy Store','Huawei Gallery']]
 ];
 export default function QRTypesModal({selectedType,onChoose,onClose}:{selectedType:string;onChoose:(type:string)=>void;onClose:()=>void}){
