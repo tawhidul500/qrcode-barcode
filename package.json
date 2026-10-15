@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/serve-static.mjs",
     "test:templates": "node tests/category-templates.test.cjs",
     "test:barcode-spacing": "node tests/barcode-spacing.test.cjs",
     "test:scanner": "node tests/scanner.test.cjs",
@@ -23,20 +23,9 @@
     "test:template-loading": "node --test tests/template-loading.test.cjs",
     "test:barcode-input": "node --test tests/barcode-input.test.cjs",
     "test:barcode-contrast": "node --test tests/barcode-contrast.test.cjs",
-    "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs",
-    "test:local-experience": "node --test tests/language-suggestion.test.cjs tests/local-experience.test.cjs",
-    "test:dashboard": "node --test tests/dashboard.test.cjs",
-    "test:cloud": "node --test tests/cloud-codes.test.cjs tests/dashboard.test.cjs",
-    "test:profile": "node --test tests/profile.test.cjs",
-    "test:statistics": "node --test tests/statistics.test.cjs",
-    "test:management": "node --test tests/code-management.test.cjs",
-    "test:account-menu": "node --test tests/account-menu.test.cjs",
-    "test:csv-import": "node --test tests/csv-import.test.cjs",
-    "test:template-scan": "node tests/template-scan-regression.cjs",
-    "test:advanced-qr": "node --test tests/advanced-qr-types.test.cjs"
+    "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.2",
     "@supabase/supabase-js": "2.117.3",
     "bwip-js": "^4.11.4",
     "lucide-react": "1.31.0",

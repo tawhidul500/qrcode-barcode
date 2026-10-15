@@ -1,9 +1,9 @@
 export const eyeStyles=['square','circle','circle-center','rounded','inner-rounded','bottom-left','top-left','soft-square','wave','concave','leaf','beaded','tilted','slanted','dots'] as const;
-function renderEyeContent(style:string,x:number,y:number,u:number,fg:string,bg:string){
+export function renderEye(style:string,x:number,y:number,u:number,fg:string,bg:string){
  const rect=(a:number,b:number,w:number,h:number,rad=0,color=fg)=>`<rect x="${a}" y="${b}" width="${w}" height="${h}" rx="${rad}" fill="${color}"/>`;
  const circle=(a:number,b:number,r:number,color=fg)=>`<circle cx="${a}" cy="${b}" r="${r}" fill="${color}"/>`;
  if(style==='circle')return circle(x+3.5*u,y+3.5*u,3.5*u)+circle(x+3.5*u,y+3.5*u,2.5*u,bg)+circle(x+3.5*u,y+3.5*u,1.5*u);
- if(['dots','beaded','tilted'].includes(style)){const outer=rect(x,y,7*u,7*u,u)+rect(x+u,y+u,5*u,5*u,u*.5,bg);return outer+(style==='tilted'?`<g transform="rotate(8 ${x+3.5*u} ${y+3.5*u})">${rect(x+2*u,y+2*u,3*u,3*u,u*.2)}</g>`:circle(x+3.5*u,y+3.5*u,1.5*u));}
+ if(['dots','beaded','tilted'].includes(style)){let s='';for(let r=0;r<7;r++)for(let c=0;c<7;c++)if(r===0||r===6||c===0||c===6||(r>=2&&r<=4&&c>=2&&c<=4)){const cx=x+(c+.5)*u,cy=y+(r+.5)*u;s+=style==='tilted'?`<g transform="rotate(${((r+c)%3-1)*12} ${cx} ${cy})">${rect(cx-u*.46,cy-u*.46,u*.92,u*.92)}</g>`:circle(cx,cy,style==='dots'?u*.48:u*.55);}return s;}
  const radius=['rounded','soft-square','wave','leaf'].includes(style)?(style==='soft-square'?2:1.5)*u:0;
  let s=rect(x,y,7*u,7*u,radius)+rect(x+u,y+u,5*u,5*u,Math.max(0,radius-u*.5),bg);
  s+=style==='circle-center'?circle(x+3.5*u,y+3.5*u,1.5*u):rect(x+2*u,y+2*u,3*u,3*u,['rounded','inner-rounded','soft-square','leaf'].includes(style)?u*.65:0);
@@ -12,8 +12,4 @@ function renderEyeContent(style:string,x:number,y:number,u:number,fg:string,bg:s
  if(style==='concave')s=rect(x,y,7*u,7*u)+rect(x+u,y+u,5*u,5*u,0,bg)+`<path d="M${x+2*u} ${y+2*u}Q${x+3.5*u} ${y+2.4*u} ${x+5*u} ${y+2*u}Q${x+4.6*u} ${y+3.5*u} ${x+5*u} ${y+5*u}Q${x+3.5*u} ${y+4.6*u} ${x+2*u} ${y+5*u}Q${x+2.4*u} ${y+3.5*u} ${x+2*u} ${y+2*u}Z" fill="${fg}"/>`;
  if(style==='slanted')s=`<g transform="translate(${x} ${y}) skewX(-5)">${rect(u*.6,0,6.4*u,7*u,u*.5)}${rect(1.6*u,u,4.4*u,5*u,0,bg)}${rect(2.6*u,2*u,2.4*u,3*u)}</g>`;
  return s;
-}
-
-export function renderEye(style:string,x:number,y:number,u:number,fg:string,bg:string){
- return `<svg x="${x}" y="${y}" width="${7*u}" height="${7*u}" viewBox="0 0 ${7*u} ${7*u}" preserveAspectRatio="none" overflow="hidden">${renderEyeContent(style,0,0,u,fg,bg)}</svg>`;
 }

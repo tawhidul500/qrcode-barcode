@@ -53,5 +53,5 @@ test('server metadata, email override, link targets and RTL-safe layout remain i
  assert.match(read('app/privacy-policy/privacy-policy.css'),/padding-inline-start:24px/);
  assert.match(localeSource,/code:'ar'.*dir:'rtl'/);
  assert.match(read('app/components/i18n/LanguageProvider.tsx'),/document.documentElement.dir=/);
- assert.equal((component.match(/<section(?:>| )/g)||[]).length,12);
+ assert.equal((component.match(/<section(?:>| )/g)||[]).length,11);
 });

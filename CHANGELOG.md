@@ -1,124 +1,13 @@
-## Rich text input toolbar
-- Text QR input gains paragraph/headings, font/size/color/highlight, bold/italic/underline/strike, links, lists and undo/redo.
-- Store sanitized formatting for reopening saved codes; QR payload remains plain text.
-- Show a 1,000-byte text QR limit and preserve the original blue theme.
+## 2026-10-15 — QR preview and independent editing
 
-## QR eyes and template boundary fixes
-- Regenerate aligned finder patterns with protected separators instead of reusing cropped sample SVG eyes.
-- Keep data above artwork clipping, add a four-module quiet zone and correct low-contrast template defaults.
-- Keep linear barcodes fitted to their slots, matrix-code proportions intact, and all code layers above artwork clipping.
-
-## Faded preview placeholders
-- Show QR and barcode sample previews at 20% opacity while content is empty.
-- Generated codes retain full opacity; placeholder samples cannot be saved or downloaded.
-
-## Automatic save on download and full tutorial video
-- Remove separate save buttons; signed-in QR/barcode downloads automatically save their editable source and artwork.
-- Download remains available to guests. Save errors are shown separately after a successful download.
-- Keep tutorial cards at full height and let tall sticky previews scroll naturally with the page.
-
-## CSV bulk QR import
-- Import From CSV in the account dashboard: sample download, design selection/editor, file validation and row preview.
-- Generate static or dynamic link QR codes with progress, stop and retry support; save directly to cloud account.
-- Limits: 10 MB UTF-8 CSV, 50 rows and existing 50-code account limit.
-
-## Profile navigation and dashboard loading
-- Avatar opens the profile dashboard; the separate arrow opens the account dropdown.
-- Keep dashboard layout while verifying authentication instead of flashing a centered account/sign-in panel.
-
-## Dynamic QR mode
-- Add Static/Dynamic QR mode choices for HTTP(S) destinations.
-- Dynamic codes keep the same redirect QR when the destination changes, with account statistics and management.
-- Require destination changes to be committed before export or save.
-
-## Sticky generator preview
-- Desktop QR and barcode preview/export columns stick below the header and stop at the generator boundary.
-- Tall preview columns keep all controls reachable through internal scrolling; narrow screens retain normal page scrolling.
-
-## Export formats and sizes
-- QR and barcode export: PNG, SVG, PDF, EPS, JPG; 200, 500, 1000, 1500, 2000 px.
-- Preserve artwork aspect ratio. PDF/EPS embed lossless raster artwork; SVG remains vector.
-
-## Initial QR preview
-- Display a sample QR code immediately when the content fields are empty.
-- Entered content replaces the sample; saving and downloading still require a valid generated code.
-
-## Avatar and session loading update
-- Header uses profile photo when available, with initials avatar fallback.
-- Hide Sign In/Sign Up until authentication resolves on every page.
-
-# Header profile dropdown
-
-- Added initials, profile settings, QR/barcode counts, statistics and logout beside the language selector using the original blue theme.
-- Added lightweight authenticated count endpoint, keyboard/outside-click handling and direct account-view navigation.
-
-# Code management update
-
-- Added folders, pagination, sorting and bulk copy/move/archive/delete in the original blue theme.
-- Added per-code Options, settings, type details, source-based QR/barcode editing, tracked visit counts and custom URL aliases.
-- Added verified-email ownership invitations, explicit acceptance/revocation and transactional transfer of tracking history.
-- Added editor metadata persistence, in-place saved-code updates and upgrade-code-management.sql.
-
-# Statistics update
-
-- Added account Statistics view with real visit data, date/code/country/device filters and CSV export in the original blue theme.
-- Added tracked URL QR generation, destination redirects, bot/prefetch exclusion and estimated unique-browser counts.
-- Added daily/country/device summaries and tracking pause/resume.
-- Added upgrade-statistics.sql and STATISTICS_SETUP.md. Existing static codes remain static.
-
-# Profile settings update
-
-- Added responsive profile tabs using the existing blue account theme.
-- Added Neon profile storage and real storage meter.
-- Added password/email updates, authenticator setup and MFA enforcement for account APIs.
-- Added notification preferences and contact actions for storage/deletion requests.
-- Added upgrade-profile.sql and PROFILE_SETUP.md.
-
-# Large template saving update
-
-- Lossless gzip transfer for large code images, including dashboard responses.
-- QR saves preserve the chosen export width and original SVG artwork.
-- Updated database limits and added upgrade-large-templates.sql for existing deployments.
-- Save accepts low-contrast designs; test scans before sharing.
-
-# Neon cloud storage update
-
-- Added authenticated server API for saving, listing, renaming, archiving, restoring and deleting account codes.
-- Added Neon schema, duplicate protection, concurrent quota enforcement and deployment guide.
-- Added explicit legacy browser import and dashboard refresh on focus/interval.
-- Switched from static export to Next.js server hosting.
-- Updated privacy wording and blocked low-contrast generator saves.
-
-## Post-login dashboard — October 13, 2026
-
-- Replace the basic account screen with a responsive blue-and-white dashboard inspired by the supplied reference.
-- Keep verified login and OAuth redirects at `/account`.
-- Add sidebar navigation, real saved-code counts, search/sort, download, rename, archive/restore, profile details, plan links and logout.
-- Add explicit Save to My Codes actions to the QR and barcode generators; saves verify the current account first.
-- Persist up to 50 code images per account in this browser, with duplicate protection, validated records and clear storage errors. No cross-device synchronization or scan analytics are claimed.
-- Start with an honest empty state for accounts without saved codes.
-- Translate the dashboard in all supported languages and update the privacy policy for local storage.
-- Verify authentication, generator regressions, storage isolation and dashboard interactions with automated checks.
-
-## Authentication navigation — October 13, 2026
-
-- Add a visible, keyboard-accessible Back to Home link on both sign-in and sign-up pages.
-- Localize the link in all supported languages and reverse its arrow for RTL layouts.
-
-## Local language and pricing reliability fix — October 13, 2026
-
-- Use two bounded country lookups with browser timezone and regional locale fallback.
-- Share detection between pricing and the language prompt.
-- Prompt once again for legacy saved English defaults; preserve newly confirmed choices.
-- Closing, Escape, or clicking outside the prompt chooses English.
-- Render converted local prices independently of live exchange-rate availability.
-- Use validated cached rates or bundled ExchangeRate-API rates dated October 12, 2026; show the date when fallback rates are over 24 hours old.
-- Refresh expired rates through independent providers, with a five-second timeout.
-- Support blocked browser storage without losing the popup or prices.
-- Complete pricing translations for all supported languages.
-- Add regression coverage for blocked APIs, timezone fallback, preference migration, storage denial, country override and independent rate refresh.
-
-Rebuild and redeploy with `npm ci` and `npm run build`. Static files are generated in `out/`. This fix preserves the existing design.
+- Isolated static decoration from the QR slot and render exactly one live QR layer.
+- Rebuilt template backgrounds separately, retaining gradients and built-in center logos.
+- Repaired missing finder outlines from source SVGs; replaced misidentified floral artwork in template 92 with QR eyes.
+- Foreground color no longer changes eye color. Eye/dot shape edits retain the selected template.
+- Custom gradients paint across the QR area; edited eye cutouts reveal the actual background.
+- Refreshed content-hashed category assets to prevent stale template data.
+- Validation: production build, template loading/hash tests, all 100 category template tests, and decoding all 121 choices with customized square dots/eyes and black-on-white colors passed.
+- Decorative default presets are not universally scan-safe; always test the final chosen design and payload before printing.
 
 # Review fixes
 
@@ -193,11 +82,3 @@ Validation completed: production build and TypeScript passed; six regression tes
 - Updated the footer copyright to 2026 in English and every supported translation, including Bengali numerals.
 - Checked the pricing source: the supplied design and pricing regression checks both specify Advanced at $15.40 and Professional at $9.04 per month, billed annually. A replacement Professional price requires the owner's intended amount.
 - Language and pricing regression checks passed. Includes the latest app links, privacy translations, and previous fixes.
-
-## All QR types and hosted content — 2026-10-13
-
-- Expanded to 78 selectable types with structured native email/message/contact/calendar/location/campaign/payment/product inputs and service-specific link fields.
-- Added private uploads, formatted text and action landing pages, menu/invoice/business/coupon/link pages, smart device/country/time/language/weighted/count routing.
-- Added owner-scoped publishing, passwords, expiry, content management, isolated storage policies and transfer guards while preserving the original blue theme.
-- Download still automatically saves signed-in QR codes; pending hosted changes must be published first.
-- Includes Neon and Supabase migrations, environment examples, catalogue audit and Bangla deployment guide.

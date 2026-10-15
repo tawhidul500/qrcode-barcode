@@ -1,8 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
-import {detectCurrency,convertBDT,formatPrice,type RateTable} from '../lib/pricing-currency';
-import {browserRegion,visitorRegion} from '../lib/visitor-region';
-import {backupRates,readRates,refreshRates} from '../lib/pricing-rates';
+import {detectCurrency,validRates,convertBDT,formatPrice,type RateTable} from '../lib/pricing-currency';
+import {visitorRegion} from '../lib/visitor-region';
 import {Check} from 'lucide-react';
 import {Localized} from './i18n/LanguageProvider';
 import {pricingPlans,pricingContactHref} from '../lib/pricing';
@@ -10,24 +9,38 @@ import {pricingPlans,pricingContactHref} from '../lib/pricing';
 export default function PricingPlans(){
  const [currency,setCurrency]=useState('BDT');
  const [numberLocale,setNumberLocale]=useState('en-BD');
- const [rates,setRates]=useState<RateTable>(backupRates);
+ const [rates,setRates]=useState<RateTable|null>(null);
  const [loading,setLoading]=useState(true);
  useEffect(()=>{
-  const languages=navigator.languages?.length?navigator.languages:[navigator.language];
   setNumberLocale(navigator.language||'en-BD');
-  let timezone='';try{timezone=Intl.DateTimeFormat().resolvedOptions().timeZone;}catch{}
-  const fallback=browserRegion(languages,timezone).currency||detectCurrency(languages);
-  setCurrency(fallback);
-  const storage={getItem:(key:string)=>{try{return window.localStorage.getItem(key);}catch{return null;}},setItem:(key:string,value:string)=>{try{window.localStorage.setItem(key,value);}catch{}}};
-  setRates(readRates(storage));setLoading(false);
+  const fallback=detectCurrency(navigator.languages?.length?navigator.languages:[navigator.language]);
   const controller=new AbortController();let active=true;
-  const timer=setTimeout(()=>controller.abort(),5000);
-  visitorRegion().then(region=>{if(active&&/^[A-Z]{3}$/.test(region.currency))setCurrency(region.currency);}).catch(()=>{});
-  refreshRates(storage,controller.signal).then(table=>{if(active)setRates(table);}).catch(()=>{/* Keep the dated backup or cached rates. */}).finally(()=>clearTimeout(timer));
+  const timer=setTimeout(()=>controller.abort(),8000);
+  const options={signal:controller.signal,credentials:'omit' as const,referrerPolicy:'no-referrer' as const};
+  const locate=async()=>{
+   const data=await visitorRegion();
+   if(!/^[A-Z]{3}$/.test(data.currency))throw new Error('Invalid currency');
+   return data.currency as string;
+  };
+  const loadRates=async()=>{
+   try{const cached:unknown=JSON.parse(localStorage.getItem('qr-pricing-rates')||'null');if(validRates(cached))return cached;}catch{}
+   const response=await fetch('https://open.er-api.com/v6/latest/USD',options);
+   if(!response.ok)throw new Error('Rates unavailable');
+   const data=await response.json();const table={rates:data.rates,fetchedAt:Date.now()};
+   if(data.result!=='success'||data.base_code!=='USD'||!validRates(table))throw new Error('Invalid rates');
+   try{localStorage.setItem('qr-pricing-rates',JSON.stringify(table));}catch{}
+   return table;
+  };
+  Promise.allSettled([locate(),loadRates()]).then(([location,result])=>{
+   if(!active)return;
+   setCurrency(location.status==='fulfilled'?location.value:fallback);
+   if(result.status==='fulfilled')setRates(result.value);
+   setLoading(false);
+  }).finally(()=>clearTimeout(timer));
   return()=>{active=false;clearTimeout(timer);controller.abort();};
  },[]);
  const displayCurrency=currency==='BDT'||(rates&&rates.rates[currency])?currency:'BDT';
- const money=(amount:number)=>loading?'…':formatPrice(convertBDT(amount,displayCurrency,rates.rates),displayCurrency,numberLocale);
+ const money=(amount:number)=>loading?'…':formatPrice(convertBDT(amount,displayCurrency,rates?.rates||{BDT:1}),displayCurrency,numberLocale);
  return <Localized><section className="pricing-hero" aria-labelledby="pricing-title">
   <header className="pricing-heading">
    <h1 id="pricing-title">Find the right plan for your QR projects</h1>
@@ -48,7 +61,6 @@ export default function PricingPlans(){
   </div>
   <p className="pricing-availability" id="pricing-availability">Base prices are in BDT; other currencies are estimates. These are proposed plans; subscriptions and the listed account features are coming soon. Get Started opens a plan enquiry.</p>
   {!loading&&displayCurrency!==currency&&<p className="pricing-availability" role="status">Local rates are temporarily unavailable. Prices are shown in BDT.</p>}
-  {!loading&&Date.now()-rates.fetchedAt>=86400000&&<p className="pricing-availability" role="status">Estimated prices use the latest available saved exchange rates (<bdi translate="no">{new Date(rates.fetchedAt).toLocaleDateString(numberLocale)}</bdi>).</p>}
   <p className="pricing-rate-source"><a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">Rates by ExchangeRate-API</a></p>
  </section></Localized>;
 }

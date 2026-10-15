@@ -15,9 +15,9 @@ const Testimonials=require('../app/components/Testimonials.tsx').default;
 const h=React.createElement;
 const escape=text=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#x27;');
 
-assert.deepEqual(pricingPlans.map(p=>p.price),['0','751.35','1070.46'],'Current BDT base prices');
+assert.deepEqual(pricingPlans.map(p=>p.price),['9.0','15.40','9.04'],'Preserve the supplied USD prices');
 assert.equal(pricingPlans.filter(p=>p.popular).length,1);
-assert.equal(pricingPlans.find(p=>p.popular).id,'lite');
+assert.equal(pricingPlans.find(p=>p.popular).id,'advanced');
 for(const invalid of [null,'','__proto__','unknown','ADVANCED','<script>'])assert.equal(findPricingPlan(invalid),undefined);
 for(const query of ['','?plan=unknown','?plan=%3Cscript%3E','?plan=basic%26redirect%3Devil','?other=basic'])assert.equal(pricingInquiry(query,'en'),'');
 
@@ -33,7 +33,7 @@ for(const {code}of locales){
   assert.equal(message,pricingInquiry(url.search+'&untrusted=%3Cscript%3E',code));
   if(code!=='en')assert.notEqual(message,pricingInquiry(url.search,'en'));
   for(const phrase of [plan.name,plan.description,...plan.features,'Get started with '+plan.name]){
-   if(code!=='en'&&!['Lite','Premium','Get started with Lite','Get started with Premium'].includes(phrase))assert.notEqual(translate(phrase,code),phrase,code+': '+phrase);
+   if(code!=='en'&&!(code==='fr'&&phrase==='Export (PNG, SVG, PDF)'))assert.notEqual(translate(phrase,code),phrase,code+': '+phrase);
   }
  }
  const html=renderToStaticMarkup(h(LanguageProvider,{initialLocale:code},h(PricingPage)));
@@ -48,11 +48,10 @@ for(const {code}of locales){
  assert(!html.includes('testimonial-controls'),'Pricing uses static testimonials from the reference');
  for(const plan of pricingPlans){
   assert(html.includes('href="'+pricingContactHref(plan)+'"'));
-  assert(html.includes('id="plan-'+plan.id+'"'));
-  assert(Number.isFinite(Number(plan.price)));
+  assert(html.includes('$'+plan.price));
   assert(html.includes(escape(translate(plan.name,code))));
  }
- for(const phrase of ['Find the right plan for your QR projects','Start simple or scale up with more capacity and insights. Save up to 45% with a yearly plan.','Most Popular','/month','Free forever','Get Started','Base prices are in BDT; other currencies are estimates. These are proposed plans; subscriptions and the listed account features are coming soon. Get Started opens a plan enquiry.']){
+ for(const phrase of ['Choose the best QR & Bar Code Plan For You','Explore plans for personal projects, growing teams, and businesses.','Most Popular','/month','Billed annually','Get Started','Prices are in USD. Paid plans and premium features are coming soon. Get Started opens a plan enquiry.']){
   assert(html.includes(escape(translate(phrase,code))),code+': missing '+phrase);
   if(code!=='en')assert.notEqual(translate(phrase,code),phrase,code+': untranslated '+phrase);
  }
@@ -65,4 +64,4 @@ for(const {code}of locales){
 const existingCarousel=renderToStaticMarkup(h(LanguageProvider,null,h(Testimonials)));
 assert(existingCarousel.includes('testimonial-controls'));
 assert.equal((existingCarousel.match(/class="qr-testimonial-copy"/g)||[]).length,6,'Other pages retain the original carousel');
-console.log('PASS: three current BDT base prices, 30 localized plan enquiries, safe query parsing, navigation, CTA destinations, 10 pricing page renders, accessible FAQ, translations and preserved testimonial carousel.');
+console.log('PASS: three reference prices, 30 localized plan enquiries, safe query parsing, navigation, CTA destinations, 10 pricing page renders, accessible FAQ, translations and preserved testimonial carousel.');

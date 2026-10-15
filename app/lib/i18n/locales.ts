@@ -12,7 +12,6 @@ export const locales = [
 ] as const;
 export type Locale = typeof locales[number]['code'];
 export const languageStorageKey = 'qr-barcode-language';
-export const languageChoiceKey = 'qr-barcode-language-choice-v2';
 export function validLocale(value:unknown):value is Locale{return locales.some(locale=>locale.code===value);}
 export function readLocale(storage:Pick<Storage,'getItem'>):Locale{try{const value=storage.getItem(languageStorageKey);return validLocale(value)?value:'en';}catch{return 'en';}}
-export function saveLocale(storage:Pick<Storage,'setItem'>,locale:Locale){try{storage.setItem(languageStorageKey,locale);storage.setItem(languageChoiceKey,'chosen');}catch{/* Language switching still works when storage is disabled. */}}
+export function saveLocale(storage:Pick<Storage,'setItem'>,locale:Locale){try{storage.setItem(languageStorageKey,locale);}catch{/* Language switching still works when storage is disabled. */}}

@@ -1,24 +1,14 @@
 'use client';
-import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
-import type {User} from '@supabase/supabase-js';
-import {UserRound,ChevronDown,Settings,QrCode,Barcode,BarChart3,LogOut} from 'lucide-react';
+import {useEffect,useState} from 'react';
 import {authConfigured,getAuthClient} from '../lib/auth/client';
 import {Localized} from './i18n/LanguageProvider';
-import './account-menu.css';
 export default function AccountControls(){
- const [user,setUser]=useState<User|null>(null),[ready,setReady]=useState(false),[photoFailed,setPhotoFailed]=useState(false),[open,setOpen]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[counts,setCounts]=useState<{qr:number;barcode:number}|null>(null);
- const ref=useRef<HTMLDivElement>(null),trigger=useRef<HTMLButtonElement>(null),requestId=useRef(0);
- useEffect(()=>{if(!authConfigured()){setReady(true);return;}const client=getAuthClient();let live=true;
- const {data:{subscription}}=client.auth.onAuthStateChange((_event,session)=>{if(live){setUser(session?.user||null);setReady(true);setCounts(null);setOpen(false);}});
- client.auth.getSession().then(({data})=>{if(live){setUser(data.session?.user||null);setReady(true);}}).catch(()=>{/* Keep authentication links hidden until the session is known. */});
- return()=>{live=false;subscription.unsubscribe();};},[]);
- useEffect(()=>{if(!open)return;const outside=(event:PointerEvent)=>{if(ref.current&&!ref.current.contains(event.target as Node))setOpen(false);};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside);},[open]);
- useEffect(()=>{if(!user)return;let live=true;async function refresh(){const version=++requestId.current;try{const {data}=await getAuthClient().auth.getSession();if(!data.session)return;const response=await fetch('/api/account-summary',{cache:'no-store',headers:{Authorization:'Bearer '+data.session.access_token},signal:AbortSignal.timeout(10000)});if(!response.ok)return;const result=await response.json();if(live&&version===requestId.current)setCounts(result);}catch{/* A count failure must not block account navigation. */}}
- void refresh();const focus=()=>void refresh();window.addEventListener('focus',focus);return()=>{live=false;window.removeEventListener('focus',focus);};},[user?.id,open]);
- useEffect(()=>{setPhotoFailed(false);},[user?.id,user?.user_metadata?.avatar_url,user?.user_metadata?.picture]);
- function keyboard(event:KeyboardEvent){const items=Array.from(ref.current?.querySelectorAll<HTMLElement>('[role="menuitem"]')||[]);if(event.key==='Escape'){event.preventDefault();setOpen(false);trigger.current?.focus();}else if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)){event.preventDefault();if(!open){setOpen(true);setTimeout(()=>ref.current?.querySelector<HTMLElement>('[role="menuitem"]')?.focus(),0);return;}const index=items.indexOf(document.activeElement as HTMLElement);items[event.key==='Home'?0:event.key==='End'?items.length-1:event.key==='ArrowUp'?(index-1+items.length)%items.length:(index+1)%items.length]?.focus();}}
- async function logout(){if(busy)return;setBusy(true);setError('');try{const {error}=await getAuthClient().auth.signOut();if(error)throw error;setUser(null);setOpen(false);window.location.assign('/login');}catch{setError('Unable to sign out. Please try again.');}finally{setBusy(false);}}
- const fullName=String(user?.user_metadata?.full_name||user?.email?.split('@')[0]||'Account'),initials=fullName.trim().split(/\s+/).slice(0,2).map(part=>part.slice(0,1)).join('').toUpperCase();
- const rawPhoto=user?.user_metadata?.avatar_url||user?.user_metadata?.picture;const photo=typeof rawPhoto==='string'&&/^https:\/\//i.test(rawPhoto)?rawPhoto:null;
- return <Localized><div ref={ref} className="home-account account-menu" onKeyDown={keyboard}>{!ready?<span className="account-avatar-placeholder" role="status" aria-label="Loading profile"><UserRound size={18}/></span>:user?<><div className="account-profile-control"><a className="account-profile-link" href="/account?view=profile" aria-label="Open profile dashboard"><span className="account-avatar">{photo&&!photoFailed?<img src={photo} alt="Profile photo" referrerPolicy="no-referrer" onError={()=>setPhotoFailed(true)}/>:<span translate="no">{initials}</span>}</span></a><button ref={trigger} className="account-menu-trigger" aria-label="Open profile menu" aria-haspopup="menu" aria-expanded={open} aria-controls="header-profile-menu" onClick={()=>{setOpen(!open);setError('');}}><ChevronDown size={14}/></button></div>{open&&<div className="account-menu-dropdown" id="header-profile-menu" role="menu" aria-label="Profile menu"><div className="account-menu-member"><strong translate="no">{fullName}</strong><span translate="no">{user.email}</span></div><a role="menuitem" href="/account?view=profile"><Settings size={16}/>Profile Settings</a><a role="menuitem" href="/account?view=qr"><QrCode size={16}/>My QR Codes{counts&&<span className="account-menu-count" translate="no">{counts.qr}</span>}</a><a role="menuitem" href="/account?view=barcode"><Barcode size={16}/>My Barcodes{counts&&<span className="account-menu-count" translate="no">{counts.barcode}</span>}</a><a role="menuitem" href="/account?view=statistics"><BarChart3 size={16}/>Statistics</a><button role="menuitem" disabled={busy} onClick={logout}><LogOut size={16}/>{busy?'Signing out…':'Log out'}</button>{error&&<p role="alert">{error}</p>}</div>}</>:<><a className="home-sign-in" href="/login">Sign In</a><a className="home-sign-up" href="/signup">Sign Up</a></>}</div></Localized>;
+ const [signedIn,setSignedIn]=useState(false);
+ useEffect(()=>{
+  if(!authConfigured())return;
+  const client=getAuthClient();
+  const {data:{subscription}}=client.auth.onAuthStateChange((_event,session)=>setSignedIn(Boolean(session)));
+  return ()=>subscription.unsubscribe();
+ },[]);
+ return <Localized><div className="home-account">{signedIn?<a className="home-sign-in" href="/account">My Account</a>:<><a className="home-sign-in" href="/login">Sign In</a><a className="home-sign-up" href="/signup">Sign Up</a></>}</div></Localized>;
 }

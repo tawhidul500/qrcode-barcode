@@ -1,7 +1,7 @@
 'use client';
 import {createContext,useCallback,useContext,useEffect,useMemo,useState,useRef,type ReactNode} from 'react';
 import {usePathname} from 'next/navigation';
-import {locales,readLocale,saveLocale,validLocale,languageStorageKey,languageChoiceKey,type Locale} from '../../lib/i18n/locales';
+import {locales,readLocale,saveLocale,validLocale,languageStorageKey,type Locale} from '../../lib/i18n/locales';
 import {translate} from '../../lib/i18n/translate';
 import {localizeTree} from '../../lib/i18n/localize-tree';
 import LanguagePrompt from './LanguagePrompt';
@@ -10,7 +10,7 @@ import {visitorRegion} from '../../lib/visitor-region';
 const LanguageContext=createContext({locale:'en' as Locale,setLocale:(_locale:Locale)=>{},t:(text:string)=>text});
 const pageTitles:Record<string,string>={
  '/':'QR & Barcode — Generator',
- '/account':'My Account', '/verify':'Two-step verification', '/auth/callback':'Completing sign in', '/forgot-password':'Forgot your password?', '/reset-password':'Set a new password',
+ '/account':'My Account', '/auth/callback':'Completing sign in', '/forgot-password':'Forgot your password?', '/reset-password':'Set a new password',
  '/qr-code-generator':'Free QR Code Generator — Create & Customize',
  '/barcode-generator':'Free Barcode Generator — Create & Customize',
  '/scanner':'QR Code & Barcode Scanner — Scan Online',
@@ -25,7 +25,7 @@ export function LanguageProvider({children,initialLocale='en'}:{children:ReactNo
  const chosen=useRef(false);
  useEffect(()=>{
   let active=true;
-  try{const saved=window.localStorage.getItem(languageStorageKey);if(validLocale(saved)&&(saved!=='en'||window.localStorage.getItem(languageChoiceKey)==='chosen')){chosen.current=true;setLanguage(readLocale(window.localStorage));}}catch{}
+  try{const saved=window.localStorage.getItem(languageStorageKey);if(validLocale(saved)){chosen.current=true;setLanguage(readLocale(window.localStorage));}}catch{}
   if(!chosen.current){
    const browserLanguages=navigator.languages?.length?navigator.languages:[navigator.language];
    visitorRegion().then(region=>suggestLanguage(region.country_code,region.languages,browserLanguages)).catch(()=>suggestLanguage(undefined,'',browserLanguages)).then(next=>{if(active&&!chosen.current&&next!=='en')setSuggested(next);});

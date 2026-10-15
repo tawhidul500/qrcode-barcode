@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {getAuthClient} from '../lib/auth/client';
-import {exchangeCallback,safeNext,needsMfa} from '../lib/auth/flows';
+import {exchangeCallback,safeNext} from '../lib/auth/flows';
 export default function AuthCallback(){
  const [error,setError]=useState('');
  useEffect(()=>{
@@ -14,10 +14,9 @@ export default function AuthCallback(){
     const {data,error}=await exchangeCallback(getAuthClient(),code);
     if(error || !data.session) throw error || new Error('missing session');
     if(!mounted)return;
-    const mfa=await needsMfa(getAuthClient());
     const recovery=url.searchParams.get('next')==='/reset-password';
     window.history.replaceState(null,'','/auth/callback');
-    window.location.replace(mfa?(recovery?'/verify?next=/reset-password':'/verify'):recovery?'/reset-password':safeNext(url.searchParams.get('next')));
+    window.location.replace(recovery?'/reset-password':safeNext(url.searchParams.get('next')));
    }catch{if(mounted){window.history.replaceState(null,'','/auth/callback');setError('This link is invalid or has expired. Open the latest email link in the same browser where you started, or request a new link.');}}
   }
   void finish();return ()=>{mounted=false;};

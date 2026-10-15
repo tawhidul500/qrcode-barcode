@@ -19,8 +19,8 @@ export default function SiteHeader({active='home'}:{active?:Page}) {
    <a href="/qr-barcode-types" className={'home-nav-link'+(active==='types'?' is-active':'')} aria-current={active==='types'?'page':undefined} onClick={close}>QR &amp; Barcode Types</a>
    <ResourcesMenu active={active==='blog'||active==='contact'||active==='faq'?active:undefined} onNavigate={close}/>
    <a href="/pricing" className={'home-nav-link'+(active==='pricing'?' is-active':'')} aria-current={active==='pricing'?'page':undefined} onClick={close}>Pricing</a>
+   <AccountControls/>
   </nav>
-  <AccountControls/>
   <LanguageSelector/>
  </div></header></>}</Localized>;
 }
