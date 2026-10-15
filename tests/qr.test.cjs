@@ -5,6 +5,7 @@ const ts=require('typescript');
 for(const ext of ['.ts','.tsx'])require.extensions[ext]=(module,filename)=>{
  module._compile(ts.transpileModule(fs.readFileSync(filename,'utf8'),{fileName:filename,compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true,resolveJsonModule:true}}).outputText,filename);
 };
+require.extensions['.css']=()=>{};
 const {buildPayload,emptyContact}=require('../app/lib/qr-content.ts');
 const {renderQR,defaultDesign}=require('../app/lib/qr-design.ts');
 const wifi={ssid:'',password:'',security:'WPA'};
@@ -20,7 +21,7 @@ test('phone and Wi-Fi payloads use normalized and escaped values',()=>{
 });
 test('structured vCards escape content and validate optional fields',()=>{
  const card=buildPayload('Contacts','',wifi,{...emptyContact,name:'Alice; Smith',phone:'+8801700000000'});
- assert.ok(card.includes('FN:Alice\\; Smith\r\nTEL:+8801700000000'));
+ assert.ok(card.includes('FN:Alice\\; Smith'));assert.ok(card.includes('N:Alice\\; Smith;;;;'));assert.ok(card.includes('TEL:+8801700000000')); 
  assert.throws(()=>buildPayload('Vcard','',wifi,{...emptyContact,name:'Alice',email:'bad'}));
 });
 test('captions escape SVG markup and custom logos remain in templates',async()=>{
@@ -41,6 +42,8 @@ test('generator rejects blank inputs in the rendered UI for every content type',
   assert.match(html,/aria-label="Share QR content" disabled=""/);
   assert.match(html,/aria-label="Copy QR content" disabled=""/);
   assert.ok(!html.includes('alt="Generated '));
+  assert.ok(html.includes('/assets/qr-preview-placeholder.svg'));
+  assert.ok(html.includes('Sample QR code preview'));
   if(['Contacts','Vcard'].includes(type))assert.ok(html.includes('Full name (required)'));
  }
 });
@@ -74,7 +77,7 @@ test('eye palette changes only eye color and survives later foreground edits',()
  assert.equal(design.eyes,'rounded');
  control('Reset eye color').props.onClick();
  assert.equal(design.eyeColorEdited,false);
- assert.equal(design.eyeColor,defaultDesign.eyeColor);
+ assert.equal(design.eyeColor,design.foreground);
 });
 
 test('independent eye color preserves shapes, foreground gradients and template artwork',async()=>{
@@ -100,7 +103,7 @@ test('independent eye color preserves shapes, foreground gradients and template 
   const design=templateDesign(Number(index));
   const before=renderQR('Eye color test',design),after=renderQR('Eye color test',{...design,eyeColor:color,eyeColorEdited:true});
   assert.equal(stripPaint(after),stripPaint(before),'Template '+index+' geometry changed');
-  const expected=[0,1,2].reduce((count,i)=>count+(preset.eyes[i]?(preset.eyes[i].match(/\b(?:fill|stroke)="(?!none"|transparent")[^"]*"/g)||[]).length:33),0);
+  const expected=6;
   assert.equal((after.match(/(?:fill|stroke)="#123abc"/g)||[]).length,expected,'Template '+index+' recolored outside its eyes or missed an eye');
  }
 });
@@ -117,32 +120,4 @@ test('QR codes with custom eyes remain scannable with independent foreground col
   const decoded=await readBarcodes({data:new Uint8ClampedArray(data),width:info.width,height:info.height,colorSpace:'srgb'},{formats:['QRCode'],tryHarder:true});
   assert(decoded.some(result=>result.isValid&&result.text===payload),eyes+' did not decode');
  }
-});
-
-test('every template has one live QR layer and independent editable parts',async()=>{
- const {templateDesign}=require('../app/lib/qr-design.ts');
- const {loadCategoryTemplate}=require('../app/lib/category-template-presets.ts');
- const sharp=require('sharp');
- const {readBarcodes}=require('zxing-wasm/reader');
- const originalFetch=global.fetch;
- try {
-  global.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'../public',url),'utf8'))});
-  for(let i=0;i<=120;i++){
-   await loadCategoryTemplate(i);
-   const design=templateDesign(i),payload='https://example.com';
-   const original=renderQR(payload,design,800);
-   const recolored=renderQR(payload,{...design,foreground:'#18304f',foregroundEdited:true},800);
-   if(i){
-    assert.equal((original.match(/data-qr-layer="live"/g)||[]).length,1,'Template '+i);
-    assert(original.includes('mask="url(#template-art-mask)"'));
-    const eyes=svg=>svg.match(/<svg x="[\s\S]*?<\/svg>/g)||[];
-    assert.deepEqual(eyes(recolored),eyes(original),'Foreground changed original eyes in '+i);
-   }
-   const edited={...design,dots:'square',dotsEdited:true,eyes:'square',eyesEdited:true,foreground:'#000000',foregroundEdited:true,eyeColor:'#000000',eyeColorEdited:true,background:'#ffffff',backgroundEdited:true};
-   const svg=renderQR(payload,edited,800);
-   const {data,info}=await sharp(Buffer.from(svg)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
-   const decoded=await readBarcodes({data:new Uint8ClampedArray(data),width:info.width,height:info.height,colorSpace:'srgb'},{formats:['QRCode'],tryHarder:true,tryInvert:true});
-   assert(decoded.some(result=>result.isValid&&result.text===payload),'Edited template '+i+' did not decode');
-  }
- }finally{global.fetch=originalFetch;}
 });

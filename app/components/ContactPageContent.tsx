@@ -21,7 +21,7 @@ export default function ContactPageContent(){
  useEffect(()=>{
   let locale:Locale='en';
   try{locale=readLocale(window.localStorage);}catch{/* Keep English when storage is unavailable. */}
-  const message=pricingInquiry(window.location.search,locale);
+  const message=(new URLSearchParams(window.location.search).get('subject')==='Account deletion request'?'I would like to request deletion of my account and saved codes. Please tell me how to verify my identity.':pricingInquiry(window.location.search,locale));
   if(message)setValues(previous=>previous.message?previous:{...previous,message});
  },[]);
  useEffect(()=>()=>{controller.current?.abort();controller.current=null;},[]);

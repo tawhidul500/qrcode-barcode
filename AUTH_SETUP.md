@@ -2,7 +2,7 @@
 
 This project now integrates Supabase Auth for email/password signup and sign-in,
 email confirmation, Google/Facebook/Apple OAuth, password recovery, session
-refresh, an account page, and logout. It still uses Next.js static export.
+refresh, an account page, and logout. It now uses a Next.js server deployment for Neon cloud storage. See NEON_SETUP.md.
 No Supabase project or OAuth applications are provisioned by this ZIP.
 
 ## Activate email authentication
@@ -25,8 +25,7 @@ No Supabase project or OAuth applications are provisioned by this ZIP.
 4. Configure production SMTP in Supabase and verify the sender domain. Retain
    the standard confirmation and reset templates using `{{ .ConfirmationURL }}`.
    Confirm actual email delivery before launch.
-5. Run `npm ci`, `npm run build`, then `npm start` for a static preview, or deploy
-   `out/` to your static host. Environment values are compiled into the frontend:
+5. Run `npm ci`, `npm run build`, then `npm start`, or deploy as a Next.js application with server routes. Environment values are compiled into the frontend:
    set them **before** building, and rebuild after any change. `npm run dev` is
    available during development.
 

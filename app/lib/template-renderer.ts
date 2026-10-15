@@ -6,66 +6,35 @@ import QRCode from 'qrcode';
 import {templatePresets} from './template-presets';
 import {categoryTemplatePresets} from './category-template-presets';
 import type {QRDesign} from './qr-design';
-// The surrounding art, captions, gradients, finder paths and center logos come from the supplied SVG.
+// Keep the supplied artwork; regenerate data and finder patterns above its clipping groups.
 export function renderTemplateQR(payload:string,design:QRDesign,width:number):string {
  const preset=categoryTemplatePresets[design.templateIndex||0]||templatePresets[design.templateIndex||0];
  if(!preset)throw new Error('Unknown template');
  const matrix=QRCode.create(payload,{errorCorrectionLevel:'H'}),n=matrix.modules.size;
- const [left,top,side]=preset.bounds,unit=side/n;
+ const [slotLeft,slotTop,slotSide]=preset.bounds,unit=slotSide/(n+8),left=slotLeft+4*unit,top=slotTop+4*unit,side=n*unit;
  const fg=design.foregroundGradient?'url(#custom-fg)':design.foreground;
- const fill=design.foregroundEdited?fg:preset.fill;
+ const fill=fg;
  const eyeColor=/^#[\da-f]{6}$/i.test(design.eyeColor)?design.eyeColor:'#000000';
- 
- const glyph=design.foregroundEdited?preset.glyph.replace(/\b(fill|stroke)="(?!none")[^"]*"/g,`$1="${fg}"`):preset.glyph;
- const pieces:string[]=[];
+ const eyePaint=design.eyeColorEdited?eyeColor:design.foregroundEdited?fg:design.eyeColor;
+ const bgPaint=design.backgroundGradient?'url(#custom-bg)':design.background;
+ const pieces:string[]=[`<rect x="${slotLeft}" y="${slotTop}" width="${slotSide}" height="${slotSide}" fill="${bgPaint}"/>`];
  const finder=(r:number,c:number)=>(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);
- const [gx,gy,gw,gh]=preset.glyphBox;
  for(let r=0;r<n;r++)for(let c=0;c<n;c++) {
   if(!matrix.modules.get(r,c)||finder(r,c))continue;
   const x=left+c*unit,y=top+r*unit;
   if(matrix.modules.isReserved(r,c))pieces.push(`<rect x="${x}" y="${y}" width="${unit}" height="${unit}" fill="${fill}"/>`);
-  else if(design.dotsEdited)pieces.push(renderDot(design.dots,x,y,unit,fill,r,c,(rr,cc)=>rr>=0&&cc>=0&&rr<n&&cc<n&&Boolean(matrix.modules.get(rr,cc))&&!finder(rr,cc)));
-  else {
-   const shape=`<g transform="translate(${x} ${y}) scale(${unit/gw} ${unit/gh}) translate(${-gx} ${-gy})">${glyph}</g>`;
-   // Clip the glyph geometry; paint gradients in the QR's coordinate space.
-   if(design.foregroundEdited&&fill.startsWith('url('))pieces.push(`<defs><clipPath id="dot-${r}-${c}">${shape}</clipPath></defs><rect x="${x-unit*.2}" y="${y-unit*.2}" width="${unit*1.4}" height="${unit*1.4}" fill="${fill}" clip-path="url(#dot-${r}-${c})"/>`);
-   else pieces.push(shape);
-  }
+  else pieces.push(renderDot(design.dots,x,y,unit,fill,r,c,(rr,cc)=>rr>=0&&cc>=0&&rr<n&&cc<n&&Boolean(matrix.modules.get(rr,cc))&&!finder(rr,cc)));
+
  }
- for(const [index,[r,c]] of [[0,0],[0,n-7],[n-7,0]].entries()) {
-  const x=left+c*unit,y=top+r*unit,eyeSide=7*unit;
-  const sourceEye=preset.eyes[index];
-  const eyePaint=design.eyeColorEdited?eyeColor:sourceEye?.match(/\b(?:fill|stroke)="(?!none"|transparent")([^"]+)"/)?.[1]||preset.fill;
-  if(design.eyesEdited){pieces.push(`<defs><mask id="eye-${index}" maskUnits="userSpaceOnUse" x="${x-unit}" y="${y-unit}" width="${eyeSide+2*unit}" height="${eyeSide+2*unit}">${renderEye(design.eyes,x,y,unit,'white','black')}</mask></defs><rect x="${x-unit}" y="${y-unit}" width="${eyeSide+2*unit}" height="${eyeSide+2*unit}" fill="${eyePaint}" mask="url(#eye-${index})"/>`);continue;}
-  const eye=design.eyeColorEdited?preset.eyes[index]?.replace(/\b(fill|stroke)="(?!none"|transparent")[^"]*"/g,`$1="${eyeColor}"`):preset.eyes[index];
-  if(eye&&/<(?:path|rect|circle|ellipse|polygon)\b/.test(eye))pieces.push(eye.replace('<svg ',`<svg x="${x}" y="${y}" width="${eyeSide}" height="${eyeSide}" `));
-  else {
-   // Templates whose original eyes consist of individual square modules use the same 7:5:3 geometry.
-   for(let er=0;er<7;er++)for(let ec=0;ec<7;ec++)if(er===0||er===6||ec===0||ec===6||(er>=2&&er<=4&&ec>=2&&ec<=4))pieces.push(`<rect x="${x+ec*unit}" y="${y+er*unit}" width="${unit}" height="${unit}" fill="${design.eyeColorEdited?eyeColor:preset.fill}"/>`);
-  }
+ for(const [r,c] of [[0,0],[0,n-7],[n-7,0]]){
+  const x=left+c*unit,y=top+r*unit;
+  pieces.push(`<rect x="${x-unit}" y="${y-unit}" width="${9*unit}" height="${9*unit}" fill="${bgPaint}"/>`);
+  pieces.push(renderEye(design.eyes,x,y,unit,eyePaint,bgPaint));
  }
- if(design.backgroundEdited||design.backgroundImage){const bg=design.backgroundGradient?'url(#custom-bg)':design.background;pieces.unshift(`<rect x="${left-unit}" y="${top-unit}" width="${side+unit*2}" height="${side+unit*2}" fill="${bg}"/>`);if(design.backgroundImage)pieces.splice(1,0,`<image href="${backgroundImages[design.backgroundImage]||''}" x="${left}" y="${top}" width="${side}" height="${side}" opacity="0.12"/>`);}
- // Keep static artwork outside the QR slot. Rebuild the slot's background from
- // background-only artwork, never from the sample QR. The live layer is last,
- // outside any original transforms, clipping paths or filters.
- const pad=side/preset.sampleSize;
- const view=preset.art.match(/viewBox="([^"]+)"/)![1];
- const [vx,vy,vw,vh]=view.split(/\s+/).map(Number);
- const slot=`<rect x="${left-pad}" y="${top-pad}" width="${side+2*pad}" height="${side+2*pad}"/>`;
- const shell=preset.art.replace('__DYNAMIC_QR__','');
- const opening=shell.match(/<svg[^>]*>/)![0];
- const inner=shell.slice(opening.length).replace(/<\/svg>\s*$/,'');
- const logo=preset.logoBounds;
- const preserveLogo=logo&&!design.logo&&!design.logoText;
- let svg=opening+`<defs><mask id="template-art-mask" maskUnits="userSpaceOnUse" x="${vx}" y="${vy}" width="${vw}" height="${vh}"><rect x="${vx}" y="${vy}" width="${vw}" height="${vh}" fill="white"/><g fill="black">${slot}</g></mask><clipPath id="template-slot">${slot}</clipPath></defs>`+
- `<g mask="url(#template-art-mask)">${inner}</g>`+
- `<g clip-path="url(#template-slot)">${preset.backgroundArt||''}</g>`+
- `<g data-qr-layer="live">${pieces.join('')}</g>`;
- if(preserveLogo){
-  svg+=`<defs><clipPath id="template-logo"><circle cx="${logo[0]}" cy="${logo[1]}" r="${logo[2]}"/></clipPath></defs><g clip-path="url(#template-logo)">${inner.replace(/<defs>[\s\S]*?<\/defs>/g,'')}</g>`;
- }
- svg+='</svg>';
- svg=svg.replace(/<svg([^>]*)>/,`<svg$1><defs><linearGradient id="custom-fg" gradientUnits="userSpaceOnUse" x1="${left}" y1="${top}" x2="${left}" y2="${top+side}"><stop stop-color="${design.foreground}"/><stop offset="1" stop-color="${design.foregroundGradient||design.foreground}"/></linearGradient><linearGradient id="custom-bg" gradientUnits="userSpaceOnUse" x1="${left}" y1="${top}" x2="${left}" y2="${top+side}"><stop stop-color="${design.background}"/><stop offset="1" stop-color="${design.backgroundGradient||design.background}"/></linearGradient></defs>`);
+
+ if(design.backgroundImage)pieces.splice(1,0,`<image href="${backgroundImages[design.backgroundImage]||''}" x="${left}" y="${top}" width="${side}" height="${side}" opacity="0.12"/>`);
+ let svg=preset.art.replace('__DYNAMIC_QR__','').replace(/<\/svg>\s*$/,pieces.join('')+'</svg>');
+ svg=svg.replace(/<svg([^>]*)>/,`<svg$1><defs><linearGradient id="custom-fg" x2="0" y2="1"><stop stop-color="${design.foreground}"/><stop offset="1" stop-color="${design.foregroundGradient||design.foreground}"/></linearGradient><linearGradient id="custom-bg" x2="0" y2="1"><stop stop-color="${design.background}"/><stop offset="1" stop-color="${design.backgroundGradient||design.background}"/></linearGradient></defs>`);
  svg=svg.replace(/<\/svg>\s*$/,renderLogo(design,left,top,side)+'</svg>');
  if(design.caption.trim()) {
   const escape=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]!));
