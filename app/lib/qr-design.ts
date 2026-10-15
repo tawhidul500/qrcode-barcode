@@ -13,7 +13,7 @@ export const defaultDesign:QRDesign={foreground:'#000000',background:'#ffffff',e
 export const templateFiles=['qr-code 03.svg','qr-code 01.svg','qr-code 02.svg','qr-code 03.svg','qr-code 23.svg','qr-code 05.svg','qr-code 06.svg','qr-code 07.svg','qr-code 08.svg','qr-code 10.svg','qr-code 09.svg','qr-code 11.svg','qr-code 12.svg','qr-code 13.svg','qr-code 14.svg','qr-code 15.svg','qr-code 10 (1).svg','qr-code 21.svg','qr-code 22.svg','qr-code 07 (1).svg','qr-code 13 (1).svg',...uploadedTemplateFiles];
 const palette=['#000000','#9b31e8','#111111','#111111','#8853ee','#428aff','#111111','#baaa00','#c044c2','#52b52e','#297cff','#a336d6','#111111','#ef4444','#8662ed','#111111','#9e62df','#2677d6','#111111','#ee6faa','#9566d2'];
 export function templateDesign(index:number):QRDesign{
- if(uploadedTemplateColors[index]){const d={...defaultDesign,templateIndex:index,...uploadedTemplateColors[index]};const safe=contrastRatio('#111111',d.background)>=3?'#111111':'#ffffff';if(contrastRatio(d.foreground,d.background)<3)d.foreground=safe;if(contrastRatio(d.eyeColor,d.background)<3)d.eyeColor=d.foreground;return d;}
+ if(uploadedTemplateColors[index])return {...defaultDesign,templateIndex:index,...uploadedTemplateColors[index]};
  const color=palette[index]||palette[0];
  const inverted=[2,12].includes(index);
  return {...defaultDesign,templateIndex:index,foreground:inverted?'#ffffff':index===5?'#1e62d0':index===9?'#278017':[1,3,6,7,8,11,19,20].includes(index)?'#111111':color,background:inverted?'#111111':'#ffffff',eyeColor:inverted?'#ffffff':index===5?'#1e62d0':index===9?'#278017':index===19?'#ef3998':index===20?'#111111':index===7?'#6b6200':index===8?'#111111':index===1?'#111111':color,frameColor:color,eyes:[1,2,8,12].includes(index)?'rounded':'square',dots:[3,11,16,19].includes(index)?'rounded':'square'};
@@ -36,7 +36,7 @@ export function renderQR(payload:string,design:QRDesign,width=1000):string{
  if(design.backgroundImage)bits.push(`<image href="${backgroundImages[design.backgroundImage]||''}" x="${margin}" y="${margin}" width="${n*unit}" height="${n*unit}" opacity="0.12"/>`);
  if(design.frame)bits.push(`<rect x="5" y="5" width="${body-10}" height="${height-10}" rx="12" fill="none" stroke="${frame}" stroke-width="8"/>`);
  for(let r=0;r<n;r++)for(let c=0;c<n;c++){if(!qr.modules.get(r,c)||inEye(r,c))continue;const x=margin+c*unit,y=margin+r*unit;const style=qr.modules.isReserved(r,c)?'square':design.dots;bits.push(renderDot(style,x,y,unit,fgPaint,r,c,(rr,cc)=>rr>=0&&cc>=0&&rr<n&&cc<n&&Boolean(qr.modules.get(rr,cc))&&!inEye(rr,cc)));}
- for(const [r,c] of [[0,0],[0,n-7],[n-7,0]])bits.push(renderEye(design.eyes,margin+c*unit,margin+r*unit,unit,design.eyeColorEdited?eye:design.foregroundEdited?fgPaint:eye,bgPaint));
+ for(const [r,c] of [[0,0],[0,n-7],[n-7,0]])bits.push(renderEye(design.eyes,margin+c*unit,margin+r*unit,unit,eye,bgPaint));
  bits.push(renderLogo(design,margin,margin,n*unit));
  if(hasCaption){bits.push(`<text x="${body/2}" y="${body+design.fontSize+8}" text-anchor="middle" font-family="${xml(design.fontFamily)}" font-size="${Math.min(design.fontSize,body*.85/Math.max(1,design.caption.length)*1.6)}" font-weight="600" fill="${hex(design.captionColor,'#ef3998')}">${xml(design.caption.slice(0,40))}</text>`);}
 

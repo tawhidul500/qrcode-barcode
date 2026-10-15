@@ -14,9 +14,9 @@ export default function ColorControls({design,onChange}:{design:QRDesign;onChang
    onChange({...design,eyeColor:value,eyeColorEdited:true});
    return;
   }
-  onChange({...design,[key]:value,[key+'Gradient']:gradient,[key+'Edited']:true,...(key==='foreground'&&!design.eyeColorEdited?{eyeColor:value}:{})});
+  onChange({...design,[key]:value,[key+'Gradient']:gradient,[key+'Edited']:true});
  };
- const resetEyeColor=()=>onChange({...design,eyeColorEdited:false,eyeColor:design.foregroundEdited?design.foreground:templateDesign(design.templateIndex||0).eyeColor});
+ const resetEyeColor=()=>onChange({...design,eyeColorEdited:false,eyeColor:templateDesign(design.templateIndex||0).eyeColor});
 
  return <Localized><div className="qr-palette">{sections.map(([key,title])=>{
   const eyeSection=key==='eyeColor';
