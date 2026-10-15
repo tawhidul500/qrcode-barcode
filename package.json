@@ -26,7 +26,8 @@
     "test:privacy-i18n": "node --test tests/privacy-i18n.test.cjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "2.117.3",
+    "@neondatabase/serverless": "^1.2.0",
+    "@supabase/supabase-js": "^2.117.3",
     "bwip-js": "^4.11.4",
     "lucide-react": "1.31.0",
     "next": "16.3.4",
